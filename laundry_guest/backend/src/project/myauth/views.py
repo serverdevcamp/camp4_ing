@@ -52,7 +52,6 @@ class CreateProfileView(APIView):
         user_email = profile.user.email
         email = EmailMessage(mail_subject, message, to=[user_email])
         email_result = email.send()
-        print(email_result, "@@@@@@@@@@@@@@@@@@@@@@")
 
         return Response({
             'response': 'success',
@@ -64,6 +63,7 @@ class UserLoginView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, *args, **kargs):
+        print(request.data, "@@@@@@@@@@")
         data = request.data.get('profile')
         if not data:
             return Response({
@@ -76,7 +76,12 @@ class UserLoginView(APIView):
         User = get_user_model()
         user = User.objects.get(username=username)
 
-        if check_password(password, user.password):
+        if not user.is_active:
+            return Response({
+                'response': 'error',
+                'message': 'The user is not yet activated.'
+            })
+        elif check_password(password, user.password):
             token = jwt_create(username)
             cache.set('jwttoken', token)
             response = Response({
