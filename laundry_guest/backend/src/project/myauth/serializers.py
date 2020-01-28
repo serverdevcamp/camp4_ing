@@ -12,9 +12,9 @@ class ProfileSerializer(sz.ModelSerializer):
         User = get_user_model()
         user = User(
             username=validated_data['username'],
-            password=validated_data['password'],
             email=validated_data['email'],
         )
+        user.set_password(validated_data['password'])
         user.save()
         profile = Profile(
             user=user,
