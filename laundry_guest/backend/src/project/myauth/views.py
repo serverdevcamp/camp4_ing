@@ -126,7 +126,7 @@ def password_change_email(request):
     uuid = uuid4()
     cache.set(uuid, user.id)
     current_site = get_current_site(request)
-    message = render_to_string(
+    mail_content = render_to_string(
         'myauth/password_change_email.html',
         {
             'domain': current_site.domain,
@@ -135,7 +135,7 @@ def password_change_email(request):
     )
     mail_subject = "[LaundryRunner] 비밀번호 변경 메일입니다."
     user_email = user.email
-    email = EmailMessage(mail_subject, message, to=[user_email])
+    email = EmailMessage(mail_subject, mail_content, to=[user_email])
     email_result = email.send()
 
     return Response({
