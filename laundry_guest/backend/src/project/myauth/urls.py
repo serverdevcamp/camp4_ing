@@ -9,4 +9,9 @@ urlpatterns = [
     path('login/', views.UserLoginView.as_view(), name="login"),
 
     path('activate/<str:uuid>/', views.profile_activate, name='profile_activate'),
+
+    path('password_change_email/', views.password_change_email,
+         name="password_change_email"),
+    path('password_change/<str:uuid>/',
+         views.password_change, name="password_change"),
 ]

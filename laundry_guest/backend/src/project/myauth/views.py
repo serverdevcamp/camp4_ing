@@ -1,7 +1,7 @@
 from django.core.cache import cache
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import check_password
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -55,7 +55,7 @@ class CreateProfileView(APIView):
 
         return Response({
             'response': 'success',
-            'message': 'user create sucessfully'
+            'message': 'user create sucessfully, check your email'
         })
 
 
@@ -63,7 +63,6 @@ class UserLoginView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, *args, **kargs):
-        print(request.data, "@@@@@@@@@@")
         data = request.data.get('profile')
         if not data:
             return Response({
@@ -116,6 +115,70 @@ def profile_activate(request, uuid):
         'response': 'success',
         'message': 'The user is activated.'
     })
+
+
+@api_view(['POST', ])
+def password_change_email(request):
+    username = request.data.get('username')
+    User = get_user_model()
+    user = User.objects.get(username=username)
+
+    uuid = uuid4()
+    cache.set(uuid, user.id)
+    current_site = get_current_site(request)
+    message = render_to_string(
+        'myauth/password_change_email.html',
+        {
+            'domain': current_site.domain,
+            'uuid': uuid
+        }
+    )
+    mail_subject = "[LaundryRunner] 비밀번호 변경 메일입니다."
+    user_email = user.email
+    email = EmailMessage(mail_subject, message, to=[user_email])
+    email_result = email.send()
+
+    return Response({
+        'response': 'sucsess',
+        'message': 'the email sent successfully'
+    })
+
+
+@api_view(['GET', 'POST'])
+def password_change(request, uuid):
+    if request.method == 'GET':
+        user_id = cache.get(uuid)
+        User = get_user_model()
+        user = User.objects.get(id=user_id)
+
+        if user is None:
+            return Response({
+                'response': 'error',
+                'message': 'user in None',
+            })
+
+        return Response({
+            'response': 'success',
+            'message': 'input your change password.'
+        })
+    else:
+        password = request.data.get('password')
+        check_password = request.data.get('check_password')
+        if password == check_password:
+            username = request.data.get('username')
+            User = get_user_model()
+            user = User.objects.get(username=username)
+            user.set_password(password)
+            user.save()
+            return Response({
+                'response': 'success',
+                'message': 'Password change successful'
+            })
+        else:
+            return Response({
+                'response': 'error',
+                'message': 'Password does not match.'
+            })
 
 
 def main(request):
