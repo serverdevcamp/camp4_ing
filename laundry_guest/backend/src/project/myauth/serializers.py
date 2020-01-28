@@ -15,6 +15,7 @@ class ProfileSerializer(sz.ModelSerializer):
             email=validated_data['email'],
         )
         user.set_password(validated_data['password'])
+        user.is_active = False
         user.save()
         profile = Profile(
             user=user,
