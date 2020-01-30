@@ -2,6 +2,7 @@ from django.core.cache import cache
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import render, redirect
+from django.http import Http404
 from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -58,6 +59,11 @@ class CreateProfileView(APIView):
             'message': 'user create sucessfully, check your email'
         })
 
+    def get(self, request, *args, **kwargs):
+        queryset = get_user_model().objects.all()
+        serializer = ProfileSerializer(queryset, many=True)
+        return Response(serializer.data)
+
 
 class UserLoginView(APIView):
     permission_classes = [permissions.AllowAny]
@@ -100,6 +106,39 @@ class UserLoginView(APIView):
                 'response': 'error',
                 'message': 'password is wrong',
             })
+
+
+class ProfileDetailView(APIView):
+    def get_object(self, id):
+        try:
+            return Profile.objects.get(id=id)
+        except:
+            raise Http404
+
+    def get(self, request, id):
+        profile = self.get_object(id)
+        serializer = ProfileSerializer(profile)
+        return Response(serializer.data)
+
+    def put(self, request, id):
+        profile = self.get_object(id)
+        serializer = ProfileSerializer(profile, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response({
+                'response': 'error',
+                'message': serializer.errors
+            })
+
+    def delete(self, request, id):
+        profile = self.get_object(id)
+        profile.status = '9'
+        return Response({
+            'response': 'success',
+            'message': '성공적으로 탈퇴되었습니다.'
+        })
 
 
 @api_view(['GET', ])
