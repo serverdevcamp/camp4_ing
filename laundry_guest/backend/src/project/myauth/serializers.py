@@ -4,30 +4,26 @@ from django.contrib.auth import get_user_model
 
 
 class ProfileSerializer(sz.ModelSerializer):
-    username = sz.CharField()
     password = sz.CharField()
-    email = sz.CharField()
 
     def create(self, validated_data):
         User = get_user_model()
         user = User(
             username=validated_data['username'],
             email=validated_data['email'],
-        )
-        user.set_password(validated_data['password'])
-        user.is_active = False
-        user.save()
-        profile = Profile(
-            user=user,
             nickname=validated_data['nickname'],
             address=validated_data['address'],
+            detail_address=validated_data['detail_address'],
             phone=validated_data['phone'],
-            business_num=validated_data['business_num'],
+            business_num=validated_data['business_num']
         )
-        profile.save()
-        return profile
+        user.set_password(validated_data['password'])
+        user.satatus = "0"
+        user.role = "0"
+        user.save()
+        return user
 
     class Meta:
-        model = Profile
+        model = get_user_model()
         fields = ['username', 'password', 'email',
-                  'nickname', 'address', 'phone', 'business_num']
+                  'nickname', 'address', 'detail_address', 'phone', 'business_num']

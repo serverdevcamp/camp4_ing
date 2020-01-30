@@ -39,7 +39,7 @@ class CreateProfileView(APIView):
             })
 
         uuid = uuid4()
-        cache.set(uuid, profile.user.id)
+        cache.set(uuid, profile.id)
         current_site = get_current_site(request)
         message = render_to_string(
             'myauth/user_activate_email.html',
@@ -49,7 +49,7 @@ class CreateProfileView(APIView):
             }
         )
         mail_subject = "[LaundryRunner] 회원가입 인증 메일입니다."
-        user_email = profile.user.email
+        user_email = profile.email
         email = EmailMessage(mail_subject, message, to=[user_email])
         email_result = email.send()
 
@@ -73,9 +73,15 @@ class UserLoginView(APIView):
         username = data['username']
         password = data['password']
         User = get_user_model()
-        user = User.objects.get(username=username)
+        try:
+            user = User.objects.get(username=username)
+        except:
+            return Response({
+                'response': 'error',
+                'message': 'username is wrong',
+            })
 
-        if not user.is_active:
+        if user.status == '0':
             return Response({
                 'response': 'error',
                 'message': 'The user is not yet activated.'
@@ -103,7 +109,7 @@ def profile_activate(request, uuid):
     user = User.objects.get(id=user_id)
 
     if user is not None:
-        user.is_active = True
+        user.status = "1"
         user.save()
     else:
         return Response({
@@ -165,9 +171,9 @@ def password_change(request, uuid):
         password = request.data.get('password')
         check_password = request.data.get('check_password')
         if password == check_password:
-            username = request.data.get('username')
+            user_id = cache.get(uuid)
             User = get_user_model()
-            user = User.objects.get(username=username)
+            user = User.objects.get(id=user_id)
             user.set_password(password)
             user.save()
             return Response({
