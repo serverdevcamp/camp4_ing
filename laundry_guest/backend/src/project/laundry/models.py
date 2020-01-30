@@ -24,8 +24,11 @@ class LaundryShop(models.Model):
     }
     """
     min_price = models.PositiveIntegerField()
-    grade = models.DecimalField(max_digits=2, decimal_places=1)
+    grade = models.DecimalField(max_digits=2, decimal_places=1, default=0)
     delivery_dt = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
 
 
 class LaundryItem(models.Model):
@@ -33,6 +36,9 @@ class LaundryItem(models.Model):
     category = models.CharField(max_length=10)
     material = models.CharField(max_length=10)
     price = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.category
 
 
 class Like(models.Model):
@@ -53,3 +59,6 @@ class Review(models.Model):
     """
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.content[:10]
