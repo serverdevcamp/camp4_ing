@@ -7,7 +7,7 @@ class UserManager(BaseUserManager):
 
     use_in_migrations = True
 
-    def create_user(self, username, email, password=None, nickname, address, detail_address, phone, status, role, business_num=0):
+    def create_user(self, username, email, nickname, address, detail_address, phone, status, role, business_num=0, password=None):
 
         if not email:
             raise ValueError('must have user email')
@@ -62,7 +62,7 @@ class Profile(AbstractBaseUser, PermissionsMixin):
     )
     nickname = models.CharField(
         max_length=10,
-        unique=True
+        # unique=True
     )
     address = models.CharField(max_length=50)
     detail_address = models.CharField(max_length=30)
@@ -72,7 +72,9 @@ class Profile(AbstractBaseUser, PermissionsMixin):
     last_login = models.DateTimeField(blank=True)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES)
     role = models.CharField(max_length=2, choices=ROLE_CHOICES)
-    business_num = models.CharField(max_length=10, unique=True, blank=True)
+    business_num = models.CharField(max_length=10,
+                                    # unique=True,
+                                    blank=True)
 
     @property
     def is_staff(self):
@@ -81,5 +83,6 @@ class Profile(AbstractBaseUser, PermissionsMixin):
     @property
     def is_superuser(self):
         return self.role == "10"
+
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
