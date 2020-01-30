@@ -7,7 +7,7 @@ class UserManager(BaseUserManager):
 
     use_in_migrations = True
 
-    def create_user(self, username, email, nickname, address, detail_address, phone, status, role, business_num=0, password=None):
+    def create_user(self, username, email, nickname, address, detail_address, phone, business_num=0, password=None):
 
         if not email:
             raise ValueError('must have user email')
@@ -18,20 +18,22 @@ class UserManager(BaseUserManager):
             address=address,
             detail_address=detail_address,
             phone=phone,
-            status=status,
-            role=role,
             business_num=business_num
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, password):
+    def create_superuser(self, username, email, nickname="", address="", detail_address="", phone="", business_num=0, password=None):
 
         user = self.create_user(
             email=self.normalize_email(email),
             username=username,
-            password=password
+            password=password,
+            nickname=nickname,
+            address=address,
+            detail_address=detail_address,
+            phone=phone,
         )
         user.role = "10"
         user.save(using=self._db)
@@ -69,7 +71,7 @@ class Profile(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(max_length=11)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    last_login = models.DateTimeField(blank=True)
+    #last_login = models.DateTimeField(blank=True)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES)
     role = models.CharField(max_length=2, choices=ROLE_CHOICES)
     business_num = models.CharField(max_length=10,
