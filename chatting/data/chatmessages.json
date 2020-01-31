@@ -1,0 +1,9 @@
+{
+    "_id" : ObjectId("5e3282c85385e61e88397508"),
+    "chatRoomId" : ObjectId("5e3282088451421d7808a21f"),
+    "userId" : "guestID",
+    "content" : "gg",
+    "createdAt" : ISODate("2020-01-30T07:16:24.615Z"),
+    "__v" : 0
+}
+
