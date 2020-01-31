@@ -2,6 +2,8 @@ from rest_framework import serializers as sz
 from .models import Profile
 from django.contrib.auth import get_user_model
 
+from laundry.models import LaundryShop
+
 
 class ProfileSerializer(sz.ModelSerializer):
     password = sz.CharField()

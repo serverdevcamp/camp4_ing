@@ -28,7 +28,7 @@ class CreateProfileView(APIView):
         if not data:
             return Response({
                 'response': 'error',
-                'message': 'No data found'
+                'message': 'profile 파라미터가 없습니다.'
             })
         serializer = ProfileSerializer(data=data)
         if serializer.is_valid():
@@ -56,7 +56,7 @@ class CreateProfileView(APIView):
 
         return Response({
             'response': 'success',
-            'message': 'user create sucessfully, check your email'
+            'message': 'profile 이 성공적으로 생성되었습니다.'
         })
 
     def get(self, request, *args, **kwargs):
@@ -73,7 +73,7 @@ class UserLoginView(APIView):
         if not data:
             return Response({
                 'response': 'error',
-                'message': 'No data found'
+                'message': 'profile 파라미터가 없습니다.'
             })
 
         username = data['username']
@@ -84,48 +84,59 @@ class UserLoginView(APIView):
         except:
             return Response({
                 'response': 'error',
-                'message': 'username is wrong',
+                'message': 'username 파라미터가 없습니다.',
             })
 
         if user.status == '0':
             return Response({
                 'response': 'error',
-                'message': 'The user is not yet activated.'
+                'message': '해당 계정은 권한이 없습니다.(이메일 인증 필요)'
             })
         elif check_password(password, user.password):
             token = jwt_create(username)
             cache.set('jwttoken', token)
             response = Response({
                 'response': 'success',
-                'message': 'success login',
+                'message': '로그인 요청이 성공하였습니다.',
             })
             response.set_cookie('jwttoken', token)
             return response
         else:
             return Response({
                 'response': 'error',
-                'message': 'password is wrong',
+                'message': '비밀번호가 잘못되었습니다.',
             })
 
 
 class ProfileDetailView(APIView):
-    def get_object(self, id):
+    def get_object(self, request, id):
         try:
             return Profile.objects.get(id=id)
         except:
-            raise Http404
+            raise Response({
+                'response': 'error',
+                'message': 'profile/{} 페이지를 찾을 수 없습니다.'.format(id)
+            })
 
     def get(self, request, id):
         profile = self.get_object(id)
         serializer = ProfileSerializer(profile)
-        return Response(serializer.data)
+        return Response({
+            'response': 'success',
+            'message': 'profile 조회 요청이 성공하였습니다.',
+            'data': serializer.data
+        })
 
     def put(self, request, id):
         profile = self.get_object(id)
         serializer = ProfileSerializer(profile, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response({
+                'response': 'success',
+                'message': 'profile이 성공적으로 수정되었습니다.',
+                'data': serializer.data
+            })
         else:
             return Response({
                 'response': 'error',
@@ -137,7 +148,7 @@ class ProfileDetailView(APIView):
         profile.status = '9'
         return Response({
             'response': 'success',
-            'message': '성공적으로 탈퇴되었습니다.'
+            'message': 'profile이 성공적으로 삭제되었습니다.'
         })
 
 
@@ -145,28 +156,38 @@ class ProfileDetailView(APIView):
 def profile_activate(request, uuid):
     user_id = cache.get(uuid)
     User = get_user_model()
-    user = User.objects.get(id=user_id)
-
-    if user is not None:
-        user.status = "1"
-        user.save()
-    else:
+    try:
+        user = User.objects.get(id=user_id)
+    except:
         return Response({
             'response': 'error',
-            'message': 'user in None',
+            'message': 'profile/{} 를 찾을 수 없습니다.'.format(user_id),
         })
+    user.status = "1"
+    user.save()
 
     return Response({
         'response': 'success',
-        'message': 'The user is activated.'
+        'message': 'profile 이메일 인증 요청이 성공하였습니다.'
     })
 
 
 @api_view(['POST', ])
 def password_change_email(request):
     username = request.data.get('username')
+    if not username:
+        return Response({
+            'response': 'error',
+            'message': 'username 파라미터가 없습니다.'
+        })
     User = get_user_model()
-    user = User.objects.get(username=username)
+    try:
+        user = User.objects.get(username=username)
+    except:
+        return Response({
+            'response': 'error',
+            'message': 'username 파라미터가 없습니다.'
+        })
 
     uuid = uuid4()
     cache.set(uuid, user.id)
@@ -182,11 +203,16 @@ def password_change_email(request):
     user_email = user.email
     email = EmailMessage(mail_subject, mail_content, to=[user_email])
     email_result = email.send()
-
-    return Response({
-        'response': 'sucsess',
-        'message': 'the email sent successfully'
-    })
+    if email_result == 1:
+        return Response({
+            'response': 'success',
+            'message': '이메일 전송 요청이 성공하였습니다.'
+        })
+    else:
+        return Response({
+            'response': 'error',
+            'message': '이메일 전송에 실패하였습니다.'
+        })
 
 
 @api_view(['GET', 'POST'])
@@ -212,17 +238,23 @@ def password_change(request, uuid):
         if password == check_password:
             user_id = cache.get(uuid)
             User = get_user_model()
-            user = User.objects.get(id=user_id)
+            try:
+                user = User.objects.get(id=user_id)
+            except:
+                return Response({
+                    'response': 'error',
+                    'message': 'profile/{} 를 찾을 수 없습니다.'.format(user_id)
+                })
             user.set_password(password)
             user.save()
             return Response({
                 'response': 'success',
-                'message': 'Password change successful'
+                'message': '비밀번호 변경 요청이 성공하였습니다.'
             })
         else:
             return Response({
                 'response': 'error',
-                'message': 'Password does not match.'
+                'message': '비밀번호가 잘못되었습니다.'
             })
 
 
