@@ -1,0 +1,11 @@
+{
+    "_id" : ObjectId("5e3282088451421d7808a21f"),
+    "notiNum" : 0,
+    "isValid" : true,
+    "ownerId" : "owner1",
+    "guestId" : "guest23",
+    "shopName" : "크린토피아 판교점",
+    "lastChatDate" : ISODate("2020-01-30T07:13:12.388Z"),
+    "createdAt" : ISODate("2020-01-30T07:13:12.388Z"),
+    "__v" : 0
+}
