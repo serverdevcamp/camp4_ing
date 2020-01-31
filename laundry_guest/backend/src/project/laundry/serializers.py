@@ -25,6 +25,17 @@ class LaundryShopDetailSerializer(sz.ModelSerializer):
 
     class Meta:
         model = LaundryShop
-        fields = [
+        fields = (
             'name', 'tel', 'information', 'operating_time', 'min_price', 'grade', 'delivery_dt', 'laundry_item'
-        ]
+        )
+
+
+class ReviewSerializer(sz.ModelSerializer):
+    profile_id = sz.CharField(read_only=True)
+    laundryshop_id = sz.CharField(read_only=True)
+
+    class Meta:
+        model = Review
+        fields = (
+            'profile_id', 'laundryshop_id', 'content', 'grade', 'image'
+        )

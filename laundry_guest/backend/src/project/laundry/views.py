@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import LaundryShopSerializer, LaundryShopDetailSerializer
-from .models import LaundryShop
+from .serializers import LaundryShopSerializer, LaundryShopDetailSerializer, ReviewSerializer
+from .models import LaundryShop, Review
 
 
 class LaundryShopView(APIView):
@@ -37,4 +37,32 @@ class LaundryShopDetailView(APIView):
             'response': 'success',
             'message': 'laundry shop 조회 요청이 성공하였습니다.',
             'data': serializer.data
+        })
+
+
+class ReviewView(APIView):
+    def get(self, request, id, *args, **kwargs):
+        laundry_shop = LaundryShop.objects.get(id=id)
+        queryset = Review.objects.filter(laundryshop=laundry_shop)
+        serializer = ReviewSerializer(queryset, many=True)
+        return Response({
+            'response': 'success',
+            'message': '{} 세탁소의 리뷰 조회 요청이 성공하였습니다.'.format(id),
+            'data': serializer.data
+        })
+
+    def post(self, request, id, *args, **kwargs):
+        data = request.data['review']
+
+        serializer = ReviewSerializer(data=data)
+        if serializer.is_valid():
+            review = serializer.save()
+        else:
+            return Response({
+                'response': 'error',
+                'message': serializer.errors
+            })
+        return Response({
+            'response': 'success',
+            'message': 'review 가 성공적으로 생성되었습니다.'
         })
