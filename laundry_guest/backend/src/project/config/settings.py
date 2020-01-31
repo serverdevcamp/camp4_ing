@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django_mysql',
     'myauth',
     'laundry',
-    'order',
+    'payment',
 ]
 
 MIDDLEWARE = [

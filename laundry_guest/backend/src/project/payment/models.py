@@ -1,4 +1,6 @@
 from django.db import models
+
+from django.db import models
 from myauth.models import Profile
 from laundry.models import LaundryShop, LaundryItem
 
