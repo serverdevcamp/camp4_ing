@@ -23,7 +23,7 @@ class LaundryShopDetailView(APIView):
 
     def get_object(self, request, id):
         try:
-            queryset = LaundryShop.objects.get(id=id)
+            return LaundryShop.objects.get(id=id)
         except:
             return Response({
                 'response': 'error',
@@ -31,7 +31,7 @@ class LaundryShopDetailView(APIView):
             })
 
     def get(self, request, id, *args, **kwargs):
-        laundry_shop = self.get_object(id)
+        laundry_shop = self.get_object(request, id)
         serializer = LaundryShopSerializer(laundry_shop)
         return Response({
             'response': 'success',
