@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import LaundryShopSerializer
+from .serializers import LaundryShopSerializer, LaundryShopDetailSerializer
 from .models import LaundryShop
 
 
@@ -32,7 +32,7 @@ class LaundryShopDetailView(APIView):
 
     def get(self, request, id, *args, **kwargs):
         laundry_shop = self.get_object(request, id)
-        serializer = LaundryShopSerializer(laundry_shop)
+        serializer = LaundryShopDetailSerializer(laundry_shop)
         return Response({
             'response': 'success',
             'message': 'laundry shop 조회 요청이 성공하였습니다.',

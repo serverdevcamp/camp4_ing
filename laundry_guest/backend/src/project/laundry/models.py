@@ -32,7 +32,8 @@ class LaundryShop(models.Model):
 
 
 class LaundryItem(models.Model):
-    laundry_shop = models.ForeignKey(LaundryShop, on_delete=models.CASCADE)
+    laundry_shop = models.ForeignKey(
+        LaundryShop, on_delete=models.CASCADE, related_name='laundry_item')
     category = models.CharField(max_length=10)
     material = models.CharField(max_length=10)
     price = models.PositiveIntegerField()
