@@ -119,7 +119,7 @@ class ProfileDetailView(APIView):
             })
 
     def get(self, request, id):
-        profile = self.get_object(id)
+        profile = self.get_object(request, id)
         serializer = ProfileSerializer(profile)
         return Response({
             'response': 'success',
@@ -128,8 +128,9 @@ class ProfileDetailView(APIView):
         })
 
     def put(self, request, id):
-        profile = self.get_object(id)
-        serializer = ProfileSerializer(profile, data=request.data)
+        profile = self.get_object(request, id)
+        serializer = ProfileSerializer(
+            profile, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response({
@@ -144,7 +145,7 @@ class ProfileDetailView(APIView):
             })
 
     def delete(self, request, id):
-        profile = self.get_object(id)
+        profile = self.get_object(request, id)
         profile.status = '9'
         return Response({
             'response': 'success',

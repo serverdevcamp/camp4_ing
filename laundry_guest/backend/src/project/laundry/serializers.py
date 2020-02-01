@@ -34,6 +34,13 @@ class ReviewSerializer(sz.ModelSerializer):
     profile_id = sz.CharField(read_only=True)
     laundryshop_id = sz.CharField(read_only=True)
 
+    def create(self, validated_data):
+        review = Review(
+            content=validated_data['content'],
+            grade=validated_data['grade'],
+            image=validated_data['image']
+        )
+
     class Meta:
         model = Review
         fields = (
