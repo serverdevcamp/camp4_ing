@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.exceptions import APIException
 from .serializers import LaundryShopSerializer, LaundryShopDetailSerializer, ReviewSerializer
 from .models import LaundryShop, Review
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class LaundryShopView(APIView):
@@ -16,7 +18,10 @@ class LaundryShopView(APIView):
                 'message': '세탁소 목록을 찾을 수 없습니다.'
             })
         serializer = LaundryShopSerializer(queryset, many=True)
-        return Response(serializer.data)
+        response = Response(serializer.data)
+        print(response)
+        return response
+        # return Response(serializer.data)
 
 
 class LaundryShopDetailView(APIView):
@@ -24,14 +29,16 @@ class LaundryShopDetailView(APIView):
     def get_object(self, request, id):
         try:
             return LaundryShop.objects.get(id=id)
-        except:
-            return Response({
-                'response': 'error',
-                'message': 'laundry shop/{} 을 찾을 수 없습니다.'.format(id)
-            })
+        except ObjectDoesNotExist:
+            return None
 
     def get(self, request, id, *args, **kwargs):
         laundry_shop = self.get_object(request, id)
+        if laundry_shop is None:
+            return Response({
+                'response': 'error',
+                'message': '{} laundry shop 를 찾을 수 없습니다.'.format(id)
+            })
         serializer = LaundryShopDetailSerializer(laundry_shop)
         return Response({
             'response': 'success',
@@ -68,4 +75,67 @@ class ReviewView(APIView):
         return Response({
             'response': 'success',
             'message': 'review 가 성공적으로 생성되었습니다.'
+        })
+
+
+class ReviewDetailView(APIView):
+    def get_object(self, request, review_id):
+        try:
+            return Review.objects.get(id=review_id)
+        except ObjectDoesNotExist:
+            return None
+
+    def get(self, request, id, review_id):
+        review = self.get_object(request, review_id)
+        if review is None:
+            return Response({
+                'response': 'error',
+                'message': '{} review를 찾을 수 없습니다.'.format(id)
+            })
+        serializer = ReviewSerializer(review)
+        return Response({
+            'response': 'success',
+            'message': 'review 조회 요청이 성공하였습니다.',
+            'data': serializer.data
+        })
+
+    def put(self, request, id, review_id):
+        review = self.get_object(request, review_id)
+        if review is None:
+            return Response({
+                'response': 'error',
+                'message': '{} review를 찾을 수 없습니다.'.format(id)
+            })
+        serializer = ReviewSerializer(review, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'response': 'sucess',
+                'message': 'review가 성공적으로 수정되었습니다.',
+                'data': serializer.data
+            })
+        else:
+            return Response({
+                'response': 'error',
+                'message': serializer.errors
+            })
+
+    def delete(self, request, id, review_id):
+        review = self.get_object(request, review_id)
+        if review is None:
+            return Response({
+                'response': 'error',
+                'message': '{} review를 찾을 수 없습니다.'.format(id)
+            })
+        try:
+            review.delete()
+        except:
+            return Response({
+                'response': 'error',
+                'message': 'db에서 삭제에 실패했습니다.'
+            })
+
+        return Response({
+            'response': 'error',
+            'message': 'review가 성공적으로 삭제되었습니다.'
         })

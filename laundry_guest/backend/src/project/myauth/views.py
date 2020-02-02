@@ -113,7 +113,7 @@ class ProfileDetailView(APIView):
         try:
             return Profile.objects.get(id=id)
         except:
-            raise Response({
+            return Response({
                 'response': 'error',
                 'message': 'profile/{} 페이지를 찾을 수 없습니다.'.format(id)
             })
