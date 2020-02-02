@@ -53,10 +53,13 @@ class ReviewView(APIView):
 
     def post(self, request, id, *args, **kwargs):
         data = request.data['review']
+        FK = dict()
+        FK['profile_id'] = request.user.id
+        FK['laundry_id'] = id
 
         serializer = ReviewSerializer(data=data)
         if serializer.is_valid():
-            review = serializer.save()
+            review = serializer.save(FK=FK)
         else:
             return Response({
                 'response': 'error',

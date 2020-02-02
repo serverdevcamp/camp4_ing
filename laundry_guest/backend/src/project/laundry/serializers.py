@@ -1,5 +1,6 @@
 from rest_framework import serializers as sz
 from .models import LaundryShop, LaundryItem, Like, Review
+from myauth.models import Profile
 
 
 class LaundryShopSerializer(sz.ModelSerializer):
@@ -31,8 +32,8 @@ class LaundryShopDetailSerializer(sz.ModelSerializer):
 
 
 class ReviewSerializer(sz.ModelSerializer):
-    profile_id = sz.CharField(read_only=True)
-    laundryshop_id = sz.CharField(read_only=True)
+    profile_id = sz.CharField(required=False)
+    laundryshop_id = sz.CharField(required=False)
 
     def create(self, validated_data):
         review = Review(
@@ -40,6 +41,13 @@ class ReviewSerializer(sz.ModelSerializer):
             grade=validated_data['grade'],
             image=validated_data['image']
         )
+        profile = Profile.objects.get(id=validated_data['FK']['profile_id'])
+        laundryshop = LaundryShop.objects.get(
+            id=validated_data['FK']['laundry_id'])
+        review.profile = profile
+        review.laundryshop = laundryshop
+        review.save()
+        return review
 
     class Meta:
         model = Review
