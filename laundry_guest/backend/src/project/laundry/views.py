@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 from .serializers import LaundryShopSerializer, LaundryShopDetailSerializer, ReviewSerializer
-from .models import LaundryShop, Review
+from .models import LaundryShop, Review, Like
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -15,7 +15,7 @@ class LaundryShopView(APIView):
         except:
             return Response({
                 'response': 'error',
-                'message': '세탁소 목록을 찾을 수 없습니다.'
+                'message': 'laundry shop 목록을 찾을 수 없습니다.'
             })
         serializer = LaundryShopSerializer(queryset, many=True)
         response = Response(serializer.data)
@@ -54,7 +54,7 @@ class ReviewView(APIView):
         serializer = ReviewSerializer(queryset, many=True)
         return Response({
             'response': 'success',
-            'message': '{} 세탁소의 리뷰 조회 요청이 성공하였습니다.'.format(id),
+            'message': '{} laundry shop의 review 조회 요청이 성공하였습니다.'.format(id),
             'data': serializer.data
         })
 
@@ -138,4 +138,66 @@ class ReviewDetailView(APIView):
         return Response({
             'response': 'error',
             'message': 'review가 성공적으로 삭제되었습니다.'
+        })
+
+
+class LaundryShopLikeView(APIView):
+    def post(self, request, id, *args, **kwargs):
+        profile = request.user
+        try:
+            laundryshop = LaundryShop.objects.get(id=id)
+        except ObjectDoesNotExist:
+            return Response({
+                'response': 'error',
+                'message': '{} laundry shop을 찾을 수 없습니다.'.format(id)
+            })
+
+        like = Like(
+            profile=profile,
+            laundryshop=laundryshop
+        )
+        try:
+            like.save()
+        except:
+            return Response({
+                'response': 'error',
+                'message': 'db에서 생성에 실패했습니다.'
+            })
+        laundryshop.like_num += 1
+        return Response({
+            'response': 'success',
+            'message': 'like가 성공적으로 생성되었습니다.'
+        })
+
+    def delete(self, request, id, *args, **kwargs):
+        profile = request.user
+        try:
+            laundryshop = LaundryShop.objects.get(id=id)
+        except ObjectDoesNotExist:
+            return Response({
+                'response': 'error',
+                'message': '{} laundry shop을 찾을 수 없습니다.'.format(id)
+            })
+        try:
+            like = Like.objects.get(
+                profile=profile,
+                laundryshop=laundryshop
+            )
+        except ObjectDoesNotExist:
+            return Response({
+                'response': 'error',
+                'message': '{} profile의 {}laundry shop에 대한 like를 찾을 수 없습니다.'.format(profile.id, id)
+            })
+        try:
+            like.delete()
+        except:
+            return Response({
+                'response': 'error',
+                'message': 'db에서 삭제에 실패했습니다.'
+            })
+        laundryshop.like_num -= 1
+
+        return Response({
+            'response': 'success',
+            'message': 'like가 성공적으로 삭제되었습니다.'
         })

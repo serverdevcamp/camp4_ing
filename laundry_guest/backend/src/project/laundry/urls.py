@@ -10,4 +10,6 @@ urlpatterns = [
     path('<int:id>/review/', views.ReviewView.as_view(), name="review"),
     path('<int:id>/review/<int:review_id>/',
          views.ReviewDetailView.as_view(), name="review_detail"),
+    path('<int:id>/like/', views.LaundryShopLikeView.as_view(),
+         name="laundryshop_like"),
 ]

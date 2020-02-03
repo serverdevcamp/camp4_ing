@@ -47,6 +47,9 @@ class Like(models.Model):
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
     laundryshop = models.OneToOneField(LaundryShop, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return "'{}'의 '{}'에 대한 좋아요".format(self.profile.nickname, self.laundryshop.name)
+
 
 class Review(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
