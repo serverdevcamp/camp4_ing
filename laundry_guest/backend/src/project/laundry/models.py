@@ -26,6 +26,7 @@ class LaundryShop(models.Model):
     min_price = models.PositiveIntegerField()
     grade = models.DecimalField(max_digits=2, decimal_places=1, default=0)
     delivery_dt = models.CharField(max_length=20)
+    like_num = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.name
