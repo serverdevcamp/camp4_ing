@@ -260,6 +260,10 @@ def password_change(request, uuid):
 
 
 def main(request):
+    print(request)
+    decode_jwt = jwt.decode(
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozfQ.Or7AvvvBw-x48EiVPZaN7gb6lDCOUkBN8Zj7W6JeB6c', settings.SECRET_KEY, 'HS256')
+    print(decode_jwt)
     return render(request, 'myauth/main.html')
 
 
