@@ -163,8 +163,14 @@ class LaundryShopLikeView(APIView):
                 'response': 'error',
                 'message': 'db에서 생성에 실패했습니다.'
             })
-        laundryshop.like_num += 1
-        laundryshop.save()
+        try:
+            laundryshop.like_num += 1
+            laundryshop.save()
+        except:
+            return Response({
+                'response': 'error',
+                'message': 'db에서 좋아요 수 증가에 실패했습니다.'
+            })
 
         return Response({
             'response': 'success',
@@ -197,7 +203,14 @@ class LaundryShopLikeView(APIView):
                 'response': 'error',
                 'message': 'db에서 삭제에 실패했습니다.'
             })
-        laundryshop.like_num -= 1
+        try:
+            laundryshop.like_num -= 1
+            laundryshop.save()
+        except:
+            return Response({
+                'response': 'error',
+                'message': 'db에서 좋아요 수 감소에 실패했습니다.'
+            })
 
         return Response({
             'response': 'success',
