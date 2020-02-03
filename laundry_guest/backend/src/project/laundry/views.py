@@ -164,6 +164,8 @@ class LaundryShopLikeView(APIView):
                 'message': 'db에서 생성에 실패했습니다.'
             })
         laundryshop.like_num += 1
+        laundryshop.save()
+
         return Response({
             'response': 'success',
             'message': 'like가 성공적으로 생성되었습니다.'

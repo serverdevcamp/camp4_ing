@@ -8,7 +8,7 @@ class LaundryShopSerializer(sz.ModelSerializer):
         model = LaundryShop
 #        fields = '__all__'
         fields = [
-            'name', 'tel', 'information', 'operating_time', 'min_price', 'grade', 'delivery_dt'
+            'name', 'tel', 'information', 'operating_time', 'min_price', 'grade', 'delivery_dt', 'like_num'
         ]
 
 
@@ -27,7 +27,7 @@ class LaundryShopDetailSerializer(sz.ModelSerializer):
     class Meta:
         model = LaundryShop
         fields = (
-            'name', 'tel', 'information', 'operating_time', 'min_price', 'grade', 'delivery_dt', 'laundry_item'
+            'name', 'tel', 'information', 'operating_time', 'min_price', 'grade', 'delivery_dt', 'like_num', 'laundry_item'
         )
 
 
