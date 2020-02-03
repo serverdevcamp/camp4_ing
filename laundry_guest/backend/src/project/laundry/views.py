@@ -8,7 +8,6 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 class LaundryShopView(APIView):
-
     def get(self, request, *args, **kwargs):
         try:
             queryset = LaundryShop.objects.all()
@@ -18,10 +17,7 @@ class LaundryShopView(APIView):
                 'message': 'laundry shop 목록을 찾을 수 없습니다.'
             })
         serializer = LaundryShopSerializer(queryset, many=True)
-        response = Response(serializer.data)
-        print(response)
-        return response
-        # return Response(serializer.data)
+        return Response(serializer.data)
 
 
 class LaundryShopDetailView(APIView):
