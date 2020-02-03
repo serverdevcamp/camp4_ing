@@ -1,5 +1,5 @@
 from django.core.cache import cache
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import render, redirect
 from django.http import Http404
@@ -78,6 +78,7 @@ class UserLoginView(APIView):
 
         username = data['username']
         password = data['password']
+
         User = get_user_model()
         try:
             user = User.objects.get(username=username)
@@ -94,12 +95,15 @@ class UserLoginView(APIView):
             })
         elif check_password(password, user.password):
             token = jwt_create(username)
-            cache.set('jwttoken', token)
+            key = token.split('.')[2]
+            cache.set(key, token)
             response = Response({
                 'response': 'success',
                 'message': '로그인 요청이 성공하였습니다.',
             })
-            response.set_cookie('jwttoken', token)
+            request.session[key] = token
+            # print(request.COOKIES['sessionid'])
+            response.set_cookie('jwt', key)
             return response
         else:
             return Response({
