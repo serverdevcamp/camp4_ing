@@ -112,6 +112,23 @@ class UserLoginView(APIView):
             })
 
 
+@api_view(['GET', ])
+def logout(request):
+    key = request.COOKIES.get('jwt')
+    cache.delete(key)
+    try:
+        del request.session[key]
+    except:
+        return Response({
+            'response': 'error',
+            'message': '로그인 되어있지 않습니다.'
+        })
+    return Response({
+        'response': 'success',
+        'message': '로그아웃 요청이 성공하였습니다.'
+    })
+
+
 class ProfileDetailView(APIView):
     def get_object(self, request, id):
         try:
