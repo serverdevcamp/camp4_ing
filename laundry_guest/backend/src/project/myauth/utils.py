@@ -24,6 +24,10 @@ class MyTokenAuthenticationMiddleware(object):
         key = request.COOKIES['jwt']
         session_jwt = request.session.get(key)
         redis_jwt = cache.get(key)
+        if redis_jwt == None and session_jwt != None:
+            key = session_jwt.split('.')[2]
+            cache.set(key, session_jwt)
+
         if session_jwt == redis_jwt:
             payload = jwt.decode(session_jwt, settings.SECRET_KEY, 'HS256')
             username = payload['username']
@@ -31,6 +35,7 @@ class MyTokenAuthenticationMiddleware(object):
             request.user = profile
             response = self.get_response(request)
             return response
+
         else:
             response = JsonResponse({
                 'response': 'error',
