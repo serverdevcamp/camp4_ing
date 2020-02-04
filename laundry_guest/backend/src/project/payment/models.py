@@ -14,7 +14,7 @@ class Order(models.Model):
     )
     profile = models.ForeignKey(Profile, on_delete=models. DO_NOTHING)
     laundry_shop = models.ForeignKey(LaundryShop, on_delete=models.DO_NOTHING)
-    total_price = models.PositiveIntegerField()
+    total_price = models.PositiveIntegerField(default=0)
     payment_method = models.CharField(max_length=10, default="카드")
     status = models.CharField(
         max_length=9,
@@ -25,8 +25,14 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return "{}의 {}에 대한 order".format(self.profile, self.laundry_shop)
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     laundry_item = models.ForeignKey(LaundryItem, on_delete=models.DO_NOTHING)
     quantity = models.SmallIntegerField(default=0)
+
+    def __str__(self):
+        return "{}에 대한 {} 주문".format(self.order, self.laundry_item)

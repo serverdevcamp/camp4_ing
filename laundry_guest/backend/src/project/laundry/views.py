@@ -56,7 +56,13 @@ class ReviewView(APIView):
         })
 
     def post(self, request, id, *args, **kwargs):
-        data = request.data['review']
+        try:
+            data = request.data['review']
+        except:
+            return Response({
+                'response': 'error',
+                'message': 'review 파라미터가 없습니다.'
+            })
         FK = dict()
         FK['profile_id'] = request.user.id
         FK['laundry_id'] = id
