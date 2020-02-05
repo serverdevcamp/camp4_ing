@@ -4,16 +4,24 @@ from .models import Order, OrderItem
 
 class OrderSerializer(sz.ModelSerializer):
     def create(self, validated_data):
+        FK = validated_data.pop('FK')
         order = Order(
-            profile=validated_data['FK']['profile'],
-            laundry_shop=validated_data['FK']['laundryshop']
+            profile=FK['profile'],
+            laundry_shop=FK['laundryshop'],
+            **validated_data
         )
         order.save()
         return order
 
     class Meta:
         model = Order
-        fields = []
+        fields = [
+            'pickup_address',
+            'pickup_detail_address',
+            'delivery_address',
+            'delivery_detail_address',
+            'requirement'
+        ]
 
 
 class OrderItemSerializer(sz.ModelSerializer):

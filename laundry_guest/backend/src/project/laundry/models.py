@@ -60,7 +60,7 @@ class Like(models.Model):
 class Review(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     laundryshop = models.ForeignKey(LaundryShop, on_delete=models.CASCADE)
-    parent = models.OneToOneField('self', on_delete=models.CASCADE)
+    parent = models.OneToOneField('self', null=True, on_delete=models.CASCADE)
     content = models.TextField()
     grade = models.SmallIntegerField()
     image = mysql_models.JSONField()

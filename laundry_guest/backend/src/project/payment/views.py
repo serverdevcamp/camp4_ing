@@ -9,11 +9,13 @@ class OrderView(APIView):
     def post(self, request, laundry_id, *args, **kwargs):
         laundryshop = LaundryShop.objects.get(id=laundry_id)
         profile = request.user
+        order_items = request.data.pop('orderItems')
+        data = request.data
 
         FK = dict()
         FK['profile'] = profile
         FK['laundryshop'] = laundryshop
-        serializer = OrderSerializer(data={})
+        serializer = OrderSerializer(data=data)
         if serializer.is_valid():
             order = serializer.save(FK=FK)
         else:
@@ -21,7 +23,7 @@ class OrderView(APIView):
                 'response': 'error',
                 'message': serializer.errors
             })
-        order_items = request.data['orderItems']
+
         total_price = 0
         for order_item in order_items:
             category = order_item['category']
