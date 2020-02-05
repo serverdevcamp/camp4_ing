@@ -4,6 +4,11 @@ from django_mysql import models as mysql_models
 
 
 class LaundryShop(models.Model):
+    STATUS_CHOICES = (
+        ('0', '휴점'),
+        ('1', '개점'),
+        ('9', '탈퇴')
+    )
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
     tel = models.CharField(max_length=11)
@@ -27,6 +32,7 @@ class LaundryShop(models.Model):
     grade = models.DecimalField(max_digits=2, decimal_places=1, default=0)
     delivery_dt = models.CharField(max_length=20)
     like_num = models.PositiveIntegerField(default=0)
+    status = models.CharField(max_length=2, choices=STATUS_CHOICES)
 
     def __str__(self):
         return self.name
@@ -54,6 +60,7 @@ class Like(models.Model):
 class Review(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     laundryshop = models.ForeignKey(LaundryShop, on_delete=models.CASCADE)
+    parent = models.OneToOneField('self', on_delete=models.CASCADE)
     content = models.TextField()
     grade = models.SmallIntegerField()
     image = mysql_models.JSONField()

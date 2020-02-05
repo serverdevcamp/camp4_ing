@@ -14,6 +14,10 @@ class Order(models.Model):
     )
     profile = models.ForeignKey(Profile, on_delete=models. DO_NOTHING)
     laundry_shop = models.ForeignKey(LaundryShop, on_delete=models.DO_NOTHING)
+    pickup_address = models.CharField(max_length=50)
+    pickup_detail_address = models.CharField(max_length=30)
+    delivery_address = models.CharField(max_length=50)
+    delivery_detail_address = models.CharField(max_length=30)
     total_price = models.PositiveIntegerField(default=0)
     payment_method = models.CharField(max_length=10, default="카드")
     status = models.CharField(
@@ -22,6 +26,7 @@ class Order(models.Model):
         default='ready',
         db_index=True
     )
+    requirement = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -33,6 +38,7 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     laundry_item = models.ForeignKey(LaundryItem, on_delete=models.DO_NOTHING)
     quantity = models.SmallIntegerField(default=0)
+    requirement = models.CharField(max_length=50)
 
     def __str__(self):
         return "{}에 대한 {} 주문".format(self.order, self.laundry_item)
