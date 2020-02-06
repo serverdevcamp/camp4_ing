@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 from .serializers import LaundryShopSerializer, LaundryShopDetailSerializer, ReviewSerializer
 from .models import LaundryShop, Review, Like
+from payment.models import Order
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -219,3 +220,12 @@ class LaundryShopLikeView(APIView):
             'response': 'success',
             'message': 'like가 성공적으로 삭제되었습니다.'
         })
+
+# TODO 리뷰남긴 주문과 그렇지 않은 주문의 조회인데 이름을 뭘로 지을까
+
+
+# @api_view(['GET', ])
+# def profile_view(request, is_reviewd):
+#     if request.method == 'GET':
+#         profile = request.user
+#         order = Order.objects.filter(profile=profile, )
