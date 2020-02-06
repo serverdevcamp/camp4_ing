@@ -3,7 +3,6 @@ from .models import LaundryShop, LaundryItem, Like, Review
 
 admin.site.register(LaundryShop)
 admin.site.register(Like)
-admin.site.register(Review)
 
 
 class LaundryItemAdmin(admin.ModelAdmin):
@@ -11,3 +10,10 @@ class LaundryItemAdmin(admin.ModelAdmin):
 
 
 admin.site.register(LaundryItem, LaundryItemAdmin)
+
+
+class reviewAdmin(admin.ModelAdmin):
+    list_display = ('profile', 'order', 'laundryshop', 'parent', 'content')
+
+
+admin.site.register(Review, reviewAdmin)

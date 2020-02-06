@@ -1,6 +1,7 @@
 from rest_framework import serializers as sz
 from .models import LaundryShop, LaundryItem, Like, Review
 from myauth.models import Profile
+from payment.models import Order
 
 
 class LaundryShopSerializer(sz.ModelSerializer):
@@ -54,3 +55,18 @@ class ReviewSerializer(sz.ModelSerializer):
         fields = (
             'profile_id', 'laundryshop_id', 'content', 'grade', 'image'
         )
+
+
+class OrderForReviewSerializer(sz.ModelSerializer):
+    @property
+    def data(self):
+        print("data 함수 실행")
+        ret = super(OrderForReviewSerializer, self).data
+        return ReturnDict(ret, serializer=self)
+
+    class Meta:
+        model = Order
+        fields = [
+            'laundry_shop',
+            'created_at',
+        ]

@@ -1,12 +1,20 @@
 from django.shortcuts import render
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.cache import cache
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException
-from .serializers import LaundryShopSerializer, LaundryShopDetailSerializer, ReviewSerializer
+from rest_framework.decorators import api_view
+from rest_framework.renderers import JSONRenderer
+import json
+from .serializers import LaundryShopSerializer, LaundryShopDetailSerializer, ReviewSerializer, OrderForReviewSerializer
 from .models import LaundryShop, Review, Like
 from payment.models import Order
-from django.core.exceptions import ObjectDoesNotExist
+from payment.serializers import OrderSerializer
+
+from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models.query import QuerySet
+from django.http import JsonResponse
 
 
 class LaundryShopView(APIView):
@@ -228,4 +236,43 @@ class LaundryShopLikeView(APIView):
 # def profile_view(request, is_reviewd):
 #     if request.method == 'GET':
 #         profile = request.user
-#         order = Order.objects.filter(profile=profile, )
+#         if is_reviewd == "True":
+#             order = Order.objects.filter(profile=profile, review=None)
+#             print(order)
+class MyJSONEncoder(DjangoJSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, QuerySet):
+            return tuple(obj)
+        elif isinstance(obj, Order):
+            return {
+                'laundry_shop': obj.laundry_shop.name,
+                'created_at': obj.created_at
+            }
+        return super().default(obj)
+
+
+class OrderView(APIView):
+    def get(self, request, is_reviewd, *args, **kwargs):
+        profile = request.user
+        orders = ""
+        if is_reviewd == "True":
+            orders = Order.objects.filter(profile=profile).exclude(review=None)
+        elif is_reviewd == "False":
+            orders = Order.objects.filter(profile=profile, review=None)
+        else:
+            orders = Order.objects.filter(profile=profile)
+
+        #serializer = OrderForReviewSerializer(orders, many=True)
+        response_data = []
+        for order in orders:
+            sub_data = dict()
+            sub_data["laundry_shop"] = order.laundry_shop.name
+            sub_data["created_at"] = order.created_at
+            response_data.append(sub_data)
+        response_data_json = json.dumps(
+            response_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        return Response({
+            'response': 'success',
+            'message': 'order 조회 요청에 성공하였습니다.',
+            'data': response_data_json
+        })

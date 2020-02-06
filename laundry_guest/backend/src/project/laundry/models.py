@@ -60,13 +60,13 @@ class Like(models.Model):
 class Review(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     order = models.OneToOneField(
-        "payment.Order", null=True, on_delete=models.CASCADE)
+        "payment.Order", null=True, blank=True, on_delete=models.CASCADE)
     laundryshop = models.ForeignKey(LaundryShop, on_delete=models.CASCADE)
     parent = models.OneToOneField(
-        'self', null=True, related_name='comment', on_delete=models.CASCADE)
+        'self', null=True, blank=True, related_name='comment', on_delete=models.CASCADE)
     content = models.TextField()
-    grade = models.SmallIntegerField(null=True)
-    image = mysql_models.JSONField(null=True)
+    grade = models.SmallIntegerField(null=True, blank=True)
+    image = mysql_models.JSONField(null=True, blank=True)
     """
     {
         "imageUrls": ["이미지주소1", "이미지주소2", ... ]

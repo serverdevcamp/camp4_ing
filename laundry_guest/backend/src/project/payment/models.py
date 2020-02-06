@@ -31,7 +31,7 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "{}의 {}에 대한 order".format(self.profile, self.laundry_shop)
+        return "{}의 {}에 대한 order{}".format(self.profile, self.laundry_shop, self.id)
 
 
 class OrderItem(models.Model):
@@ -41,4 +41,4 @@ class OrderItem(models.Model):
     requirement = models.CharField(max_length=50)
 
     def __str__(self):
-        return "{}에 대한 {} 주문".format(self.order, self.laundry_item)
+        return "{}에 대한 {} 주문{}".format(self.order, self.laundry_item, self.id)
