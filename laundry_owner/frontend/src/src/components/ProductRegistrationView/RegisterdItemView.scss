@@ -1,0 +1,25 @@
+.registeredItemView-alignCenter{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.registeredItemView-img{
+  width: 150px;
+  height: 150px;
+  border-radius: 75px;
+  background: #cccccc;
+  margin-bottom: 5px;
+}
+
+.registeredItemView-data{
+   display: flex;
+   width: 80%;
+   justify-content: space-between;
+ }
+
+.registeredItemView-dataModify{
+  display: flex;
+  width: 60%;
+  justify-content: space-between;
+}

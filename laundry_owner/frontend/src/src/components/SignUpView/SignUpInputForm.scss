@@ -1,0 +1,114 @@
+$rowItemWidth: 550px;
+$bigInputWidth: 400px;
+$inputHeight: 30px;
+
+.signUpSpaceBetween {
+  width: $bigInputWidth;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.signUpFlexEnd {
+  width: $bigInputWidth;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.signUpInput {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.signUpForm {
+  width: 100%;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 18px;
+}
+
+.signUpRowItem {
+  width: $rowItemWidth;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.signUpBigInput {
+  width: $bigInputWidth;
+  height: $inputHeight;
+  font-size: 16px;
+}
+
+.signUpSmallInput {
+  width: 120px;
+  height: $inputHeight;
+  font-size: 16px;
+}
+
+.signUpImgInput {
+  width: $bigInputWidth;
+  height: $inputHeight;
+  font-size: 16px;
+  outline: none;
+}
+
+.signUpIdInput {
+  font-size: 16px;
+  width: 305px;
+  height: $inputHeight;
+}
+
+.signUpIdCheckButton {
+  width: 70px;
+  height: $inputHeight;
+}
+
+.signUpTextArea {
+  width: $bigInputWidth;
+  height: 90px;
+  border: none;
+  box-shadow: 0 0 0 1px #BAC8FF inset;
+  margin: 0;
+  padding: 5px 0 0 5px;
+  resize: none;
+
+}
+
+.signUpPostModal {
+  position: absolute;
+  background: white;
+  padding: 20px;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+  outline: none;
+  width: 500px;
+  height: 400px;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  marginRight: -50%;
+  transform: translate(-50%, -50%);
+}
+
+.signUpPostModal .closeBtn{
+  float: right;
+  cursor : pointer;
+  color : #666666;
+}
+
+.signUpCheckBox{
+  border : none;
+}
+
+.signUpDivider{
+  width: 100%;
+  height: 1px;
+  background: #cccccc;
+}

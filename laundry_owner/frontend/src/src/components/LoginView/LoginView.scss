@@ -1,0 +1,49 @@
+.loginPage {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F4F5F7;
+}
+
+.loginContent{
+  display: flex;
+  flex-direction: row;
+  width: 1024px;
+  height: 768px;
+  background: #ffffff;
+  border-radius: 30px;
+}
+
+.leftPage{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 100%;
+  background: #99C791;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+
+.leftPage .title{
+  color: white;
+  font-size: 60px;
+}
+
+.leftPage .subTitle{
+  margin-left: auto;
+  margin-right: 30px;
+  font-size: 30px;
+  color: white;
+}
+
+.rightPage{
+  width : 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
