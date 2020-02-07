@@ -65,3 +65,34 @@ class OrderForReviewSerializer(sz.ModelSerializer):
             'laundry_shop',
             'created_at',
         ]
+
+
+class OrderForReviewDetailSerializer(sz.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = '__all__'
+
+
+class ReviewInOrderSerializer(sz.ModelSerializer):
+    def create(self, validated_data):
+        FK = validated_data.pop('FK')
+        review = Review(
+            **validated_data
+            # content=validated_data['content'],
+            # grade=validated_data['grade'],
+            # image=validated_data['image']
+        )
+        review.profile = FK['profile']
+        order = FK['order']
+        review.order = order
+        review.laundryshop = order.laundry_shop
+        review.save()
+        return review
+
+    class Meta:
+        model = Review
+        fields = (
+            'content',
+            'grade',
+            'image'
+        )

@@ -7,7 +7,7 @@ from rest_framework.exceptions import APIException
 from rest_framework.decorators import api_view
 from rest_framework.renderers import JSONRenderer
 import json
-from .serializers import LaundryShopSerializer, LaundryShopDetailSerializer, ReviewSerializer, OrderForReviewSerializer
+from .serializers import LaundryShopSerializer, LaundryShopDetailSerializer, ReviewSerializer, OrderForReviewSerializer, OrderForReviewDetailSerializer, ReviewInOrderSerializer
 from .models import LaundryShop, Review, Like
 from payment.models import Order
 from payment.serializers import OrderSerializer
@@ -229,29 +229,8 @@ class LaundryShopLikeView(APIView):
             'message': 'like가 성공적으로 삭제되었습니다.'
         })
 
-# TODO 리뷰남긴 주문과 그렇지 않은 주문의 조회인데 이름을 뭘로 지을까
 
-
-# @api_view(['GET', ])
-# def profile_view(request, is_reviewd):
-#     if request.method == 'GET':
-#         profile = request.user
-#         if is_reviewd == "True":
-#             order = Order.objects.filter(profile=profile, review=None)
-#             print(order)
-class MyJSONEncoder(DjangoJSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, QuerySet):
-            return tuple(obj)
-        elif isinstance(obj, Order):
-            return {
-                'laundry_shop': obj.laundry_shop.name,
-                'created_at': obj.created_at
-            }
-        return super().default(obj)
-
-
-class OrderView(APIView):
+class OrderForReviewView(APIView):
     def get(self, request, is_reviewd, *args, **kwargs):
         profile = request.user
         orders = ""
@@ -276,4 +255,56 @@ class OrderView(APIView):
             'response': 'success',
             'message': 'order 조회 요청에 성공하였습니다.',
             'data': new_serializer_data
+        })
+
+
+class OrderForReviewDetailView(APIView):
+    def get_object(self, order_id):
+        try:
+            return Order.objects.get(id=order_id)
+        except ObjectDoesNotExist:
+            return None
+        except:
+            return Response({
+                'response': 'error',
+                'message': 'DB 문제'
+            })
+
+    def get(self, request, order_id, *args, **kwargs):
+        order = self.get_object(order_id)
+        if order is None:
+            return Response({
+                'response': 'error',
+                'message': '{} order를 찾을 수 없습니다.'.format(order_id)
+            })
+        serializer = OrderForReviewDetailSerializer(order)
+        return Response({
+            'response': 'success',
+            'message': 'order 조회 요청에 성공하였습니다.',
+            'data': serializer.data
+        })
+
+    def post(self, request, order_id, *args, **kwargs):
+        try:
+            data = request.data['review']
+        except:
+            return Response({
+                'response': 'error',
+                'message': 'review 파라미터가 없습니다.'
+            })
+        FK = dict()
+        FK['profile'] = request.user
+        FK['order'] = self.get_object(order_id)
+
+        serializer = ReviewInOrderSerializer(data=data)
+        if serializer.is_valid():
+            review = serializer.save(FK=FK)
+        else:
+            return Response({
+                'response': 'error',
+                'message': serializer.errors
+            })
+        return Response({
+            'response': 'success',
+            'message': 'review가 성공적으로 생성되었습니다.'
         })

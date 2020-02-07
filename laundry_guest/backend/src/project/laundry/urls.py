@@ -12,8 +12,10 @@ urlpatterns = [
     path('<int:id>/review/', views.ReviewView.as_view(), name="review"),
     path('<int:id>/review/<int:review_id>/',
          views.ReviewDetailView.as_view(), name="review_detail"),
-    path('order/<str:is_reviewd>/', views.OrderView.as_view(),
+    path('order/<str:is_reviewd>/', views.OrderForReviewView.as_view(),
          name="order_for_review"),
+    path('order_detail/<int:order_id>/', views.OrderForReviewDetailView.as_view(),
+         name="order_for_review_detail"),
     # path('review/<str:is_reviewd>/',
     #   views.profile_view, name = "profile_review"),
 ]
