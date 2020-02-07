@@ -255,6 +255,7 @@ class OrderView(APIView):
     def get(self, request, is_reviewd, *args, **kwargs):
         profile = request.user
         orders = ""
+        # 사용자가 한 주문 중에 review 를 남긴 주문
         if is_reviewd == "True":
             orders = Order.objects.filter(profile=profile).exclude(review=None)
         elif is_reviewd == "False":
@@ -262,17 +263,17 @@ class OrderView(APIView):
         else:
             orders = Order.objects.filter(profile=profile)
 
-        #serializer = OrderForReviewSerializer(orders, many=True)
-        response_data = []
-        for order in orders:
-            sub_data = dict()
-            sub_data["laundry_shop"] = order.laundry_shop.name
-            sub_data["created_at"] = order.created_at
-            response_data.append(sub_data)
-        response_data_json = json.dumps(
-            response_data, ensure_ascii=False, cls=DjangoJSONEncoder)
+        serializer = OrderForReviewSerializer(orders, many=True)
+
+        new_serializer_data = list(serializer.data)
+
+        for order in new_serializer_data:
+            laundry_shop = LaundryShop.objects.get(id=order['laundry_shop'])
+            order['laundry_shop'] = laundry_shop.name
+            print(order['laundry_shop'])
+
         return Response({
             'response': 'success',
             'message': 'order 조회 요청에 성공하였습니다.',
-            'data': response_data_json
+            'data': new_serializer_data
         })

@@ -58,11 +58,6 @@ class ReviewSerializer(sz.ModelSerializer):
 
 
 class OrderForReviewSerializer(sz.ModelSerializer):
-    @property
-    def data(self):
-        print("data 함수 실행")
-        ret = super(OrderForReviewSerializer, self).data
-        return ReturnDict(ret, serializer=self)
 
     class Meta:
         model = Order
