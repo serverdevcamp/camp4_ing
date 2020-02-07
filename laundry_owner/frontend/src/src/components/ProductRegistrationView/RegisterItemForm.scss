@@ -1,0 +1,45 @@
+.registerItemForm-form {
+  display: flex;
+  flex: 1;
+  background: white;
+  flex-direction: row;
+  padding-top: 20px;
+  padding-left: 20px;
+}
+
+.registerItemForm-leftPage {
+  display: flex;
+  flex-direction: column;
+  padding-right: 50px;
+}
+.registerItemForm-rightPage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-right: 50px;
+}
+
+.registerItemForm-registerRow{
+  width: 250px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.registerItemForm-priceInput{
+  width: 50%;
+  height: 30px;
+}
+
+.registerItemForm-etcText{
+   height: 70px;
+   resize : none;
+   outline: none;
+   border : 1px solid #BAC8FF;
+ }
+
+.registerItemForm-submitBtn{
+  width: 75px;
+  margin-top: 15px;
+  margin-left: auto;
+}

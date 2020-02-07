@@ -1,0 +1,21 @@
+.defaultMainBodyDiv{
+  margin-top: 35px;
+  display: flex;
+  flex-direction: row;
+  width: 1024px;
+}
+
+.defaultMainMenuDiv{
+  width: 200px;
+  height: 600px;
+  background: white;
+}
+
+.defaultMainChildDiv {
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  margin-left: 20px;
+}
+
+
