@@ -14,21 +14,22 @@
 .inputContent form label {
     display: flex;
     flex-direction: column;
-    margin-bottom: 60px;
 }
 
 .inputContent form .label {
     margin-bottom: 20px;
 }
 
-.inputContent .inputText {
-    padding-bottom: 10px;
-    border: 0px solid;
-    border-bottom: 1px solid black;
+.idWapper {
+    margin-bottom: 30px;
+}
+
+.passwordWapper {
+    margin-bottom: 80px;
 }
 
 .loginButton {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .activeButton {

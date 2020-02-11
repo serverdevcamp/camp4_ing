@@ -10,18 +10,18 @@ const LoginInput = ({ handleSignUp }) => {
   return (
     <div className={cx('inputContent')}>
       <form action="#">
-        <label>
+        <label className={cx('idWapper')}>
           <span className={cx('label')}>아이디</span>
           <CustomInput
-            className={cx('inputText')}
+            className={cx('idInputText')}
             type={'text'}
             required={true}
           />
         </label>
-        <label>
+        <label className={cx('passwordWapper')}>
           <span className={cx('label')}>비밀번호</span>
           <CustomInput
-            className={cx('inputText')}
+            className={cx('passwordInputText')}
             type={'password'}
             required={true} />
         </label>
