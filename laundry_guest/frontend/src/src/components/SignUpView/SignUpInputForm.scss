@@ -1,0 +1,62 @@
+.signUpContent {
+    width: 90%;
+    padding: 50px 0;
+}
+
+.signUpContent form {
+    display: flex;
+    flex-direction: column;
+}
+
+.signUpContent form label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 60px;
+}
+
+.signUpContent form .label {
+    margin-bottom: 20px;
+}
+
+.signUpContent .inputText {
+    padding-bottom: 10px;
+    border: 0px solid;
+    border-bottom: 1px solid black;
+}
+
+// Modal
+
+.signUpAddressModal {
+    position: absolute;
+    background: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.signUpAddressModal .closeBtn {}
+
+// 아직 사용안함
+
+.signUpContent .submitBtn {
+    outline: none;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: 500;
+    border: 1.5px solid #5c7cfa;
+    background: white;
+    color: #5c7cfa;
+    padding: 5px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s all;
+}
+
+.submitBtn {
+    margin-bottom: 30px;
+}
+
+.signUpContent .submitBtn:active {
+    color: white;
+    background: #5c7cfa;
+}

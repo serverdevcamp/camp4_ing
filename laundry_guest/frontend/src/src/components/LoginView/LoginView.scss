@@ -2,11 +2,23 @@
     width: 100%;
     height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+}
+
+.loginHeader {
+    font-size: 27px;
+    width: 90%;
+    margin-bottom: 15px;
 }
 
 .loginContent {
-    width: 80%;
-    height: 55%;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background: white;
+    border-radius: 40px;
+    padding-top: 100px;
+    padding-bottom: 150px;
 }

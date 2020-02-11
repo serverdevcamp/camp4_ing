@@ -1,4 +1,12 @@
+.inputContent {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .inputContent form {
+    width: 100%;
     display: flex;
     flex-direction: column;
 }
@@ -19,25 +27,11 @@
     border-bottom: 1px solid black;
 }
 
-.inputContent .submitBtn {
-    outline: none;
-    border: none;
-    font-size: 1.2rem;
-    font-weight: 500;
-    border: 1.5px solid #5c7cfa;
-    background: white;
-    color: #5c7cfa;
-    padding: 5px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.2s all;
+.loginButton {
+    margin-bottom: 50px;
 }
 
-.submitBtn {
-    margin-bottom: 30px;
-}
-
-.inputContent .submitBtn:active {
-    color: white;
-    background: #5c7cfa;
+.activeButton {
+    background: #E7E7E7;
+    color: black;
 }

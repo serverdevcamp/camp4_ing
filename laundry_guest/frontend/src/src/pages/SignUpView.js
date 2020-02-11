@@ -13,7 +13,7 @@ class SignUpView extends React.Component {
           <span className={cx('signUpSubTitle')}>회원가입</span>
         </div>
         <div className={cx('signUpBox')}>
-          {/* <SignUpInputForm /> */}
+          <SignUpInputForm />
         </div>
       </div>
     )
