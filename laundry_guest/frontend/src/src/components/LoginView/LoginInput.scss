@@ -1,0 +1,38 @@
+.inputContent {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.inputContent form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputContent form label {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputContent form .label {
+    margin-bottom: 20px;
+}
+
+.idWapper {
+    margin-bottom: 30px;
+}
+
+.passwordWapper {
+    margin-bottom: 80px;
+}
+
+.loginButton {
+    margin-bottom: 30px;
+}
+
+.activeButton {
+    background: #E7E7E7;
+    color: black;
+}
