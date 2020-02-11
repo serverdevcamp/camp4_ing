@@ -15,7 +15,8 @@ class LoginView extends React.Component {
     return (
       <div className={cx("loginPage")}>
         <div className={cx("loginHeader")}>
-          LaundryRunner
+          <div>LaundryRunner</div>
+          <div className={cx("pageDetail")}>로그인</div>
         </div>
         <div className={cx("loginContent")}>
           <LoginInput handleSignUp={handleSignUp} />

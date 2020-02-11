@@ -4,14 +4,21 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
 }
 
 .loginHeader {
     font-size: 27px;
     font-weight: 700;
     width: 90%;
+    height: 170px;
     margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.pageDetail {
+    font-size: 22px;
 }
 
 .loginContent {
@@ -19,7 +26,8 @@
     justify-content: center;
     width: 100%;
     background: white;
-    border-radius: 40px;
+    border-radius: 40px 40px 0 0;
     padding-top: 100px;
     padding-bottom: 150px;
+
 }

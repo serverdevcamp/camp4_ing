@@ -9,10 +9,10 @@ class SignUpView extends React.Component {
     return (
       <div className={cx('signUpPage')} id={'signUpPage'}>
         <div className={cx('signUpHeader')}>
-          <span className={cx('signUpTitle')}>LaundryRunner</span>
-          <span className={cx('signUpSubTitle')}>회원가입</span>
+          <div>LaundryRunner</div>
+          <div className={cx('pageDetail')}>회원가입</div>
         </div>
-        <div className={cx('signUpBox')}>
+        <div className={cx('signUpContent')}>
           <SignUpInputForm />
         </div>
       </div>
