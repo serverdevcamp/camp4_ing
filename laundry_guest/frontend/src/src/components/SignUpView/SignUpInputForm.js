@@ -1,4 +1,5 @@
 import React from 'react';
+import Checkbox from '@material-ui/core/Checkbox';
 import Modal from 'react-modal';
 import className from 'classnames';
 import DaumPostcode from 'react-daum-postcode';
@@ -15,11 +16,30 @@ class SignUpInputForm extends React.Component {
 
   state = {
     isOpenedModal: false,
-    address: ''
+    address: '',
+    checked: false,
+    setChecked: false
   };
+
+  componentDidMount() {
+    if (!document.getElementById('material-ui-font')) {
+      const materialUi = document.createElement('script');
+      materialUi.id = 'material-ui-font';
+      materialUi.src = 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap';
+      document.body.appendChild(materialUi);
+    }
+
+    if (!document.getElementById('material-ui-icon')) {
+      const materialUi = document.createElement('script');
+      materialUi.id = 'material-ui-icon';
+      materialUi.src = 'https://fonts.googleapis.com/icon?family=Material+Icons';
+      document.body.appendChild(materialUi);
+    }
+  }
 
   // 아이디 비밀번호 이메일 닉네임 주소 상세주소 폰
   render() {
+
     const onToggleModal = () => {
       this.setState({
         isOpenedModal: !this.state.isOpenedModal
@@ -48,7 +68,13 @@ class SignUpInputForm extends React.Component {
             </div>
             <div className={cx('agreementCheck')}>
               <span className={cx('agreementCheckMessage')}>동의하시겠습니까?</span>
-              <input type='checkbox' />
+              <Checkbox
+                value="secondary"
+                color="primary"
+                size='small'
+                inputProps={{ 'aria-label': 'secondary checkbox' }}
+              />
+              {/* <input type='checkbox' /> */}
             </div>
           </div>
           <label>

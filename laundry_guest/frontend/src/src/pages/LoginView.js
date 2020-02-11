@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../components/LoginView/LoginView.scss';
-import className from 'classnames/bind'
+import className from 'classnames/bind';
 
 import LoginInput from '../components/LoginView/LoginInput';
 
