@@ -19,11 +19,11 @@ import styles from './Menu.scss';
 
 const cx = classNames.bind(styles);
 
-function TabPanel(props){
-    const { children, value, index, ...other } = props;
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
 
-    return (
-      <Typography
+  return (
+    <Typography
       component="div"
       role="tabpanel"
       hidden={value !== index}
@@ -31,9 +31,9 @@ function TabPanel(props){
       aria-labelledby={`action-tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && <Box className={cx('item-box')} p={3}>{children}</Box>}
     </Typography>
-    )
+  )
 }
 
 TabPanel.propTypes = {
@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Menu = ({children}) => {
+const Menu = ({ distanceLaundrys, ratingLaundrys }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -102,8 +102,8 @@ const Menu = ({children}) => {
       label: 'Edit',
     },
   ];
-    return (
-      <div className={classes.root}>
+  return (
+    <div className={classes.root}>
       <AppBar position="static" color="default">
         <Tabs
           value={value}
@@ -123,10 +123,10 @@ const Menu = ({children}) => {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <div>{children}</div>
+          <div>{distanceLaundrys}</div>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          평점순
+          <div>{ratingLaundrys}</div>
         </TabPanel>
       </SwipeableViews>
       {/* {fabs.map((fab, index) => (
@@ -144,8 +144,8 @@ const Menu = ({children}) => {
           </Fab>
         </Zoom>
       ))} */}
-    </div>
-    )
+    </div >
+  )
 }
 
 export default Menu;

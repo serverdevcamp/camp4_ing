@@ -1,11 +1,13 @@
 import React from 'react';
 import styles from './Laundry.scss';
 import className from 'classnames/bind';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
+import { Link } from "react-router-dom";
 
 const cx = className.bind(styles);
 
-const Laundry = ({ className, name, content }) => {
+const Laundry = ({ id, className, name, content }) => {
+
   return (
     <div className={cx('laundry-container', className)}>
       <div className={cx('laundry-wapper')}>
@@ -16,11 +18,13 @@ const Laundry = ({ className, name, content }) => {
           <div className={cx('name')}>{name}</div>
           <div className={cx('content')}>{content}</div>
         </div>
-        <div className={cx('more')}>
-          <ArrowBackIcon />
-        </div>
+        <Link to={`/${id}`}>
+          <div className={cx('more')}>
+            <ArrowForwardIcon />
+          </div>
+        </Link>
       </div>
-    </div>
+    </div >
   )
 }
 
