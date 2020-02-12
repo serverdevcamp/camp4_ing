@@ -1,0 +1,47 @@
+.subheader-wapper {
+    width: 100%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    background: white;
+
+    .subheader-content {
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .grade-wapper {
+            font-size: 22px;
+            font-weight: bolder;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .information-wapper {
+            margin-bottom: 15px;
+        }
+
+        .min-price-wapper,
+        .delivery-time-wapper {
+            display: flex;
+            width: 100%;
+            margin-bottom: 10px;
+
+            .key {
+                width: 35%;
+            }
+
+            .value {
+                width: 65%;
+            }
+        }
+
+
+
+    }
+}

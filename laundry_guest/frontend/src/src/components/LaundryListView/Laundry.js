@@ -8,8 +8,6 @@ const cx = className.bind(styles);
 
 const Laundry = ({ match, id, className, name, content }) => {
 
-  console.log(match);
-
   return (
     <div className={cx('laundry-container', className)}>
       <div className={cx('laundry-wapper')}>

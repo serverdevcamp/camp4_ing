@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Menu = ({ distanceLaundrys, ratingLaundrys }) => {
+const Menu = ({ leftLabel, rightLabel, leftComponent, rightComponent }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -104,7 +104,7 @@ const Menu = ({ distanceLaundrys, ratingLaundrys }) => {
   ];
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="default">
+      <AppBar position="static" color="default" backgroundColor='white' className={cx('menu-bar')}>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -112,9 +112,10 @@ const Menu = ({ distanceLaundrys, ratingLaundrys }) => {
           textColor="primary"
           variant="fullWidth"
           aria-label="action tabs example"
+          backgroundColor='white'
         >
-          <Tab label="거리순" {...a11yProps(0)} />
-          <Tab label="평점순" {...a11yProps(1)} />
+          <Tab label={leftLabel} {...a11yProps(0)} />
+          <Tab label={rightLabel} {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -123,10 +124,10 @@ const Menu = ({ distanceLaundrys, ratingLaundrys }) => {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <div>{distanceLaundrys}</div>
+          <div>{leftComponent}</div>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <div>{ratingLaundrys}</div>
+          <div>{rightComponent}</div>
         </TabPanel>
       </SwipeableViews>
       {/* {fabs.map((fab, index) => (

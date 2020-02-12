@@ -61,7 +61,7 @@ class LaundryListView extends React.Component {
   render() {
     const { match } = this.props;
 
-    const distanceLaundrys = distanceData.map(({ id, name, content }) => {
+    const leftComponent = distanceData.map(({ id, name, content }) => {
       return (
         <Laundry
           className={cx('laundry-item')}
@@ -75,7 +75,7 @@ class LaundryListView extends React.Component {
     })
 
 
-    const ratingLaundrys = ratingData.map(({ id, name, content }) => {
+    const rightComponent = ratingData.map(({ id, name, content }) => {
       return (
         <Laundry
           className={cx('laundry-item')}
@@ -97,8 +97,10 @@ class LaundryListView extends React.Component {
       <div className={cx('laundry-list-page')} >
         <Header name={"세탁소 목록"} handle={handleMain} />
         <Menu
-          distanceLaundrys={distanceLaundrys}
-          ratingLaundrys={ratingLaundrys}
+          leftLabel={'거리순'}
+          rightLabel={'평점순'}
+          leftComponent={leftComponent}
+          rightComponent={rightComponent}
         >
         </Menu>
       </div>

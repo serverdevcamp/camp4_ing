@@ -30,7 +30,8 @@ class MainView extends React.Component {
             options={top100Films}
             getOptionLabel={option => option.title}
             style={{
-              width: 285
+              width: 285,
+              background: 'white'
             }}
             renderInput={params => (
               <TextField
