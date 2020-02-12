@@ -1,0 +1,171 @@
+.profileInputContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+
+    form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+         .profile-except-nickname{
+            width: 100%;
+            background: white;
+            justify-content: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            padding-bottom: 20px;
+            }
+
+        .ProfileModification-rowItem {
+            width: 90%;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+             .label{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+             }
+
+             .inputText {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                width: 70%;
+            }
+
+            .inputButtomWapper{
+                width: 70%;
+
+                .inputPassText{
+                    background: #EEEEEE;
+                    width: 100%;
+                    margin-right:10px;
+                    border: 0px solid rgba(0, 0, 0, 0.2);
+                }
+
+            }
+        }
+
+        label {
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+            padding-top: 20px;
+
+            .inputWithButton {
+                width: 75%;
+
+            }
+
+            .subButton {
+                width: 20%;
+                padding: 0px;
+            }
+
+            .detailAddressInput {
+                background: #EEEEEE;
+                margin-top: 15px;
+                border: 0px solid rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        .nickname-wrapper{
+            width: 100%;
+            background: white;
+            justify-content: center;
+            padding-top: 50px;
+            padding-bottom: 30px;
+
+            label {
+            font-weight: bolder;
+            width: 100%;
+            align-items: center;
+            margin-bottom: 10px;
+            }
+
+            .nickname-inputWrapper{
+                display: flex;
+                flex-direction: row;
+
+                .nimlabel{
+                 margin-top: 5px;
+                 margin-left: 5px;
+                }
+
+            }
+        }
+
+
+        .label {
+            margin-bottom: 10px;
+        }
+
+        .inputButtomWapper {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+
+            .inputText{
+                background: #EEEEEE;
+                border: 0px solid rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        .ProfileButton {
+            width: 100%;
+            margin-top: 50px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+
+    }
+
+}
+
+
+// .signUpContent form {
+//     width: 100%;
+//     display: flex;
+//     flex-direction: column;
+// }
+
+// .signUpContent form label {
+//     display: flex;
+//     flex-direction: column;
+//     margin-bottom: 60px;
+// }
+
+// .signUpContent form .label {
+//     margin-bottom: 20px;
+// }
+
+// .signUpContent .inputText {
+//     padding-bottom: 10px;
+//     border: 0px solid;
+//     border-bottom: 1px solid black;
+// }
+
+// Modal
+
+.profileAddressModal {
+    position: absolute;
+    background: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.profileAddressModal .closeBtn {}
