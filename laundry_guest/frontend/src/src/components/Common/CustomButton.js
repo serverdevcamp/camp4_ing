@@ -1,8 +1,8 @@
 import React from 'react';
 import className from 'classnames';
-import style from './CustomButton.scss';
+import styles from './CustomButton.scss';
 
-const cx = className.bind(style);
+const cx = className.bind(styles);
 
 // isInActive : 비활성화 될 경우 배경색 변경을 위해
 const CustomButton = ({ type, onClick, className, value, isInActive }) => {
