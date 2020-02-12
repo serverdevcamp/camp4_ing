@@ -373,7 +373,7 @@ def password_change(request, uuid):
 
     ---
     #post일 경우
-    
+
         {
             "password":"1234",
             "check_password":"1234"
