@@ -5,11 +5,11 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const cx = classNames.bind(styles);
 
-const Header = ({ name }) => {
+const Header = ({ name, handle }) => {
   return (
     <div className={cx('header-wapper')}>
       <div className={cx('header-content')}>
-        <div className={cx('arrow-wapper')}>
+        <div className={cx('arrow-wapper')} onClick={handle}>
           <ArrowBackIcon />
         </div>
         <div className={cx('page-name')}>{name}</div>
