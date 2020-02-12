@@ -5,6 +5,7 @@ import Header from '../components/Common/Header'
 import Menu from '../components/Common/Menu';
 import SubHeader from '../components/LaundryDetailView/SubHeader';
 import LaundryItem from '../components/LaundryDetailView/LaundryItem'
+import Review from '../components/Common/Review'
 
 const cx = className.bind(styles);
 
@@ -40,18 +41,21 @@ const laundryItemData = [
 const reviewData = [
   {
     id: 1,
+    author: "강민성",
     grade: 4,
     content: "깨끗하게 잘 빨아줍니다.",
     created_at: "2020-02-10"
   },
   {
     id: 2,
+    author: "김동근",
     grade: 3,
     content: "사장님이 친절하세요.",
     created_at: "2020-02-09"
   },
   {
-    id: 1,
+    id: 3,
+    author: "이수진",
     grade: 4,
     content: "깨끗하게 잘 빨아줍니다.",
     created_at: "2020-02-10"
@@ -74,6 +78,18 @@ class LaundryDetailView extends React.Component {
       )
     })
 
+    const rightComponent = reviewData.map(({ id, author, grade, content, created_at }) => {
+      return (
+        <Review
+          key={id}
+          author={author}
+          grade={grade}
+          content={content}
+          createdAt={created_at}
+        />
+      )
+    })
+
     const handleLaundryList = () => {
       window.location.href = '/laundrylist';
     }
@@ -85,6 +101,7 @@ class LaundryDetailView extends React.Component {
           leftLabel={'메뉴'}
           rightLabel={'댓글'}
           leftComponent={leftComponent}
+          rightComponent={rightComponent}
         >
         </Menu>
       </div>

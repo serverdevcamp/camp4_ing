@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import styles from './SubHeader.scss';
+import GradeIcon from '../Common/GradeIcon'
 import StarIcon from '@material-ui/icons/Star';
 
 const cx = classNames.bind(styles);
@@ -9,22 +10,13 @@ const SubHeader = ({ data }) => {
 
   const { name, information, grade, minPrice, deliveryTime } = data;
 
-  const GradeIcon = (grade) => {
-    const gradeInt = parseInt(grade.grade);
-    const list = [];
-    for (let i = 0; i < gradeInt; i++) {
-      list.push(<StarIcon />);
-    }
-    return list;
-  }
-
   return (
     <div className={cx('subheader-wapper')}>
       <div className={cx('subheader-content')}>
         <div className={cx('grade-wapper')}>
           <div>{grade}</div>
           <div>
-            <GradeIcon grade={grade} />
+            <GradeIcon grade={grade} fontSize={'2rem'} />
           </div>
         </div>
         <div className={cx('information-wapper')}>{information}</div>
