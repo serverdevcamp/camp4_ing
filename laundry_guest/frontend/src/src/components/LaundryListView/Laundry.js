@@ -6,7 +6,9 @@ import { Link } from "react-router-dom";
 
 const cx = className.bind(styles);
 
-const Laundry = ({ id, className, name, content }) => {
+const Laundry = ({ match, id, className, name, content }) => {
+
+  console.log(match);
 
   return (
     <div className={cx('laundry-container', className)}>
@@ -18,7 +20,7 @@ const Laundry = ({ id, className, name, content }) => {
           <div className={cx('name')}>{name}</div>
           <div className={cx('content')}>{content}</div>
         </div>
-        <Link to={`/${id}`}>
+        <Link to={`${match.url}/${id}`}>
           <div className={cx('more')}>
             <ArrowForwardIcon />
           </div>

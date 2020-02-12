@@ -55,25 +55,39 @@ const ratingData = [
   }
 ];
 
-const distanceLaundrys = distanceData.map(item => {
-  return (
-    <Laundry className={cx('laundry-item')} key={item.id} id={item.id} name={item.name} content={item.content} />
-  )
-})
-
-
-const ratingLaundrys = ratingData.map(item => {
-  return (
-    <Laundry className={cx('laundry-item')} key={item.id} name={item.name} content={item.content} />
-  )
-})
-
-
-
 class LaundryListView extends React.Component {
 
 
   render() {
+    const { match } = this.props;
+
+    const distanceLaundrys = distanceData.map(({ id, name, content }) => {
+      return (
+        <Laundry
+          className={cx('laundry-item')}
+          key={id}
+          id={id}
+          name={name}
+          content={content}
+          match={match}
+        />
+      )
+    })
+
+
+    const ratingLaundrys = ratingData.map(({ id, name, content }) => {
+      return (
+        <Laundry
+          className={cx('laundry-item')}
+          key={id}
+          id={id}
+          name={name}
+          content={content}
+          match={match}
+        />
+      )
+    })
+
 
     const handleMain = () => {
       window.location.href = '/';
