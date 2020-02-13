@@ -76,7 +76,7 @@ class LaundryDetailView extends React.Component {
 
     const { name, information, grade, minPrice, deliveryTime } = data;
     const { isOpenedModal } = this.state;
-    const { match } = this.props;
+    const { match, history } = this.props;
 
     const onToggleModal = () => {
       this.setState({
@@ -113,7 +113,10 @@ class LaundryDetailView extends React.Component {
     }
     return (
       <div className={cx('laundry-detail-page')}>
-        <Header name={name} handle={handleLaundryList} />
+        <Header
+          name={name}
+          history={history}
+        />
         <SubHeader data={data} />
         <Menu
           leftLabel={'메뉴'}

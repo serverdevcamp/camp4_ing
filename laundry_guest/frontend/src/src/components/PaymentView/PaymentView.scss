@@ -1,0 +1,11 @@
+.payment-page {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 50px;
+
+    .payment-header {
+        margin-bottom: 50px;
+    }
+}

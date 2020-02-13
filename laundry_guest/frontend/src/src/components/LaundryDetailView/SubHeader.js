@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 import styles from './SubHeader.scss';
 import GradeIcon from '../Common/GradeIcon'
-import StarIcon from '@material-ui/icons/Star';
 
 const cx = classNames.bind(styles);
 

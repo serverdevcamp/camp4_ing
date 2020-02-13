@@ -40,11 +40,6 @@ class OrderView extends React.Component {
     const { history, match } = this.props;
     const laundryName = "스마일 세탁소";
 
-
-    const handleLaundryDetail = () => {
-      history.goBack();
-    }
-
     const handlePaymentView = () => {
       const urlItems = match.url.split('/');
       urlItems.pop();
@@ -68,7 +63,7 @@ class OrderView extends React.Component {
       <div className={cx('order-page')} >
         <Header
           name={'장바구니'}
-          handle={handleLaundryDetail}
+          history={history}
         />
         <div className={cx('laundry-name-wapper')}>
           {laundryName}
