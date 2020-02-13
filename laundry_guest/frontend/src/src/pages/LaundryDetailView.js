@@ -1,12 +1,16 @@
 import React from 'react';
 import styles from '../components/LaundryDetailView/LaundryDetailView.scss';
 import className from 'classnames/bind';
+import { Link } from "react-router-dom";
+import Fab from '@material-ui/core/Fab';
+import ShoppingCartSharpIcon from '@material-ui/icons/ShoppingCartSharp';
 import Header from '../components/Common/Header'
 import Menu from '../components/Common/Menu';
 import SubHeader from '../components/LaundryDetailView/SubHeader';
 import LaundryItem from '../components/LaundryDetailView/LaundryItem';
 import Review from '../components/Common/Review';
 import LaundryItemModal from '../components/LaundryDetailView/LaundryItemModal';
+
 
 const cx = className.bind(styles);
 
@@ -72,6 +76,7 @@ class LaundryDetailView extends React.Component {
 
     const { name, information, grade, minPrice, deliveryTime } = data;
     const { isOpenedModal } = this.state;
+    const { match } = this.props;
 
     const onToggleModal = () => {
       this.setState({
@@ -117,6 +122,14 @@ class LaundryDetailView extends React.Component {
           rightComponent={rightComponent}
         >
         </Menu>
+        <Link to={`${match.url}/order`}>
+          <Fab
+            className={'fab-button'}
+            color={'rgba(204, 204, 204, 0.6)'}
+          >
+            <ShoppingCartSharpIcon />
+          </Fab>
+        </Link>
         <LaundryItemModal
           isOpen={isOpenedModal}
           onClick={onToggleModal}
