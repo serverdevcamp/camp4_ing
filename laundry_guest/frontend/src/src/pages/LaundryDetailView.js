@@ -4,8 +4,9 @@ import className from 'classnames/bind';
 import Header from '../components/Common/Header'
 import Menu from '../components/Common/Menu';
 import SubHeader from '../components/LaundryDetailView/SubHeader';
-import LaundryItem from '../components/LaundryDetailView/LaundryItem'
-import Review from '../components/Common/Review'
+import LaundryItem from '../components/LaundryDetailView/LaundryItem';
+import Review from '../components/Common/Review';
+import LaundryItemModal from '../components/LaundryDetailView/LaundryItemModal';
 
 const cx = className.bind(styles);
 
@@ -63,9 +64,20 @@ const reviewData = [
 ]
 
 class LaundryDetailView extends React.Component {
+
+  state = {
+    isOpenedModal: false
+  }
   render() {
 
     const { name, information, grade, minPrice, deliveryTime } = data;
+    const { isOpenedModal } = this.state;
+
+    const onToggleModal = () => {
+      this.setState({
+        isOpenedModal: !isOpenedModal
+      });
+    };
 
     const leftComponent = laundryItemData.map(({ id, category, material, price }) => {
       return (
@@ -74,6 +86,7 @@ class LaundryDetailView extends React.Component {
           category={category}
           material={material}
           price={price}
+          onClick={onToggleModal}
         />
       )
     })
@@ -104,6 +117,11 @@ class LaundryDetailView extends React.Component {
           rightComponent={rightComponent}
         >
         </Menu>
+        <LaundryItemModal
+          isOpen={isOpenedModal}
+          onClick={onToggleModal}
+        />
+
       </div>
     )
   }
