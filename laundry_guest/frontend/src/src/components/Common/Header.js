@@ -9,9 +9,9 @@ const Header = ({ className, name, history }) => {
 
   const hanldeGoBack = () => history.goBack();
   return (
-    <div className={cx('header-wapper', className)}>
+    <div className={cx('header-wrapper', className)}>
       <div className={cx('header-content')}>
-        <div className={cx('arrow-wapper')} onClick={hanldeGoBack}>
+        <div className={cx('arrow-wrapper')} onClick={hanldeGoBack}>
           <ArrowBackIcon />
         </div>
         <div className={cx('page-name')}>{name}</div>

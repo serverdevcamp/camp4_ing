@@ -10,7 +10,7 @@ const LoginInput = ({ handleSignUp }) => {
   return (
     <div className={cx('inputContent')}>
       <form action="#">
-        <label className={cx('idWapper')}>
+        <label className={cx('idwrapper')}>
           <span className={cx('label')}>아이디</span>
           <CustomInput
             className={cx('idInputText')}
@@ -18,7 +18,7 @@ const LoginInput = ({ handleSignUp }) => {
             required={true}
           />
         </label>
-        <label className={cx('passwordWapper')}>
+        <label className={cx('passwordwrapper')}>
           <span className={cx('label')}>비밀번호</span>
           <CustomInput
             className={cx('passwordInputText')}

@@ -58,7 +58,7 @@ class SignUpInputForm extends React.Component {
     return (
       <div className={cx('signUpInputContent')}>
         <form className={cx('signUpForm')}>
-          <div className={cx('agreementWapper')}>
+          <div className={cx('agreementwrapper')}>
             <div className={cx('agreementTitle')}>
               약관내용
             </div>
@@ -80,7 +80,7 @@ class SignUpInputForm extends React.Component {
           </div>
           <label>
             <span className={cx('label')}>아이디</span>
-            <div className={cx('inputButtomWapper')}>
+            <div className={cx('inputButtomwrapper')}>
               <CustomInput className={cx('inputText', 'inputWithButton')} type={'text'} required={true} />
               <CustomButton
                 className={cx('subButton')}
@@ -107,7 +107,7 @@ class SignUpInputForm extends React.Component {
           </label>
           <label>
             <span className={cx('label')}>주소</span>
-            <div className={cx('inputButtomWapper')}>
+            <div className={cx('inputButtomwrapper')}>
               <CustomInput
                 className={cx('inputText', 'inputWithButton')}
                 type={'text'}

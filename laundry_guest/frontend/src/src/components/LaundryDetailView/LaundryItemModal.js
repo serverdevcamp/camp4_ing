@@ -38,7 +38,7 @@ const LaundryItemModal = ({ isOpen, onClick }) => {
         <CloseIcon />
       </div>
       <div className={cx('modal-content')}>
-        <div className={cx('item-wapper')}>
+        <div className={cx('item-wrapper')}>
           <div className={cx('item-title')}>선택한 세탁물</div>
           <Input
             className={'item-input'}
@@ -46,14 +46,14 @@ const LaundryItemModal = ({ isOpen, onClick }) => {
             readOnly={true}
           />
         </div>
-        <div className={cx('item-wapper')}>
+        <div className={cx('item-wrapper')}>
           <div className={cx('item-title')}>요청사항</div>
           <Input
             className={'item-input'}
             type={'text'}
           />
         </div>
-        <div className={cx('count-wapper')}>
+        <div className={cx('count-wrapper')}>
           <div onClick={() => validatedSetCount(count - 1)}>
             <RemoveCircleOutlineIcon />
           </div>

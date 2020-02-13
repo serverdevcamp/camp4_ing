@@ -10,7 +10,7 @@ const Laundry = ({ match, id, className, name, content }) => {
 
   return (
     <div className={cx('laundry-container', className)}>
-      <div className={cx('laundry-wapper')}>
+      <div className={cx('laundry-wrapper')}>
         <div className={cx('laundry-image')}>
           <div className={cx('image')}></div>
         </div>

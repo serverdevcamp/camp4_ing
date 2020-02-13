@@ -28,14 +28,14 @@ const AddressInput = ({ name, }) => {
         onToggleModal();
         console.log(detailedAddress.current);
         // TODO: ref 는 함수 컴포넌트에서 가상돔에 접근을 못한다. 
-        // 
+        // forwardRef 를 사용하던지 클래스형 컴프넌트로하자
         //detailedAddress.current.focus();
     }
 
     return (
-        <div className={cx('address-input-wapper')}>
+        <div className={cx('address-input-wrapper')}>
             <div className={cx('address-name')}>{name}</div>
-            <div className={cx('address-wapper')}>
+            <div className={cx('address-wrapper')}>
                 <CustomInput
                     className={cx('inputText', 'inputWithButton')}
                     type={'text'}
@@ -82,7 +82,5 @@ const AddressInput = ({ name, }) => {
         </div>
     )
 }
-
-Modal.setAppElement('#root');
 
 export default AddressInput;

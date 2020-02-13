@@ -23,7 +23,7 @@ class MainView extends React.Component {
           </div>
         </div>
         <div className={cx("advertising")}>광고 캐러셀</div>
-        <div className={cx("search-wapper")}>
+        <div className={cx("search-wrapper")}>
           <Autocomplete
             autoComplete={true}
             id="combo-box-demo"

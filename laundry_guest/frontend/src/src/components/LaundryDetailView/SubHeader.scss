@@ -1,4 +1,4 @@
-.subheader-wapper {
+.subheader-wrapper {
     width: 100%;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     margin-top: 30px;
@@ -13,7 +13,7 @@
         flex-direction: column;
         align-items: center;
 
-        .grade-wapper {
+        .grade-wrapper {
             font-size: 22px;
             font-weight: bolder;
             display: flex;
@@ -22,12 +22,12 @@
             margin-bottom: 15px;
         }
 
-        .information-wapper {
+        .information-wrapper {
             margin-bottom: 15px;
         }
 
-        .min-price-wapper,
-        .delivery-time-wapper {
+        .min-price-wrapper,
+        .delivery-time-wrapper {
             display: flex;
             width: 100%;
             margin-bottom: 10px;

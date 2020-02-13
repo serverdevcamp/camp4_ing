@@ -9,7 +9,7 @@ const Review = ({ author, grade, content, createdAt }) => {
 
   return (
     <div className={cx('review-container')}>
-      <div className={cx('review-wapper')}>
+      <div className={cx('review-wrapper')}>
         <div className={cx('author')}>{author}</div>
         <div className={cx('sub-data')}>
           <div className={cx('grade')}>

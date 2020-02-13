@@ -65,12 +65,12 @@ class OrderView extends React.Component {
           name={'장바구니'}
           history={history}
         />
-        <div className={cx('laundry-name-wapper')}>
+        <div className={cx('laundry-name-wrapper')}>
           {laundryName}
         </div>
-        <div className={cx('order-item-wapper')}>{orderItemComponent}</div>
+        <div className={cx('order-item-wrapper')}>{orderItemComponent}</div>
         {/* TODO: 전체 금액 어떻게 계산하지? */}
-        <div className={cx('total-price-wapper')}>
+        <div className={cx('total-price-wrapper')}>
           <div>주문금액</div>
           <div>13000원</div>
         </div>
