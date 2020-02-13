@@ -111,4 +111,9 @@
     transform: translate(-50%, -50%);
 }
 
-.signUpAddressModal .closeBtn {}
+.signUpAddressModal .closeBtn {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 5%;
+    padding-right: 5%;
+}
