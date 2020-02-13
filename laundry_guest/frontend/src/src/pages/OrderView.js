@@ -37,12 +37,21 @@ const orderItemData = [
 class OrderView extends React.Component {
   render() {
 
-    const { history } = this.props;
+    const { history, match } = this.props;
     const laundryName = "스마일 세탁소";
 
 
     const handleLaundryDetail = () => {
       history.goBack();
+    }
+
+    const handlePaymentView = () => {
+      const urlItems = match.url.split('/');
+      urlItems.pop();
+      urlItems.push('payment');
+      const url = urlItems.join('/');
+      console.log(url);
+      window.location.href = url;
     }
 
     const orderItemComponent = orderItemData.map(({ id, ...rest }) => {
@@ -75,11 +84,11 @@ class OrderView extends React.Component {
         </div>
         <CustomButton
           type={'button'}
+          onClick={handlePaymentView}
           className={'order-button'}
           value={'주문하기'}
           isInActive={true}
         />
-
       </div>
 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MainPage, LoginPage, SignUpPage, LaundryListPage, LaundryDetailPage, OrderPage } from './pages';
+import { MainPage, LoginPage, SignUpPage, LaundryListPage, LaundryDetailPage, OrderPage, PaymentPage } from './pages';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
         <Route exact path="/laundrylist" component={LaundryListPage} />
         <Route exact path="/laundrylist/:id" component={LaundryDetailPage} />
         <Route path="/laundrylist/:id/order" component={OrderPage} />
+        <Route path="/laundrylist/:id/payment" component={PaymentPage} />
       </Router>
     </div>
   );
