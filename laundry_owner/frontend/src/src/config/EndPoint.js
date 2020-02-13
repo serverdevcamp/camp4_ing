@@ -1,3 +1,3 @@
 export default {
-  chatServer : 'http://localhost:4200/'
+  chatServer: 'http://localhost:4200/'
 };
