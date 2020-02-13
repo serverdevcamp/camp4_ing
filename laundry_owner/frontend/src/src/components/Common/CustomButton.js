@@ -6,15 +6,15 @@ const cx = className.bind(style);
 
 const CustomButton = ({type, onClick, className, value}) => {
 
-    let _type;
-    if (type === 'submit')
-        _type = 'submit';
-    else
-        _type = 'button';
+  let _type;
+  if (type === 'submit')
+    _type = 'submit';
+  else
+    _type = 'button';
 
-    return (
-        <input type={_type} onClick={onClick} value={value} className={cx('customButtonDefault',className)}/>
-    )
+  return (
+    <input type={_type} onClick={onClick} value={value} className={cx('customButtonDefault', className)}/>
+  )
 };
 
 export default CustomButton;

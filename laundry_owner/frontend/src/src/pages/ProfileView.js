@@ -7,18 +7,18 @@ import ProfileModificationForm from "../components/ProfileView/ProfileModificati
 
 const cx = className.bind(backgroundStyle);
 
-class ProfileView extends React.Component{
+class ProfileView extends React.Component {
 
-    render() {
-        return(
-            <div className={cx('defaultBackground')}>
-                <DefaultHeader title={"정보 수정"}/>
-                <DefaultMainBody  menuIndex={1}>
-                    <ProfileModificationForm/>
-                </DefaultMainBody>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div className={cx('defaultBackground')}>
+        <DefaultHeader title={"정보 수정"}/>
+        <DefaultMainBody menuIndex={1}>
+          <ProfileModificationForm/>
+        </DefaultMainBody>
+      </div>
+    )
+  }
 
 }
 
