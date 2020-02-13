@@ -1,0 +1,11 @@
+.chat-list-page{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .table-container{
+    background: white;
+    height: 100%;
+  };
+
+}

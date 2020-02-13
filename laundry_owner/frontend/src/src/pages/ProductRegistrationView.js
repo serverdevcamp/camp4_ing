@@ -10,37 +10,37 @@ import RegisterItemForm from "../components/ProductRegistrationView/RegisterItem
 
 const cx = className.bind(style);
 
-class ProductRegistrationView extends React.Component{
+class ProductRegistrationView extends React.Component {
 
-    render() {
+  render() {
 
 
-        return (
-            <div className={cx('defaultBackground')}>
-                <DefaultHeader title={"제품 등록"}/>
-                <DefaultMainBody  menuIndex={2}>
-                    <Typography
-                        variant={"h6"}
-                        gutterBottom>
-                        등록된 제품
-                    </Typography>
-                    <HorizontalScrollView>
-                        <RegisteredItemView/>
-                        <RegisteredItemView/>
-                        <RegisteredItemView/>
-                    </HorizontalScrollView>
+    return (
+      <div className={cx('defaultBackground')}>
+        <DefaultHeader title={"제품 등록"}/>
+        <DefaultMainBody menuIndex={2}>
+          <Typography
+            variant={"h6"}
+            gutterBottom>
+            등록된 제품
+          </Typography>
+          <HorizontalScrollView>
+            <RegisteredItemView/>
+            <RegisteredItemView/>
+            <RegisteredItemView/>
+          </HorizontalScrollView>
 
-                    <Typography
-                        style={{marginTop : '25px'}}
-                        variant={"h6"}
-                        gutterBottom>
-                        제품 등록/수정
-                    </Typography>
-                    <RegisterItemForm/>
-                </DefaultMainBody>
-            </div>
-        )
-    }
+          <Typography
+            style={{marginTop: '25px'}}
+            variant={"h6"}
+            gutterBottom>
+            제품 등록/수정
+          </Typography>
+          <RegisterItemForm/>
+        </DefaultMainBody>
+      </div>
+    )
+  }
 }
 
 
