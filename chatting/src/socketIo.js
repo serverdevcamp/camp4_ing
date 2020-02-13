@@ -10,15 +10,18 @@ module.exports = (app) =>{
 
         socket.on('joinRoom',(roomName)=>{
             socket.join(roomName);
+            console.log('룸연결 성공',roomName);
         });
         socket.on('leaveRoom',(roomName)=>{
             socket.leave(roomName);
+            console.log('룸연결 해제',roomName);
+
         });
 
         socket.on('chatMessage',(roomName,text,userId)=>{
             app.to(roomName).emit('receiveMessage',text,userId);
             axios({
-                url:'http://localhost:3000/chat/saveChatHistory',
+                url:'http://localhost:4200/chat/saveChatHistory',
                 method : 'post',
                 data:{
                     chatRoom : roomName,
@@ -27,7 +30,7 @@ module.exports = (app) =>{
                 }
             })
                 .then(result=>{
-                    // console.log(result.data);
+                    console.log(result.data);
                 })
                 .catch(err=>{
                     console.error(err);
