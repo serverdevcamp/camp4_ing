@@ -6,6 +6,10 @@ const logger = require('morgan');
 const dotenv = require('dotenv');
 const cors = require('cors');
 
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDefinition = require('./config/swaggerDefinition');
+
 const mongooseDB = require('./models');
 
 const indexRouter = require('./routes/index');
@@ -15,6 +19,13 @@ const chatRouter = require('./routes/chat');
 
 const app = express();
 dotenv.config();
+
+const options = {
+    swaggerDefinition,
+    apis: ['./routes/chat.js']
+};
+
+const swaggerSpec = swaggerJSDoc(options);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,6 +38,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
+app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(swaggerSpec));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/tests',testRouter);
