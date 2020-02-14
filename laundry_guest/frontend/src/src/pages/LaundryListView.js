@@ -4,7 +4,6 @@ import className from 'classnames/bind';
 import Header from '../components/Common/Header';
 import Menu from '../components/Common/Menu';
 import Laundry from '../components/LaundryListView/Laundry';
-import { Link } from "react-router-dom";
 
 
 const cx = className.bind(styles);
@@ -59,7 +58,7 @@ class LaundryListView extends React.Component {
 
 
   render() {
-    const { match } = this.props;
+    const { match, history } = this.props;
 
     const leftComponent = distanceData.map(({ id, name, content }) => {
       return (
@@ -88,14 +87,9 @@ class LaundryListView extends React.Component {
       )
     })
 
-
-    const handleMain = () => {
-      window.location.href = '/';
-    }
-
     return (
       <div className={cx('laundry-list-page')} >
-        <Header name={"세탁소 목록"} handle={handleMain} />
+        <Header name={"세탁소 목록"} history={history} />
         <Menu
           leftLabel={'거리순'}
           rightLabel={'평점순'}

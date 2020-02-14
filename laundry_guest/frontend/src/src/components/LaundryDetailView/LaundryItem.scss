@@ -1,6 +1,5 @@
 .laundry-item-container {
     width: 100%;
-    height: 80px;
     //border: 0.3px solid rgba(0, 0, 0, 0.25);
     //box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     display: flex;
@@ -9,7 +8,7 @@
     margin-bottom: 10px;
     background: white;
 
-    .laundry-item-wapper {
+    .laundry-item-wrapper {
         width: 90%;
         display: flex;
         justify-content: space-between;
@@ -34,14 +33,13 @@
             padding-left: 10px;
 
             .category {
-                font-size: 14px;
                 font-weight: bolder;
             }
 
             .material,
             .price {
                 display: flex;
-                font-size: 12px;
+                font-size: 14px;
 
                 div:first-child {
                     width: 15%;

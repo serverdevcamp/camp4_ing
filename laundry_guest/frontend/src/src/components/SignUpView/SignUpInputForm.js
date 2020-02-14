@@ -2,6 +2,7 @@ import React from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import Modal from 'react-modal';
 import className from 'classnames';
+import CloseIcon from '@material-ui/icons/Close';
 import DaumPostcode from 'react-daum-postcode';
 import styles from './SignUpInputForm.scss';
 import CustomInput from '../Common/Input';
@@ -57,7 +58,7 @@ class SignUpInputForm extends React.Component {
     return (
       <div className={cx('signUpInputContent')}>
         <form className={cx('signUpForm')}>
-          <div className={cx('agreementWapper')}>
+          <div className={cx('agreementwrapper')}>
             <div className={cx('agreementTitle')}>
               약관내용
             </div>
@@ -79,7 +80,7 @@ class SignUpInputForm extends React.Component {
           </div>
           <label>
             <span className={cx('label')}>아이디</span>
-            <div className={cx('inputButtomWapper')}>
+            <div className={cx('inputButtomwrapper')}>
               <CustomInput className={cx('inputText', 'inputWithButton')} type={'text'} required={true} />
               <CustomButton
                 className={cx('subButton')}
@@ -106,7 +107,7 @@ class SignUpInputForm extends React.Component {
           </label>
           <label>
             <span className={cx('label')}>주소</span>
-            <div className={cx('inputButtomWapper')}>
+            <div className={cx('inputButtomwrapper')}>
               <CustomInput
                 className={cx('inputText', 'inputWithButton')}
                 type={'text'}
@@ -145,8 +146,20 @@ class SignUpInputForm extends React.Component {
         <Modal
           isOpen={this.state.isOpenedModal}
           className={cx('signUpAddressModal')}
+          style={{
+            overlay: {
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.75)'
+            }
+          }}
         >
-          <span className={cx('closeBtn')} onClick={onToggleModal}>닫기</span>
+          <div className={cx('closeBtn')} onClick={onToggleModal}>
+            <CloseIcon />
+          </div>
           <DaumPostcode onComplete={data => onClickAddress(data)} />
         </Modal>
       </div>

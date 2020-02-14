@@ -1,10 +1,16 @@
 import React from 'react';
 import styles from '../components/LaundryDetailView/LaundryDetailView.scss';
 import className from 'classnames/bind';
+import { Link } from "react-router-dom";
+import Fab from '@material-ui/core/Fab';
+import ShoppingCartSharpIcon from '@material-ui/icons/ShoppingCartSharp';
 import Header from '../components/Common/Header'
 import Menu from '../components/Common/Menu';
 import SubHeader from '../components/LaundryDetailView/SubHeader';
-import LaundryItem from '../components/LaundryDetailView/LaundryItem'
+import LaundryItem from '../components/LaundryDetailView/LaundryItem';
+import Review from '../components/Common/Review';
+import LaundryItemModal from '../components/LaundryDetailView/LaundryItemModal';
+
 
 const cx = className.bind(styles);
 
@@ -40,18 +46,21 @@ const laundryItemData = [
 const reviewData = [
   {
     id: 1,
+    author: "강민성",
     grade: 4,
     content: "깨끗하게 잘 빨아줍니다.",
     created_at: "2020-02-10"
   },
   {
     id: 2,
+    author: "김동근",
     grade: 3,
     content: "사장님이 친절하세요.",
     created_at: "2020-02-09"
   },
   {
-    id: 1,
+    id: 3,
+    author: "이수진",
     grade: 4,
     content: "깨끗하게 잘 빨아줍니다.",
     created_at: "2020-02-10"
@@ -59,9 +68,21 @@ const reviewData = [
 ]
 
 class LaundryDetailView extends React.Component {
+
+  state = {
+    isOpenedModal: false
+  }
   render() {
 
     const { name, information, grade, minPrice, deliveryTime } = data;
+    const { isOpenedModal } = this.state;
+    const { match, history } = this.props;
+
+    const onToggleModal = () => {
+      this.setState({
+        isOpenedModal: !isOpenedModal
+      });
+    };
 
     const leftComponent = laundryItemData.map(({ id, category, material, price }) => {
       return (
@@ -70,6 +91,19 @@ class LaundryDetailView extends React.Component {
           category={category}
           material={material}
           price={price}
+          onClick={onToggleModal}
+        />
+      )
+    })
+
+    const rightComponent = reviewData.map(({ id, author, grade, content, created_at }) => {
+      return (
+        <Review
+          key={id}
+          author={author}
+          grade={grade}
+          content={content}
+          createdAt={created_at}
         />
       )
     })
@@ -79,14 +113,31 @@ class LaundryDetailView extends React.Component {
     }
     return (
       <div className={cx('laundry-detail-page')}>
-        <Header name={name} handle={handleLaundryList} />
+        <Header
+          name={name}
+          history={history}
+        />
         <SubHeader data={data} />
         <Menu
           leftLabel={'메뉴'}
           rightLabel={'댓글'}
           leftComponent={leftComponent}
+          rightComponent={rightComponent}
         >
         </Menu>
+        <Link to={`${match.url}/order`}>
+          <Fab
+            className={'fab-button'}
+            color={'rgba(204, 204, 204, 0.6)'}
+          >
+            <ShoppingCartSharpIcon />
+          </Fab>
+        </Link>
+        <LaundryItemModal
+          isOpen={isOpenedModal}
+          onClick={onToggleModal}
+        />
+
       </div>
     )
   }

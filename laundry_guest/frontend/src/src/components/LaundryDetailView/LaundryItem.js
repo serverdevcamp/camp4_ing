@@ -4,10 +4,10 @@ import styles from './LaundryItem.scss';
 
 const cx = classNames.bind(styles);
 
-const LaundryItem = ({ className, category, material, price }) => {
+const LaundryItem = ({ className, category, material, price, onClick }) => {
     return (
-        <div className={cx('laundry-item-container', className)}>
-            <div className={cx('laundry-item-wapper')}>
+        <div className={cx('laundry-item-container', className)} onClick={onClick}>
+            <div className={cx('laundry-item-wrapper')}>
                 <div className={cx('laundry-image')}>
                     <div className={cx('image')}></div>
                 </div>
