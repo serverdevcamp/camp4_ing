@@ -124,6 +124,23 @@
             }
         }
 
+        .Tailer{
+            display: flex;
+            flex-direction: row;
+            margin-left: auto;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            align-items: flex-end;
+            color:black;
+
+            .Link{
+             margin-right:10px;
+             color:gray;
+            }
+
+            }
+
+
         .ProfileButton {
             width: 100%;
             margin-top: 50px;

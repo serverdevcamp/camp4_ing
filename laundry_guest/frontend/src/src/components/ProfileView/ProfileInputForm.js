@@ -6,6 +6,7 @@ import DaumPostcode from 'react-daum-postcode';
 import styles from './ProfileInputForm.scss';
 import CustomInput from '../Common/Input';
 import CustomButton from '../Common/CustomButton';
+import {Link} from 'react-router-dom';
 
 
 const cx = className.bind(styles);
@@ -115,6 +116,9 @@ class ProfileInputForm extends React.Component {
               placeHolder={'상세주소를 입력해주세요.'}
             />
           </label>
+          </div>
+          <div className={cx('Tailer')}>
+          <Link className={cx('Link')} to={"#"}> 로그아웃</Link> <Link className={cx('Link')} to={"#"}>탈퇴</Link>
           </div>
           <CustomButton
             className={cx('ProfileButton')}
