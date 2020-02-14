@@ -1,4 +1,5 @@
 from django.core.cache import cache
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import render, redirect
@@ -21,19 +22,22 @@ from django.core.mail import EmailMessage
 
 
 class CreateProfileView(APIView):
-    '''
-    회원가입
-    ---
-    '''
     permission_classes = [permissions.AllowAny]
 
     def get(self, request, *args, **kwargs):
+        '''
+        # 기능
+        전체 유저 조회
+
+        '''
         queryset = get_user_model().objects.all()
         serializer = ProfileSerializer(queryset, many=True)
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
         '''
+        # 기능
+        회원 가입
         # example
             {
                 "profile": {
@@ -89,6 +93,8 @@ class UserLoginView(APIView):
 
     def post(self, request, *args, **kargs):
         '''
+        # 기능
+        로그인
         # example
             {
                 "profile": {
@@ -142,6 +148,10 @@ class UserLoginView(APIView):
 
 @api_view(['GET', ])
 def logout(request):
+    '''
+    # 기능
+    로그아웃
+    '''
     key = request.COOKIES.get('jwt')
     cache.delete(key)
     try:
@@ -161,14 +171,20 @@ class ProfileDetailView(APIView):
     def get_object(self, id):
         try:
             return Profile.objects.get(id=id)
-        except:
+        except ObjectDoesNotExist:
+            return None
+
+    def get(self, request, id):
+        '''
+        # 기능
+        유저 세부 조회
+        '''
+        profile = self.get_object(id)
+        if profile is None:
             return Response({
                 'response': 'error',
                 'message': 'profile/{} 페이지를 찾을 수 없습니다.'.format(id)
             })
-
-    def get(self, request, id):
-        profile = self.get_object(id)
         serializer = ProfileSerializer(profile)
         return Response({
             'response': 'success',
@@ -178,6 +194,8 @@ class ProfileDetailView(APIView):
 
     def put(self, request, id):
         """
+        # 기능
+        유저 정보 수정
         # example
             {
                "data": {
@@ -185,10 +203,26 @@ class ProfileDetailView(APIView):
                 }
             }
         """
-
+        # data = request.data.get('profile')
+        # if not data:
+        #     return Response({
+        #         'response': 'error',
+        #         'message': 'profile 파라미터가 없습니다.'
+        #     })
+        data = request.data.get('data')
+        if data is None:
+            return Response({
+                'response': 'error',
+                'message': 'data 파라미터가 없습니다.'
+            })
         profile = self.get_object(id)
+        if profile is None:
+            return Response({
+                'response': 'error',
+                'message': 'profile/{} 페이지를 찾을 수 없습니다.'.format(id)
+            })
         serializer = ProfileSerializer(
-            profile, data=request.data, partial=True)
+            profile, data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response({
