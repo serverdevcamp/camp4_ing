@@ -21,9 +21,33 @@ from django.core.mail import EmailMessage
 
 
 class CreateProfileView(APIView):
+    '''
+    회원가입
+    ---
+    '''
     permission_classes = [permissions.AllowAny]
 
+    def get(self, request, *args, **kwargs):
+        queryset = get_user_model().objects.all()
+        serializer = ProfileSerializer(queryset, many=True)
+        return Response(serializer.data)
+
     def post(self, request, *args, **kwargs):
+        '''
+        # example
+            {
+                "profile": {
+                    "username": "rkdalstjd1",
+                    "password": "password1",
+                    "email": "rkdalstjd9@naver.com",
+                    "nickname": "사장님2",
+                    "address": "서울특별시 동대문구 전농동",
+                    "detail_address": "주영리빙텔 109호",
+                    "phone": "01000000000",
+                    "business_num": "12345"
+                }
+            }
+        '''
         data = request.data.get('profile')
         if not data:
             return Response({
@@ -59,16 +83,20 @@ class CreateProfileView(APIView):
             'message': 'profile 이 성공적으로 생성되었습니다.'
         })
 
-    def get(self, request, *args, **kwargs):
-        queryset = get_user_model().objects.all()
-        serializer = ProfileSerializer(queryset, many=True)
-        return Response(serializer.data)
-
 
 class UserLoginView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, *args, **kargs):
+        '''
+        # example
+            {
+                "profile": {
+                    "username": "rkdalstjd1",
+                    "password": "password1"
+                }
+            }
+        '''
         data = request.data.get('profile')
         if not data:
             return Response({
@@ -149,6 +177,15 @@ class ProfileDetailView(APIView):
         })
 
     def put(self, request, id):
+        """
+        # example
+            {
+               "data": {
+                    "nickname": "사장님2"
+                }
+            }
+        """
+
         profile = self.get_object(request, id)
         serializer = ProfileSerializer(
             profile, data=request.data, partial=True)
@@ -278,14 +315,6 @@ def password_change(request, uuid):
                 'response': 'error',
                 'message': '비밀번호가 잘못되었습니다.'
             })
-
-
-def main(request):
-    print(request)
-    decode_jwt = jwt.decode(
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozfQ.Or7AvvvBw-x48EiVPZaN7gb6lDCOUkBN8Zj7W6JeB6c', settings.SECRET_KEY, 'HS256')
-    print(decode_jwt)
-    return render(request, 'myauth/main.html')
 
 
 def jwt_create(username):
