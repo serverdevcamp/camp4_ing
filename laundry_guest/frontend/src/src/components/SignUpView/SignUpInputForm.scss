@@ -1,0 +1,119 @@
+.signUpInputContent {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        label {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 40px;
+
+            .inputWithButton {
+                width: 75%;
+            }
+
+            .subButton {
+                width: 20%;
+                padding: 0px;
+            }
+
+            .detailAddressInput {
+                margin-top: 15px;
+            }
+        }
+
+        .label {
+            margin-bottom: 10px;
+        }
+
+        .inputButtomwrapper {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .SignUpButton {
+            margin-top: 50px;
+        }
+
+        .agreementTitle {
+            margin-bottom: 5px;
+        }
+
+        .agreementwrapper {
+            margin-bottom: 30px;
+        }
+
+        .agreementContent {
+            border: 0.4px solid #333333;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .agreementRealContent {
+            font-size: 12px;
+            height: 200px;
+            overflow: scroll;
+        }
+
+
+        .agreementCheck {
+            display: flex;
+            justify-content: flex-end;
+            font-size: 12px;
+
+            .agreementCheckMessage {
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+
+
+
+}
+
+// .signUpContent form {
+//     width: 100%;
+//     display: flex;
+//     flex-direction: column;
+// }
+
+// .signUpContent form label {
+//     display: flex;
+//     flex-direction: column;
+//     margin-bottom: 60px;
+// }
+
+// .signUpContent form .label {
+//     margin-bottom: 20px;
+// }
+
+// .signUpContent .inputText {
+//     padding-bottom: 10px;
+//     border: 0px solid;
+//     border-bottom: 1px solid black;
+// }
+
+// Modal
+
+.signUpAddressModal {
+    position: absolute;
+    background: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.signUpAddressModal .closeBtn {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 5%;
+    padding-right: 5%;
+}
