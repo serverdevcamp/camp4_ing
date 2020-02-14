@@ -32,14 +32,14 @@ class LaundryShopView(APIView):
 
 class LaundryShopDetailView(APIView):
 
-    def get_object(self, request, id):
+    def get_object(self, id):
         try:
             return LaundryShop.objects.get(id=id)
         except ObjectDoesNotExist:
             return None
 
     def get(self, request, id, *args, **kwargs):
-        laundry_shop = self.get_object(request, id)
+        laundry_shop = self.get_object(id)
         if laundry_shop is None:
             return Response({
                 'response': 'error',
@@ -91,14 +91,14 @@ class ReviewView(APIView):
 
 
 class ReviewDetailView(APIView):
-    def get_object(self, request, review_id):
+    def get_object(self, review_id):
         try:
             return Review.objects.get(id=review_id)
         except ObjectDoesNotExist:
             return None
 
     def get(self, request, id, review_id):
-        review = self.get_object(request, review_id)
+        review = self.get_object(review_id)
         if review is None:
             return Response({
                 'response': 'error',
@@ -112,7 +112,7 @@ class ReviewDetailView(APIView):
         })
 
     def put(self, request, id, review_id):
-        review = self.get_object(request, review_id)
+        review = self.get_object(review_id)
         if review is None:
             return Response({
                 'response': 'error',
@@ -133,7 +133,7 @@ class ReviewDetailView(APIView):
             })
 
     def delete(self, request, id, review_id):
-        review = self.get_object(request, review_id)
+        review = self.get_object(review_id)
         if review is None:
             return Response({
                 'response': 'error',
@@ -264,11 +264,6 @@ class OrderForReviewDetailView(APIView):
             return Order.objects.get(id=order_id)
         except ObjectDoesNotExist:
             return None
-        except:
-            return Response({
-                'response': 'error',
-                'message': 'DB 문제'
-            })
 
     def get(self, request, order_id, *args, **kwargs):
         order = self.get_object(order_id)

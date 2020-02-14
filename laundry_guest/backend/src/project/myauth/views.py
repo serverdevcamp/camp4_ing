@@ -158,7 +158,7 @@ def logout(request):
 
 
 class ProfileDetailView(APIView):
-    def get_object(self, request, id):
+    def get_object(self, id):
         try:
             return Profile.objects.get(id=id)
         except:
@@ -168,7 +168,7 @@ class ProfileDetailView(APIView):
             })
 
     def get(self, request, id):
-        profile = self.get_object(request, id)
+        profile = self.get_object(id)
         serializer = ProfileSerializer(profile)
         return Response({
             'response': 'success',
@@ -186,7 +186,7 @@ class ProfileDetailView(APIView):
             }
         """
 
-        profile = self.get_object(request, id)
+        profile = self.get_object(id)
         serializer = ProfileSerializer(
             profile, data=request.data, partial=True)
         if serializer.is_valid():
@@ -203,7 +203,7 @@ class ProfileDetailView(APIView):
             })
 
     def delete(self, request, id):
-        profile = self.get_object(request, id)
+        profile = self.get_object(id)
         profile.status = '9'
         return Response({
             'response': 'success',
