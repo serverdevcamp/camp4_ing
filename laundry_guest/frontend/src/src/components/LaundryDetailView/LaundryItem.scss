@@ -1,0 +1,50 @@
+.laundry-item-container {
+    width: 100%;
+    //border: 0.3px solid rgba(0, 0, 0, 0.25);
+    //box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    background: white;
+
+    .laundry-item-wrapper {
+        width: 90%;
+        display: flex;
+        justify-content: space-between;
+
+        .laundry-image {
+            width: 15%;
+            display: flex;
+            align-items: center;
+
+            .image {
+                width: 60px;
+                height: 60px;
+                background: gray;
+            }
+        }
+
+        .laundry-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 80%;
+            padding-left: 10px;
+
+            .category {
+                font-weight: bolder;
+            }
+
+            .material,
+            .price {
+                display: flex;
+                font-size: 14px;
+
+                div:first-child {
+                    width: 15%;
+                }
+            }
+        }
+    }
+}
