@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 const cx = className.bind(styles);
 
 
-const OrderDetail = ({ match, id, className, name, day, money}) => {
+const OrderDetail = ({ id, className, name, value, type, requirement, price}) => {
 
   return (
 
@@ -23,12 +23,19 @@ const OrderDetail = ({ match, id, className, name, day, money}) => {
         <div className={cx('order-content')}>
           <div className={cx('name')}>{name}</div>
           <div className={cx('Order-rowItem')}>
-            <span className={cx('label')}>맡긴 날짜</span>
-            <div className={cx('day')}>{day}</div>
+            <span className={cx('label')}>요청수량</span>
+            <div className={cx('day')}>{value}</div>
+          </div>
+          <div className={cx('Order-rowItem')}>
+            <span className={cx('label')}>세탁유형</span>
+            <div className={cx('day')}>{type}</div>
           </div>
           <div className={cx('Order-rowItem')}>
              <span className={cx('label')}>금액</span>
-             <div className={cx('money')}>{money}</div>
+             <div className={cx('money')}>{price}</div>
+          </div>
+          <div className={cx('Order-rowItem')}>
+            <span className={cx('label')}>{requirement}</span>
           </div>
 
         </div>

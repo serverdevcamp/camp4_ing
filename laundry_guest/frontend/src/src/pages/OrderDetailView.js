@@ -24,6 +24,42 @@ const orderDetail =
         endaddress:'경기도 성남시 판교동271-6',
     };
 
+
+const itemData=[
+{
+id:1,
+name: '와이샤스',
+value: '20',
+type: '물세탁',
+requirement:'오늘은 조금 늦게 배달해주세요^^',
+price:'3,4000'
+},
+{
+id:1,
+name: '와이샤스',
+value: '20',
+type: '물세탁',
+requirement:'오늘은 조금 늦게 배달해주세요^^',
+price:'3,4000'
+},
+{
+id:1,
+name: '와이샤스',
+value: '20',
+type: '물세탁',
+requirement:'오늘은 조금 늦게 배달해주세요^^',
+price:'3,4000'
+},
+{
+id:1,
+name: '와이샤스',
+value: '20',
+type: '물세탁',
+requirement:'오늘은 조금 늦게 배달해주세요^^',
+price:'3,4000'
+}
+]
+
 const unfinishedData = [
   {
     id: 1,
@@ -85,16 +121,17 @@ class OrderDetailView extends React.Component {
 
     const orderinfoComponent = orderDetail
 
-    const leftComponent = unfinishedData.map(({ id, name, day, money}) => {
+    const leftComponent = itemData.map(({ id, name, value, type, requirement, price}) => {
       return (
         <Laundry
           className={cx('order-item')}
           key={id}
           id={id}
           name={name}
-          day={day}
-          money={money}
-          match={match}
+          value={value}
+          type={type}
+          requirement={requirement}
+          price={price}
         />
       )
     })
