@@ -8,7 +8,7 @@ import Root from './Root';
 import * as serviceWorker from './serviceWorker';
 import rootReducer from "./modules";
 
-const store = createStore(rootReducer,composeWithDevTools())
+const store = createStore(rootReducer, composeWithDevTools())
 ;
 ReactDOM.render(
   <Provider store={store}>

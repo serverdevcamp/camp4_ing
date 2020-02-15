@@ -93,21 +93,21 @@ $inputHeight: 30px;
   left: 50%;
   right: auto;
   bottom: auto;
-  margin-right: -50%;
+  marginRight: -50%;
   transform: translate(-50%, -50%);
 }
 
-.signUpPostModal .closeBtn {
+.signUpPostModal .closeBtn{
   float: right;
-  cursor: pointer;
-  color: #666666;
+  cursor : pointer;
+  color : #666666;
 }
 
-.signUpCheckBox {
-  border: none;
+.signUpCheckBox{
+  border : none;
 }
 
-.signUpDivider {
+.signUpDivider{
   width: 100%;
   height: 1px;
   background: #cccccc;
