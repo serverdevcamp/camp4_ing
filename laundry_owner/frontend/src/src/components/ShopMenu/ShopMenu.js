@@ -21,6 +21,14 @@ const ShopMenu = ({menuIndex}) => {
         <ListItem
           alignItems={"center"}
           button
+          selected={menuIndex === 0}
+          onClick={() => navigatePage("orderManagement")}
+        >
+          주문 관리
+        </ListItem>
+        <ListItem
+          alignItems={"center"}
+          button
           selected={menuIndex === 1}
           onClick={() => navigatePage("profile")}
         >
@@ -41,6 +49,13 @@ const ShopMenu = ({menuIndex}) => {
         >
           리뷰 관리
         </ListItem>
+        <ListItem
+          button
+          selected={menuIndex === 4}
+          onClick={() => navigatePage('chatList')}
+        >
+          채팅방 목록
+        </ListItem>
       </List>
       <div className={cx('shopMenuTitle')}>
         통계
@@ -48,26 +63,26 @@ const ShopMenu = ({menuIndex}) => {
       <List>
         <ListItem
           button
-          selected={menuIndex === 4}
+          selected={menuIndex === 5}
           onClick={() => navigatePage('hourlySales')}
         >
           시간별 매출
         </ListItem>
         <ListItem
           button
-          selected={menuIndex === 5}
+          selected={menuIndex === 6}
         >
           시간별 주문량
         </ListItem>
         <ListItem
           button
-          selected={menuIndex === 6}
+          selected={menuIndex === 7}
         >
           위치별 매출
         </ListItem>
         <ListItem
           button
-          selected={menuIndex === 7}
+          selected={menuIndex === 8}
         >
           위치별 주문량
         </ListItem>

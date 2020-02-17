@@ -13,7 +13,11 @@ const CustomButton = ({type, onClick, className, value}) => {
     _type = 'button';
 
   return (
-    <input type={_type} onClick={onClick} value={value} className={cx('customButtonDefault', className)}/>
+    <input type={_type}
+           onClick={onClick}
+           value={value}
+           className={cx('customButtonDefault', className)}
+    />
   )
 };
 

@@ -1,0 +1,70 @@
+
+
+
+
+.order-container {
+    width: 100%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    background: white;
+
+    .order-wapper {
+        width: 90%;
+        display: flex;
+        justify-content: space-between;
+
+
+
+        .order-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+            padding-left: 10px;
+
+            .name {
+                font-size: 16px;
+                margin-bottom:10px;
+                margin-top:10px;
+            }
+
+            .Order-rowItem {
+            margin-top: 0px;
+            margin-bottom: 0px;
+            width:95%;
+            display: flex;
+            flex-direction: row;
+            position: relative;
+
+            .label{
+                font-size: 14px;
+                padding-bottom:5px;
+            }
+
+            .valuelabel {
+                position: absolute;
+                font-size: 14px;
+                padding-bottom:5px;
+                left:25%;
+
+            }
+
+            .money {
+
+                font-size: 14px;
+                padding-bottom:5px;
+
+            }
+
+            }
+
+
+
+
+        }
+
+
+    }
+}
