@@ -12,6 +12,7 @@ class LaundryShopSerializer(sz.ModelSerializer):
 
 
 class LaundryItemSerializer(sz.ModelSerializer):
+    id = sz.CharField(read_only=True)
 
     laundryshop_id = sz. CharField(required=False)
 
@@ -20,7 +21,7 @@ class LaundryItemSerializer(sz.ModelSerializer):
             category=validated_data['category'],
             material =validated_data['material'],
             price=validated_data['price'],
-            image=validated_data['image']
+            information=validated_data['information']
         )
         laundryshop = LaundryShop.objects.get(
             id=validated_data['FK']['laundry_id'])
@@ -31,7 +32,7 @@ class LaundryItemSerializer(sz.ModelSerializer):
 
     class Meta:
         model = LaundryItem
-        fields = ('category', 'material', 'price', 'image', 'laundryshop_id')
+        fields = ('id','category', 'material', 'price', 'information', 'laundryshop_id')
 
 
 class LaundryShopDetailSerializer(sz.ModelSerializer):
@@ -53,7 +54,6 @@ class OrderItemSerializer(sz.ModelSerializer):
 
 class OrderSerializer(sz.ModelSerializer):
     orderitem =OrderItemSerializer(many=True, read_only=True)
-    print(orderitem)
     class Meta:
         model = Order
         fields = ('orderitem', 'total_price', 'created_at')

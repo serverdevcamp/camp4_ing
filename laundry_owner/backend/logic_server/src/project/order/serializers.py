@@ -11,7 +11,6 @@ class OrderItemSerializer(sz.ModelSerializer):
 
 class OrderSerializer(sz.ModelSerializer):
     orderitem =OrderItemSerializer(many=True, read_only=True)
-    print(orderitem)
     class Meta:
         model = Order
         fields = ('orderitem', 'total_price', 'pickup_address', 'delivery_address', 'status', 'created_at', 'updated_at',)
