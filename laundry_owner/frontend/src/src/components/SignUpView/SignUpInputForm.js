@@ -19,7 +19,7 @@ const SignUpInputForm = ({
                            onChangePassword, onChangePasswordConfirm, onChangeName, onChangeEmail, onChangeImage,
                            onChangeAddress, onChangeDetailAddress, onChangeTel,
                            onChangeInformation, addOperationTime, detailAddressRef,
-                           handleSignUp
+                           handleSignUp, checkDuplicate
                          }) => {
 
   const [isOpenedModal, setOpenModal] = useState(false);
@@ -183,7 +183,9 @@ const SignUpInputForm = ({
                         <CustomButton
                           className={cx('signUpIdCheckButton')}
                           type={'button'}
-                          value='중복검사'/>
+                          value='중복검사'
+                          onClick={()=>checkDuplicate(userName)}
+                        />
                     </span>
                 </span>
 
