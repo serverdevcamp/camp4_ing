@@ -87,6 +87,7 @@ const SignUpView = () => {
       username : userName
     })
       .then(response => {
+        console.log(response.data);
         if(response.data.response !== 'success'){
           console.log(response);
           return;
