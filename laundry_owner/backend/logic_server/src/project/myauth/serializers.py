@@ -34,6 +34,7 @@ class ProfileSerializer(sz.ModelSerializer):
 
 class ShopSerializer(sz.ModelSerializer):
     profile = ProfileSerializer()
+    id =sz.CharField(read_only=True)
 
     def create(self, validated_data):
         profile_data = validated_data.pop('profile')
@@ -66,7 +67,7 @@ class ShopSerializer(sz.ModelSerializer):
     class Meta:
         model = LaundryShop
         fields = [
-                  'name', 'tel', 'information', 'operating_time', 'min_price', 'delivery_dt', 'profile'
+                  'id','name', 'tel', 'information', 'operating_time', 'min_price', 'delivery_dt', 'profile'
                   ]
 
 

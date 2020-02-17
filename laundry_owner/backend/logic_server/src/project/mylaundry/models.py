@@ -44,11 +44,7 @@ class LaundryItem(models.Model):
     category = models.CharField(max_length=10)
     material = models.CharField(max_length=10)
     price = models.PositiveIntegerField()
-    image = mysql_models.JSONField()
-
-    def __str__(self):
-        return self.category
-
+    information = models.CharField(max_length=100, blank=True)
 
 class Like(models.Model):
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)

@@ -41,7 +41,7 @@ class ItemInfoView(APIView):
                         "category":"1",
                         "material":"1",
                         "price":1,
-                        "image" :{"1":"1.jpg"}
+                        "information":"11111"
                 }
             }
 

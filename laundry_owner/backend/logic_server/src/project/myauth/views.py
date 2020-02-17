@@ -123,22 +123,25 @@ class CreateProfileView(APIView):
                'response': 'error',
                'message': 'username 파라미터가 없습니다.'
             })
-        profile = Profile.objects.get(username=username)
-        if not profile:
+        try:
+            profile = Profile.objects.get(username=username)
+        except:
             return Response({
                'response': 'success',
                'message': '사용가능한 아이디 입니다.'
            })
+
         if profile.status =="0" or profile.status=="1":
             return Response({
                 'response': 'success',
                 'message': '사용불가능한 아이디 입니다.'
             })
 
-        return Response({
-            'response': 'success',
-            'message': '사용가능한 아이디 입니다.'
-       })
+        else:
+            return Response({
+                'response': 'success',
+                'message': '사용가능한 아이디 입니다.'
+            })
 
 
 
@@ -187,9 +190,13 @@ class UserLoginView(APIView):
             token = jwt_create(username)
             key = token.split('.')[2]
             cache.set(key, token)
+            shop=LaundryShop.objects.get(profile=user)
             response = Response({
                 'response': 'success',
                 'message': '로그인 요청이 성공하였습니다.',
+                'user_id': user.id,
+                'shop_id': shop.id
+
             })
             request.session[key] = token
             response.set_cookie('jwt', key)
@@ -437,9 +444,15 @@ def jwt_create(username):
     key = settings.SECRET_KEY
     now_time = str(now.year) + str(now.month) + str(now.day) + \
                str(now.hour) + str(now.minute) + str(now.second)
+    User = get_user_model()
+    user = User.objects.get(username=username)
+    userid =user.id
+    shop = LaundryShop.objects.get(profile=user)
+    shopid=shop.id
 
     payload = {
-        "username": username,
+        "userid": userid,
+        "shopid": shopid,
         "now_time": now_time
     }
 
