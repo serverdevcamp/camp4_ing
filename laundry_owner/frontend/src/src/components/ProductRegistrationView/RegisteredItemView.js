@@ -29,7 +29,10 @@ const customStyle = makeStyles({
 
 const cx = className.bind(style);
 
-const RegisteredItemView = ({name,material,price,id,openRegistrationForm}) => {
+const RegisteredItemView = ({
+                              id, name, material, price, information,
+                              openRegistrationForm, deleteItem
+                            }) => {
   const customClasses = customStyle();
 
   return (
@@ -46,10 +49,15 @@ const RegisteredItemView = ({name,material,price,id,openRegistrationForm}) => {
             <Typography
               variant={"button"}
               className={customClasses.cardButton}
-              onClick={()=>openRegistrationForm(MODE.MODIFY)}
-            >
-              수정하기</Typography>
-            <Typography variant={"button"} className={customClasses.cardButton}>삭제하기</Typography>
+              onClick={() => openRegistrationForm(MODE.MODIFY, id,name, material, price, information)}>
+              수정하기
+            </Typography>
+            <Typography
+              variant={"button"}
+              className={customClasses.cardButton}
+              onClick={() => deleteItem(id)}>
+              삭제하기
+            </Typography>
           </div>
         </CardContent>
       </Card>

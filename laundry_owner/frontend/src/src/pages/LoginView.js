@@ -28,7 +28,6 @@ const LoginView = ({}) => {
     dispatch(setUserName('hello'));
   };
 
-
   const handleLogin = () => {
     axios.post(`${EndPoint.authServer}/myauth/login/`, {
         profile: {
