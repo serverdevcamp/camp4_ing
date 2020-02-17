@@ -9,5 +9,5 @@ pytz==2019.3
 redis==3.3.11
 sqlparse==0.3.0
 django-mysql==3.3.0
-
-
+drf-yasg==1.17.0
+django-cors-headers==3.2.1
