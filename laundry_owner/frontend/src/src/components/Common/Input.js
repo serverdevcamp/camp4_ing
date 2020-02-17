@@ -5,7 +5,7 @@ import styles from './input.scss';
 const cx = className.bind(styles);
 
 const CustomInput = ({
-                       type, onClickEvent, onKeyUpEvent,
+                       type, onClickEvent, onKeyUpEvent,onChangeEvent,
                        required, className, placeHolder, readOnly,
                        value, reference
                      }) => {
@@ -18,6 +18,7 @@ const CustomInput = ({
            readOnly={readOnly}
            value={value}
            ref={reference}
+           onChange={(e)=>onChangeEvent(e.target.value)}
     />
   );
 
