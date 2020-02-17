@@ -7,7 +7,7 @@ from django.http import Http404
 from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from .serializers import ProfileSerializer
 from .models import Profile
 # jwt
@@ -237,6 +237,12 @@ class ProfileDetailView(APIView):
             })
 
     def delete(self, request, id):
+        """
+        # 기능
+        유저 정보 삭제<br>
+        (실제로 삭제하지는 않고 status 를 9로 변경)
+
+        """
         profile = self.get_object(id)
         profile.status = '9'
         return Response({
@@ -246,7 +252,12 @@ class ProfileDetailView(APIView):
 
 
 @api_view(['GET', ])
+@permission_classes((permissions.AllowAny,))
 def profile_activate(request, uuid):
+    """
+    기능
+    유저 계정 활성화
+    """
     user_id = cache.get(uuid)
     User = get_user_model()
     try:
@@ -266,7 +277,17 @@ def profile_activate(request, uuid):
 
 
 @api_view(['POST', ])
+@permission_classes((permissions.AllowAny,))
 def password_change_email(request):
+    """
+    # 기능
+    비밀번호 변경 메일 전송
+    # example
+        {
+            "username": "rkdalstjd0"
+        }
+
+    """
     username = request.data.get('username')
     if not username:
         return Response({
@@ -309,7 +330,17 @@ def password_change_email(request):
 
 
 @api_view(['GET', 'POST'])
+@permission_classes((permissions.AllowAny,))
 def password_change(request, uuid):
+    """
+    # 기능
+    비밀번호 변경 메일 전송
+    # example
+        {
+            "password": "바뀐 비밀번호",
+            "check_password": "바뀐 비밀번호"
+        }
+    """
     if request.method == 'GET':
         user_id = cache.get(uuid)
         User = get_user_model()
