@@ -129,7 +129,7 @@ class ChatListView extends React.Component {
     return (
       <div className={cx('defaultBackground')}>
         <DefaultHeader title={'채팅방 목록'}/>
-        <DefaultMainBody>
+        <DefaultMainBody menuIndex={4}>
           <ChatListTable
             chatRoomList={chatRoomList}
             setModalOpen={this.setModalOpen}
