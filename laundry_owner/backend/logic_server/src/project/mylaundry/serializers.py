@@ -77,6 +77,7 @@ class ReviewSerializer(sz.ModelSerializer):
     profile = ProfileSerializer()
     laundryshop =Review_LaundryShopSerializer()
     order = OrderSerializer()
+    id = sz.CharField(read_only=True)
 
     def create(self, validated_data):
         review = Review(
@@ -90,7 +91,7 @@ class ReviewSerializer(sz.ModelSerializer):
     class Meta:
         model = Review
         fields = (
-           'parent', 'profile', 'laundryshop', 'order', 'content', 'grade', 'image', 'created_at'
+           'id','parent', 'profile', 'laundryshop', 'order', 'content', 'grade', 'image', 'created_at'
         )
 
 
@@ -99,7 +100,7 @@ class ParentReviewSerializer(sz.ModelSerializer):
     laundryshop =Review_LaundryShopSerializer()
     order = OrderSerializer()
     comment = ReviewSerializer(read_only=True)
-
+    id = sz.CharField(read_only=True)
 
     def create(self, validated_data):
         review = Review(
@@ -113,7 +114,7 @@ class ParentReviewSerializer(sz.ModelSerializer):
     class Meta:
         model = Review
         fields = (
-            'profile', 'laundryshop', 'order', 'content', 'grade', 'image', 'created_at', 'comment'
+            'id', 'profile', 'laundryshop', 'order', 'content', 'grade', 'image', 'created_at', 'comment'
         )
 
 
