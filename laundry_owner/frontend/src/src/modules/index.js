@@ -1,8 +1,9 @@
 import { combineReducers} from "redux";
 import temp from './temp';
+import profile from "./profile";
 
 const rootReducer = combineReducers({
-  temp
+  temp,profile
 });
 
 export default rootReducer;

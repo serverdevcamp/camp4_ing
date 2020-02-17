@@ -16,7 +16,7 @@ class HourlySalesView extends React.Component {
     return (
       <div className={cx('defaultBackground')}>
         <DefaultHeader title={"통계"}/>
-        <DefaultMainBody menuIndex={4}>
+        <DefaultMainBody menuIndex={5}>
           <HourlySalesChart/>
           <AnalysisTable/>
         </DefaultMainBody>

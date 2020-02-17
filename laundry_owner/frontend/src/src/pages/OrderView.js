@@ -7,19 +7,18 @@ import OrderTable from "../components/OrderView/OrderTable";
 
 const cx = className.bind(style);
 
-class OrderView extends React.Component {
+const OrderView = ({}) => {
 
-  render() {
-    return (
-      <div className={cx('defaultBackground')}>
-        <DefaultHeader title={"주문관리"}/>
-        <DefaultMainBody>
-          <OrderTable/>
-        </DefaultMainBody>
-      </div>
-    )
-  }
 
-}
+  return (
+    <div className={cx('defaultBackground')}>
+      <DefaultHeader title={"주문관리"}/>
+      <DefaultMainBody menuIndex={0}>
+        <OrderTable/>
+      </DefaultMainBody>
+    </div>
+  )
+
+};
 
 export default OrderView;

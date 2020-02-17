@@ -8,16 +8,27 @@ import CustomButton from "../Common/CustomButton";
 
 const cx = className.bind(style);
 
-const RegisterItemForm = ({}) => {
+const RegisterItemForm = ({
+                            price, material, name, information, mode,
+                            setPrice, setMaterial, setName, setInformation,
+                            registerItem, openRegistrationForm
+                          }) => {
+
+
   return (
-    <form className={cx('registerItemForm-form')}>
+    <form
+      className={cx('registerItemForm-form')}
+      action={"#"}
+      onSubmit={() => registerItem(mode, name, material, price, information)}
+    >
       <div className={cx('registerItemForm-leftPage')}>
         <div className={cx('registerItemForm-registerRow')}>
           <Typography variant={"h6"}> 제품 이름 </Typography>
           <Select
             style={{width: "50%"}}
-            value={'와이셔츠'}
+            value={name}
             defaultValue={'와이셔츠'}
+            onChange={(e) => setName(e.target.value)}
           >
             <MenuItem value={'와이셔츠'}> 와이셔츠</MenuItem>
             <MenuItem value={'청바지'}> 청바지</MenuItem>
@@ -27,8 +38,9 @@ const RegisterItemForm = ({}) => {
           <Typography variant={"h6"}> 제품 소재 </Typography>
           <Select
             style={{width: "50%"}}
-            value={'와이셔츠'}
+            value={material}
             defaultValue={'와이셔츠'}
+            onChange={(e) => setMaterial(e.target.value)}
           >
             <MenuItem value={'와이셔츠'}> 와이셔츠</MenuItem>
             <MenuItem value={'청바지'}> 청바지</MenuItem>
@@ -36,14 +48,24 @@ const RegisterItemForm = ({}) => {
         </div>
         <div className={cx('registerItemForm-registerRow')}>
           <Typography variant={"h6"}> 제품 가격 </Typography>
-          <CustomInput className={cx('registerItemForm-priceInput')}/>
+          <CustomInput
+            className={cx('registerItemForm-priceInput')}
+            value={price}
+            onChangeEvent={setPrice}
+            required={true}
+          />
         </div>
       </div>
       <div className={cx('registerItemForm-rightPage')}>
         <Typography variant={"h6"}> 제품 특이사항 </Typography>
-        <textarea className={cx('registerItemForm-etcText')}/>
+        <textarea
+          className={cx('registerItemForm-etcText')}
+          value={information}
+          onChange={(e) => setInformation(e.target.value)}
+          required={true}
+        />
         <CustomButton
-          type={'submmit'}
+          type={'submit'}
           value={'제출하기'}
           className={cx('registerItemForm-submitBtn')}
         />
