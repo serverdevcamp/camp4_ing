@@ -6,6 +6,7 @@ from .models import LaundryShop, LaundryItem, Review
 from order.models import Order, OrderItem
 from .pagination import PostPageNumberPagination
 from django.db.models import Sum, Q
+import json
 
 
 
@@ -158,7 +159,7 @@ class ItemDetailInfoView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response({
-                'response': 'sucess',
+                'response': 'success',
                 'message': 'item이 성공적으로 수정되었습니다.',
                 'data': serializer.data
             })
@@ -184,7 +185,7 @@ class ItemDetailInfoView(APIView):
             })
 
         return Response({
-            'response': 'error',
+            'response': 'success',
             'message': 'review가 성공적으로 삭제되었습니다.'
         })
 
@@ -196,7 +197,18 @@ class ReviewView(APIView):
         paginator = pagination_class()
         page = paginator.paginate_queryset(queryset, request)
         serializer = ParentReviewSerializer(page, many=True)
-        return  paginator.get_paginated_response(serializer.data)
+        return Response({
+            'response': 'success',
+            'data':{
+            'links': {
+                'next':paginator.get_next_link(),
+                'previous': paginator.get_previous_link()
+            },
+            'count': paginator.page.paginator.count,
+            'results': serializer.data
+            }
+        })
+
 
 
 class UncommentReviewView(APIView):
@@ -207,7 +219,17 @@ class UncommentReviewView(APIView):
         paginator = pagination_class()
         page = paginator.paginate_queryset(queryset, request)
         serializer = ParentReviewSerializer(page, many=True)
-        return paginator.get_paginated_response(serializer.data)
+        return Response({
+            'response': 'success',
+            'data':{
+            'links': {
+                'next':paginator.get_next_link(),
+                'previous': paginator.get_previous_link()
+            },
+            'count': paginator.page.paginator.count,
+            'results': serializer.data
+            }
+        })
 
 class CommentReviewView(APIView):
     def get(self, request, shop_id, *args, **kwargs):
@@ -218,7 +240,17 @@ class CommentReviewView(APIView):
         paginator = pagination_class()
         page = paginator.paginate_queryset(queryset, request)
         serializer = ParentReviewSerializer(page, many=True)
-        return paginator.get_paginated_response(serializer.data)
+        return Response({
+            'response': 'success',
+            'data':{
+            'links': {
+                'next':paginator.get_next_link(),
+                'previous': paginator.get_previous_link()
+            },
+            'count': paginator.page.paginator.count,
+            'results': serializer.data
+            }
+        })
 
 class CommentView(APIView):
     def post(self, request, shop_id, review_id, *args, **kwargs):
@@ -282,7 +314,7 @@ class CommentView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response({
-                'response': 'sucess',
+                'response': 'success',
                 'message': 'review가 성공적으로 수정되었습니다.',
                 'data': serializer.data
             })

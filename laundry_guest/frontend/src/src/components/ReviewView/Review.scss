@@ -1,0 +1,145 @@
+.review-container {
+    width: 100%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    background: white;
+
+    .review-wapper {
+        width: 90%;
+        display: flex;
+        justify-content: space-between;
+
+
+
+        .review-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 90%;
+            padding-left: 10px;
+
+            .name {
+                font-size: 16px;
+                margin-top:10px;
+                margin-bottom:30px;
+            }
+
+             .review_name {
+                font-size: 16px;
+                margin-top:10px;
+                margin-bottom:10px;
+            }
+
+
+
+            .UnReview-rowItem {
+            width: 90%;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            .label{
+                font-size: 14px;
+                padding-bottom:0px;
+            }
+
+            .day {
+                font-size: 14px;
+                padding-bottom:0px;
+            }
+
+            .money {
+                font-size: 14px;
+                padding-bottom:0px;
+            }
+
+            }
+
+
+            .review-image {
+            width: 60px;
+            display: flex;
+            align-items: center;
+            margin-bottom:10px;
+
+            .image {
+                width: 60px;
+                height: 60px;
+                background: gray;
+            }
+            }
+
+            .Review-rowItem {
+            width: 90%;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            display: flex;
+            flex-direction: row;
+
+
+
+            .label{
+                font-size: 14px;
+                padding-bottom:0px;
+                margin-right: 10px;
+            }
+
+            .day {
+                font-size: 14px;
+                padding-bottom:0px;
+            }
+
+            .star {
+                font-size: 14px;
+                padding-bottom:0px;
+
+                .zerostar {
+                font-size: 14px;
+                padding-bottom:0px;
+            }
+
+            }
+
+            }
+
+            .reviewcontentlabel{
+             font-size: 14px;
+             margin-top:10px;
+            }
+
+            .content {
+                padding-top:5px;
+                font-size: 14px;
+                padding-bottom:10px;
+            }
+
+
+            .button-group{
+
+                 margin-top:20px;
+                 width:110%;
+                 height:60px;
+                 left:0%;
+                 position:relative;
+                 .button{
+                    background:#7DB1F7;
+                 }
+            }
+
+        }
+
+        .update {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 25PX;
+            height: 25px;
+            margin-top: 10px;
+        }
+    }
+}
