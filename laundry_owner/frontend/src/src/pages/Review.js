@@ -28,7 +28,12 @@ const Review = ({}) => {
           alert('error');
           return;
         }
-        setReviews(response.data.results);
+
+        if(response.data.response !== "success"){
+          alert('리뷰 요청 중에 오류가 발생했습니다.');
+          return;
+        }
+        setReviews(response.data.data.results);
       });
   };
 
