@@ -15,4 +15,6 @@ urlpatterns = [
          name="password_change_email"),
     path('password_change/<str:uuid>/',
          views.password_change, name="password_change"),
+    path('check_duplicate/<str:username>/',
+         views.check_duplicate, name="check_duplicate"),
 ]
