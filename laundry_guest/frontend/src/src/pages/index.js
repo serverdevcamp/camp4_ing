@@ -8,4 +8,5 @@ export { default as LaundryDetailPage } from './LaundryDetailView';
 export { default as OrderDetailPage } from './OrderDetailView';
 export { default as OrderPage } from './OrderView';
 export { default as PaymentPage } from './PaymentView';
+export { default as ReviewPage } from './ReviewView';
 

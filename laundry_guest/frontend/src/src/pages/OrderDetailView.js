@@ -4,6 +4,7 @@ import className from 'classnames/bind';
 import Header from '../components/Common/Header';
 import Menu from '../components/OrderDetailView/ItemSort';
 import Orderinfo from'../components/OrderDetailView/Orderinfo'
+import Orderinfotail from'../components/OrderDetailView/Orderinfo_tail'
 import Laundry from '../components/OrderDetailView/OrderDetail';
 import { Link } from "react-router-dom";
 
@@ -36,17 +37,17 @@ price:'3,4000'
 },
 {
 id:1,
-name: '와이샤스',
+name: '청바지',
 value: '20',
-type: '물세탁',
+type: '드라이',
 requirement:'오늘은 조금 늦게 배달해주세요^^',
 price:'3,4000'
 },
 {
 id:1,
-name: '와이샤스',
+name: '밍크코트',
 value: '20',
-type: '물세탁',
+type: '엄청 고급진 럭셔리 세탁',
 requirement:'오늘은 조금 늦게 배달해주세요^^',
 price:'3,4000'
 },
@@ -59,59 +60,6 @@ requirement:'오늘은 조금 늦게 배달해주세요^^',
 price:'3,4000'
 }
 ]
-
-const unfinishedData = [
-  {
-    id: 1,
-    name: '크린토피아 전농점',
-    day: '2020.01.06(월)',
-    money: '270000원',
-    status: 'waiting'
-  },
-  {
-    id: 2,
-    name: '크린토피아 전농점',
-    day: '2020.01.06(월)',
-    money: '270000원',
-    status: 'processing'
-  },
-  {
-    id: 3,
-    name: '크린토피아 전농점',
-    day: '2020.01.06(월)',
-    money: '270000원',
-    status: 'delivering'
-  },
-  {
-    id: 4,
-    name: '크린토피아 전농점',
-    day: '2020.01.06(월)',
-    money: '270000원',
-    status: 'finished'
-  },
-
-];
-
-const finishedData = [
- {
-    id: 1,
-    name: '크린토피아 전농점',
-    day: '2020.01.06(월)',
-    money: '270000원',
-  },
-   {
-    id: 2,
-    name: '크린토피아 전농점',
-    day: '2020.01.06(월)',
-    money: '270000원',
-  },
-   {
-    id: 3,
-    name: '크린토피아 전농점',
-    day: '2020.01.06(월)',
-    money: '270000원',
-  },
-];
 
 class OrderDetailView extends React.Component {
 
@@ -152,15 +100,17 @@ class OrderDetailView extends React.Component {
         item= {orderinfoComponent.item}
         day= {orderinfoComponent.day}
         num= {orderinfoComponent.num}
-        money= {orderinfoComponent.money}
-        moneymethod= {orderinfoComponent.moneymethod}
-        startaddress= {orderinfoComponent.startaddress}
-        endaddress= {orderinfoComponent.endaddress}
         />
         <Menu
           leftComponent={leftComponent}
         >
         </Menu>
+        <Orderinfotail
+        money= {orderinfoComponent.money}
+        moneymethod= {orderinfoComponent.moneymethod}
+        startaddress= {orderinfoComponent.startaddress}
+        endaddress= {orderinfoComponent.endaddress}
+        />
       </div>
     )
   }

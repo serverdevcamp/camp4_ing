@@ -21,36 +21,41 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            width: 90%;
+            width: 100%;
             padding-left: 10px;
 
             .name {
                 font-size: 16px;
-                margin-bottom:30px;
+                margin-bottom:10px;
                 margin-top:10px;
             }
 
             .Order-rowItem {
-            margin-top: 5px;
-            margin-bottom: 5px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            width:95%;
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
+            position: relative;
 
             .label{
                 font-size: 14px;
-                padding-bottom:10px;
+                padding-bottom:5px;
             }
 
-            .day {
+            .valuelabel {
+                position: absolute;
                 font-size: 14px;
-                padding-bottom:10px;
+                padding-bottom:5px;
+                left:25%;
+
             }
 
             .money {
+
                 font-size: 14px;
-                padding-bottom:10px;
+                padding-bottom:5px;
+
             }
 
             }

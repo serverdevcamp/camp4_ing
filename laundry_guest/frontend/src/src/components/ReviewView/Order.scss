@@ -1,0 +1,227 @@
+.order-container {
+    width: 100%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    background: white;
+
+    .order-wapper {
+        width: 90%;
+        display: flex;
+        justify-content: space-between;
+
+
+
+        .order-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 90%;
+            padding-left: 10px;
+
+            .name {
+                font-size: 16px;
+                margin-bottom:30px;
+                margin-top:10px;
+            }
+
+            .Order-rowItem {
+            width: 90%;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            .label{
+                font-size: 14px;
+                padding-bottom:10px;
+            }
+
+            .day {
+                font-size: 14px;
+                padding-bottom:10px;
+            }
+
+            .money {
+                font-size: 14px;
+                padding-bottom:10px;
+            }
+
+            }
+
+            .status {
+
+
+                .line{
+                    margin-top:30px;
+                    width:100%;
+
+                    height:100px;
+                    position:relative;
+
+                    .line1{
+                    position:relative;
+                    top:10%;
+                    left: 8%;
+                    width: 80%;
+                    height: 0px;
+                    border: 1px solid #000000;
+                    }
+
+
+                .circle1{
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    margin-top:0px;
+                    top: 0%;
+                    left: 8%;
+                    background:gray;
+                    border-radius:50%;
+                }
+
+                .circle1_active{
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    margin-top:0px;
+                    top: 0%;
+                    left: 8%;
+                    background:#7DB1F7;
+                    border-radius:50%;
+                }
+
+
+                .label1{
+                    position: absolute;
+                    top: 30%;
+                    left: 5%;
+
+                }
+
+                 .circle2{
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    margin-top:0px;
+                    top: 0%;
+                    left: 33%;
+                    background:gray;
+                    border-radius:50%;
+                }
+
+                .circle2_active{
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    margin-top:0px;
+                    top: 0%;
+                    left: 33%;
+                    background:#7DB1F7;
+                    border-radius:50%;
+                }
+
+                .label2{
+                    position: absolute;
+                    top: 30%;
+                    left: 30%;
+
+                }
+
+
+                 .circle3{
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    margin-top:0px;
+                    top: 0%;
+                    left: 60%;
+                    background:gray;
+                    border-radius:50%;
+                }
+                .circle3_active{
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    margin-top:0px;
+                    top: 0%;
+                    left: 60%;
+                    background:#7DB1F7;
+                    border-radius:50%;
+                }
+
+                .label3{
+
+                    position: absolute;
+                    top: 30%;
+                    left: 58%;
+
+
+                }
+
+
+                 .circle4{
+
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    margin-top:0px;
+                    top: 0%;
+                    left: 88%;
+                    background:gray;
+                    border-radius:50%;
+                }
+
+                .circle4_active{
+
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    margin-top:0px;
+                    top: 0%;
+                    left: 88%;
+                    background:#7DB1F7;
+                    border-radius:50%;
+                }
+
+                .label4{
+                    position: absolute;
+                    top: 30%;
+                    left: 83%;
+
+                }
+
+                }
+
+
+             font-size: 12px;
+
+            }
+
+            .button-group{
+
+                 margin-top:30px;
+                 width:110%;
+                 height:60px;
+                 left:0%;
+                 position:relative;
+                 .button{
+                    background:#7DB1F7;
+                 }
+            }
+
+        }
+
+        .chat {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 25PX;
+            height: 25px;
+            margin-top: 10px;
+        }
+    }
+}

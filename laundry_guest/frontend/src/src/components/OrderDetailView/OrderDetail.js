@@ -21,18 +21,17 @@ const OrderDetail = ({ id, className, name, value, type, requirement, price}) =>
       <div className={cx('order-wapper')}>
 
         <div className={cx('order-content')}>
+         <div className={cx('Order-rowItem')}>
           <div className={cx('name')}>{name}</div>
+          <div className={cx('money')}>{price}원</div>
+         </div>
           <div className={cx('Order-rowItem')}>
-            <span className={cx('label')}>요청수량</span>
-            <div className={cx('day')}>{value}</div>
+            <span className={cx('label')}>요청수량:</span>
+            <div className={cx('valuelabel')}>{value}개</div>
           </div>
           <div className={cx('Order-rowItem')}>
-            <span className={cx('label')}>세탁유형</span>
-            <div className={cx('day')}>{type}</div>
-          </div>
-          <div className={cx('Order-rowItem')}>
-             <span className={cx('label')}>금액</span>
-             <div className={cx('money')}>{price}</div>
+            <span className={cx('label')}>세탁유형:</span>
+            <div className={cx('valuelabel')}>{type}</div>
           </div>
           <div className={cx('Order-rowItem')}>
             <span className={cx('label')}>{requirement}</span>
