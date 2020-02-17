@@ -13,8 +13,8 @@ axios.defaults.xsrfHeaderName = "X-CSRFToken"
 
 const LoginView = ({ }) => {
 
-  const [username, setUsernameState] = useState('');
-  const [password, setPasswordState] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLogin = () => {
     axios.post(`${EndPoint.authServer}/myauth/login/`, {
@@ -52,8 +52,8 @@ const LoginView = ({ }) => {
           handleLogin={handleLogin}
           username={username}
           password={password}
-          setUsernameState={setUsernameState}
-          setPasswordState={setPasswordState}
+          setUsername={setUsername}
+          setPassword={setPassword}
         />
       </div>
     </div>
