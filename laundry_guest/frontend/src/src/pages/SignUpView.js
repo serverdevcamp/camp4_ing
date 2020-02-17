@@ -61,6 +61,7 @@ const SignUpView = ({ }) => {
           window.location.href = '/login';
         }
         else {
+          console.log(response.data.message);
           alert('회원가입에 실패하였습니다.\n 정보를 다시 확인해주세요.')
         }
       })

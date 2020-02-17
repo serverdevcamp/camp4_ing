@@ -36,7 +36,7 @@ const SignUpInputForm = ({ agreementCheck, username, password, checkPassword, em
 
   return (
     <div className={cx('signUpInputContent')}>
-      <form className={cx('signUpForm')} onSubmit={handleSignUp}>
+      <form className={cx('signUpForm')} onSubmit={handleSignUp} action={"#"}>
         <div className={cx('agreementwrapper')}>
           <div className={cx('agreementTitle')}>
             약관내용
