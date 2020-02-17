@@ -4,6 +4,7 @@ import style from './RegisterdItemView.scss';
 import className from 'classnames';
 import {makeStyles} from "@material-ui/core/styles";
 import {Typography} from "@material-ui/core";
+import {MODE} from "../../pages/ProductRegistrationView";
 
 const customStyle = makeStyles({
   card: {
@@ -28,7 +29,7 @@ const customStyle = makeStyles({
 
 const cx = className.bind(style);
 
-const RegisteredItemView = ({}) => {
+const RegisteredItemView = ({name,material,price,id,openRegistrationForm}) => {
   const customClasses = customStyle();
 
   return (
@@ -36,13 +37,18 @@ const RegisteredItemView = ({}) => {
       <Card variant={"outlined"} className={customClasses.card}>
         <CardContent className={customClasses.cardContent}>
           <div className={cx('registeredItemView-img')}/>
-          <Typography>상품명</Typography>
+          <Typography>{name}</Typography>
           <div className={cx('registeredItemView-data')}>
-            <Typography>소재명 : XXXX </Typography>
-            <Typography>가격 : 3,000 원</Typography>
+            <Typography>소재명 : {material} </Typography>
+            <Typography>가격 : {price} 원</Typography>
           </div>
           <div className={cx('registeredItemView-dataModify')}>
-            <Typography variant={"button"} className={customClasses.cardButton}>수정하기</Typography>
+            <Typography
+              variant={"button"}
+              className={customClasses.cardButton}
+              onClick={()=>openRegistrationForm(MODE.MODIFY)}
+            >
+              수정하기</Typography>
             <Typography variant={"button"} className={customClasses.cardButton}>삭제하기</Typography>
           </div>
         </CardContent>
