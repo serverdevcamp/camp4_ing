@@ -1,3 +1,3 @@
 export default {
-    APIServer: 'http://localhost:8000'
+    authServer: 'http://localhost:8000'
 };

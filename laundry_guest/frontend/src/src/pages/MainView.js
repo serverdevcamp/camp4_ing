@@ -2,61 +2,74 @@ import React from "react";
 import { TextField } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import SearchIcon from "@material-ui/icons/Search";
-import styles from "../components/MainView/MainView.scss";
+import axios from "axios";
+import EndPoint from '../config/EndPoint';
 import className from "classnames/bind";
+import styles from "../components/MainView/MainView.scss";
 import MenuItem from '../components/MainView/MenuItem'
+
 
 const cx = className.bind(styles);
 
-class MainView extends React.Component {
-  render() {
+const MainView = ({ }) => {
+  const handleLaundryList = () => {
+    window.location.href = "/laundrylist";
+  }
 
-    const handleLaundryList = () => {
-      window.location.href = "/laundrylist";
-    }
-    return (
-      <div className={cx("main-page")}>
-        <div className={cx("header")}>
-          <div className={cx("header-content")}>
-            <div className={cx("greeting")}>강민성 고객님 환영합니다. :)</div>
-            <div className={cx("logout")}>로그아웃</div>
-          </div>
-        </div>
-        <div className={cx("advertising")}>광고 캐러셀</div>
-        <div className={cx("search-wrapper")}>
-          <Autocomplete
-            autoComplete={true}
-            id="combo-box-demo"
-            options={top100Films}
-            getOptionLabel={option => option.title}
-            style={{
-              width: 285,
-              background: 'white'
-            }}
-            renderInput={params => (
-              <TextField
-                {...params}
-                label="세탁소 검색"
-                variant="outlined"
-                fullWidth
-              />
-            )}
-          />
-          <div className={cx("search-icon")}>
-            <SearchIcon fontSize="large" />
-          </div>
-        </div>
-        <div className={cx("menu-list")}>
-          <MenuItem name={"회원정보"} />
-          <MenuItem name={"주문내역"} />
-          <MenuItem name={"세탁소 목록"} onClick={handleLaundryList} />
-          <MenuItem name={"리뷰 조회"} />
-          <MenuItem name={"채팅"} />
-          <MenuItem name={"찜한 세탁소"} />
+  const handleLogout = () => {
+    axios.get(`${EndPoint.authServer}/myauth/logout/`,
+      { withCredentials: true })
+      .then(response => {
+        if (response.data.response) {
+          alert('로그아웃 성공');
+          window.location.href = '/login'
+        }
+      });
+  }
+
+  return (
+    <div className={cx("main-page")}>
+      <div className={cx("header")}>
+        <div className={cx("header-content")}>
+          <div className={cx("greeting")}>강민성 고객님 환영합니다. :)</div>
+          <div className={cx("logout")} onClick={handleLogout}>로그아웃</div>
         </div>
       </div>
-    );
-  }
+      <div className={cx("advertising")}>광고 캐러셀</div>
+      <div className={cx("search-wrapper")}>
+        <Autocomplete
+          autoComplete={true}
+          id="combo-box-demo"
+          options={top100Films}
+          getOptionLabel={option => option.title}
+          style={{
+            width: 285,
+            background: 'white'
+          }}
+          renderInput={params => (
+            <TextField
+              {...params}
+              label="세탁소 검색"
+              variant="outlined"
+              fullWidth
+            />
+          )}
+        />
+        <div className={cx("search-icon")}>
+          <SearchIcon fontSize="large" />
+        </div>
+      </div>
+      <div className={cx("menu-list")}>
+        <MenuItem name={"회원정보"} />
+        <MenuItem name={"주문내역"} />
+        <MenuItem name={"세탁소 목록"} onClick={handleLaundryList} />
+        <MenuItem name={"리뷰 조회"} />
+        <MenuItem name={"채팅"} />
+        <MenuItem name={"찜한 세탁소"} />
+      </div>
+    </div>
+  );
+
 }
 
 export default MainView;

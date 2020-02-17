@@ -17,7 +17,7 @@ const LoginView = ({ }) => {
   const [password, setPasswordState] = useState('');
 
   const handleLogin = () => {
-    axios.post(`${EndPoint.APIServer}/myauth/login/`, {
+    axios.post(`${EndPoint.authServer}/myauth/login/`, {
       profile: {
         username: username,
         password: password
