@@ -10,31 +10,6 @@ import EndPoint from '../config/EndPoint';
 
 const cx = className.bind(styles);
 
-
-
-const ratingData = [
-  {
-    id: 1,
-    name: '평점 순 스마일 세탁소',
-    content: '안녕하세요 스마일 세탁소 입니다.'
-  },
-  {
-    id: 2,
-    name: '게이트 세탁소',
-    content: '안녕하세요 게이트 세탁소 입니다.'
-  },
-  {
-    id: 3,
-    name: '스마일 세탁소',
-    content: '안녕하세요 스마일 세탁소 입니다.'
-  },
-  {
-    id: 4,
-    name: '게이트 세탁소',
-    content: '안녕하세요 게이트 세탁소 입니다.'
-  }
-];
-
 const LaundryListView = ({ match, history }) => {
 
   const [laundrys, setLaundrys] = useState([]);
@@ -52,12 +27,12 @@ const LaundryListView = ({ match, history }) => {
       })
   }
 
-  const leftComponent = laundrys.map(({ name, information, grade, like_num }, index) => {
+  const leftComponent = laundrys.map(({ id, name, information, grade, like_num }) => {
     return (
       <Laundry
         className={cx('laundry-item')}
-        key={index}
-        id={index}
+        key={id}
+        id={id}
         name={name}
         content={information}
         grade={grade}
@@ -68,12 +43,12 @@ const LaundryListView = ({ match, history }) => {
   })
 
 
-  const rightComponent = laundrys.map(({ name, information, grade, like_num }, index) => {
+  const rightComponent = laundrys.map(({ id, name, information, grade, like_num }) => {
     return (
       <Laundry
         className={cx('laundry-item')}
-        key={index}
-        id={index}
+        key={id}
+        id={id}
         name={name}
         content={information}
         grade={grade}
