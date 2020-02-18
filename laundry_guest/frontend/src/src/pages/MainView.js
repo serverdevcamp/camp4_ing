@@ -15,8 +15,6 @@ const cx = className.bind(styles);
 
 const MainView = ({ }) => {
 
-
-
   const [laundrys, setLaundrys] = useState([]);
   const [searchedLaundry, setSearchedLaundry] = useState('');
   const { username } = useSelector(state => state.profile, []);

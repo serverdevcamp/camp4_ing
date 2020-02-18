@@ -9,8 +9,6 @@ import Root from './Root';
 
 const store = createStore(rootReducer, composeWithDevTools());
 
-console.log(store);
-
 ReactDOM.render(
     <Provider store={store}>
         <Root />
