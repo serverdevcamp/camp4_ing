@@ -136,7 +136,7 @@ const LaundryDetailView = ({ match, history }) => {
         rightComponent={rightComponent}
       >
       </Menu>
-      <Link to={`${match.url} / order`}>
+      <Link to={`${match.url}/order`}>
         <Fab
           className={'fab-button'}
           color={'rgba(204, 204, 204, 0.6)'}
