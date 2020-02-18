@@ -56,7 +56,7 @@ const SignUpView = ({ }) => {
           console.error('서버와 통신이 원활하지 않습니다.');
           return;
         }
-        if (response.data.response === 'success') {
+        else if (response.data.response === 'success') {
           alert('회원가입에 성공하였습니다.\n 이메일 인증을 하셔야합니다.');
           window.location.href = '/login';
         }

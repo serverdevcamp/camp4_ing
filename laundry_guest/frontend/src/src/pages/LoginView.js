@@ -4,7 +4,6 @@ import className from 'classnames/bind';
 import axios from 'axios';
 import EndPoint from '../config/EndPoint';
 import LoginInput from '../components/LoginView/LoginInput';
-import { unstable_renderSubtreeIntoContainer } from 'react-dom';
 
 const cx = className.bind(styles);
 
@@ -32,14 +31,15 @@ const LoginView = ({ }) => {
       else
         alert(response.data.message);
     })
+      .catch(err => {
+        console.error(err);
+      })
   }
 
   const handleSignUp = () => {
     window.location.href = "/signup";
   }
 
-  console.log(username);
-  console.log(password);
   return (
     <div className={cx("loginPage")}>
       <div className={cx("loginHeader")}>
