@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import styles from '../components/LoginView/LoginView.scss';
 import className from 'classnames/bind';
 import axios from 'axios';
+import { useDispatch, useSelector } from "react-redux";
 import EndPoint from '../config/EndPoint';
 import LoginInput from '../components/LoginView/LoginInput';
+import { setUsernameRedux } from "../modules/profile";
 
 const cx = className.bind(styles);
 
@@ -15,6 +17,13 @@ const LoginView = ({ }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  //const profile = useSelector(state => state.profile, []);
+  const dispatch = useDispatch();
+
+  const setReduxUsername = (username) => {
+    dispatch(setUsernameRedux(username));
+  }
+
   const handleLogin = () => {
     axios.post(`${EndPoint.authServer}/myauth/login/`, {
       profile: {
@@ -25,6 +34,8 @@ const LoginView = ({ }) => {
       { withCredentials: true }
     ).then(response => {
       if (response.data.response === 'success') {
+        console.log(username);
+        setReduxUsername(username);
         alert('로그인 성공');
         window.location.href = '/';
       }

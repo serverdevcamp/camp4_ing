@@ -3,6 +3,7 @@ import { TextField } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import SearchIcon from "@material-ui/icons/Search";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import className from "classnames/bind";
 import styles from "../components/MainView/MainView.scss";
 import MenuItem from '../components/MainView/MenuItem'
@@ -18,7 +19,7 @@ const MainView = ({ }) => {
 
   const [laundrys, setLaundrys] = useState([]);
   const [searchedLaundry, setSearchedLaundry] = useState('');
-
+  const { username } = useSelector(state => state.profile, []);
   const getLaudrys = () => {
     axios.get(`${EndPoint.laundryServer}/laundry/`)
       .then(response => {
@@ -66,7 +67,7 @@ const MainView = ({ }) => {
     <div className={cx("main-page")}>
       <div className={cx("header")}>
         <div className={cx("header-content")}>
-          <div className={cx("greeting")}>강민성 고객님 환영합니다. :)</div>
+          <div className={cx("greeting")}>{username} 고객님 환영합니다. :)</div>
           <div className={cx("logout")} onClick={handleLogout}>로그아웃</div>
         </div>
       </div>
