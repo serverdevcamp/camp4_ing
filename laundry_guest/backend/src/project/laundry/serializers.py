@@ -9,7 +9,7 @@ class LaundryShopSerializer(sz.ModelSerializer):
         model = LaundryShop
 #        fields = '__all__'
         fields = [
-            'name', 'tel', 'information', 'operating_time', 'min_price', 'grade', 'delivery_dt', 'like_num'
+            'id', 'name', 'tel', 'information', 'operating_time', 'min_price', 'grade', 'delivery_dt', 'like_num'
         ]
 
 
