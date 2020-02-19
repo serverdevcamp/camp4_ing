@@ -16,7 +16,7 @@ const Review = ({}) => {
 
   const profile = useSelector(state => state.profile, []);
 
-  const [reviews,setReviews] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
   const getReviews = () => {
     const url = `${EndPoint.logicServer}/mylaundry/review/${profile.shopId}`;
@@ -24,12 +24,12 @@ const Review = ({}) => {
       .then(response => {
 
         //@TODO 이부분 나중에 수정 필요!!
-        if(response.data==null){
+        if (response.data == null) {
           alert('error');
           return;
         }
 
-        if(response.data.response !== "success"){
+        if (response.data.response !== "success") {
           alert('리뷰 요청 중에 오류가 발생했습니다.');
           return;
         }
@@ -37,56 +37,69 @@ const Review = ({}) => {
       });
   };
 
-  const replyReview = (reviewId,content) => {
-    const url = `${EndPoint.logicServer}/mylaundry/item_info/${profile.shopId}/${reviewId}`;
-    axios.post(url,{
-      "comment" : {
-        content
-      }})
+  const replyReview = (reviewId, content) => {
+    const url = `${EndPoint.logicServer}/mylaundry/review/${profile.shopId}/${reviewId}`;
+    console.log(url);
+    axios.post(url, {
+      comment: {
+        content: content
+      }
+    })
       .then(response => {
-        console.log(response);
+        if(response.data.response !== 'success'){
+          alert('리뷰 등록중 오류가 발생했습니다.');
+          return;
+        }
+        alert('리뷰 등록이 정상적으로 처리 됐습니다.');
+        getReviews();
       })
-      .catch(err=>{
+      .catch(err => {
         console.log(err);
       });
   };
 
-  const modifyReview = (reviewId,content) => {
-    const url = `${EndPoint.logicServer}/mylaundry/item_info/${profile.shopId}/${reviewId}`;
-    axios.put(url,{
-      "comment" : {
+  const modifyReview = (reviewId, content) => {
+    const url = `${EndPoint.logicServer}/mylaundry/review/${profile.shopId}/${reviewId}`;
+    axios.put(url, {
+      "comment": {
         content
-      }})
+      }
+    })
       .then(response => {
-        console.log(response);
+        if(response.data.response !== 'success'){
+          alert('리뷰 수정 중 오류가 발생했습니다.');
+          return;
+        }
+        alert('리뷰 수정이 정상적으로 처리 됐습니다.');
+        getReviews();
       })
-      .catch(err=>{
+      .catch(err => {
         console.log(err);
       });
   };
 
-  useEffect(()=>{
-    setTimeout(getReviews,50);
-  },[]);
+  useEffect(() => {
+    setTimeout(getReviews, 50);
+  }, []);
 
-    return (
-      <div className={cx('defaultBackground')}>
-        <DefaultHeader title={"리뷰관리"}/>
-        <DefaultMainBody menuIndex={3}>
-          <Typography
-            variant={"h6"}
-          >
-            리뷰 관리
-          </Typography>
-          <ReviewList
-            reviews={reviews}
-            replyReview = {replyReview}
-            modifyReview = {modifyReview}
-          />
+  return (
+    <div className={cx('defaultBackground')}>
+      <DefaultHeader title={"리뷰관리"}/>
+      <DefaultMainBody menuIndex={3}>
+        <Typography
+          variant={"h6"}
+        >
+          리뷰 관리
+        </Typography>
+        <ReviewList
+          reviews={reviews}
+          replyReview={replyReview}
+          modifyReview={modifyReview}
+        />
 
-        </DefaultMainBody>
-      </div>
-    )
+      </DefaultMainBody>
+    </div>
+  )
 };
 
 export default Review;
