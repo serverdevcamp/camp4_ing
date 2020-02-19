@@ -361,7 +361,7 @@ class StatisticTime_weeklyMoneyView(APIView):
 
     def get(self, request, shop_id, *args, **kwargs):
         laundryshop = LaundryShop.objects.get(id=shop_id)
-        order=Order.objects.filter(laundry_shop=laundryshop).exclude(Q(status='cancelled')&Q(status='failed')&Q(status='ready')).extra({'order' :"concat(year(created_at), '년', month(created_at), '월', weekofyear(created_at) - week(concat(year(created_at),'-',month(created_at),'-01'),1) +1, '주차' , ' 월요일날짜 :', date_add(date_sub(concat(year(created_at),'-01-01'), interval weekday(concat(year(created_at), '-01-01'))day), interval (week(created_at,1)-1)*7 day))"}).values('order').annotate(weekly_total=Sum('total_price')).order_by('-order')[:15]
+        order=Order.objects.filter(laundry_shop=laundryshop).exclude(Q(status='cancelled')&Q(status='failed')&Q(status='ready')).extra({'order' :"concat(year(created_at), '년', month(created_at), '월', weekofyear(created_at) - week(concat(year(created_at),'-',month(created_at),'-01'),1) +1, '주차' )"}).values('order').annotate(weekly_total=Sum('total_price')).order_by('-order')[:15]
         print(order)
         return Response({
             'response': 'success',
@@ -401,7 +401,7 @@ class StatisticTime_weeklyOrdervalueView(APIView):
     def get(self, request, shop_id, laundryitem_id, *args, **kwargs):
         laundryitem = LaundryItem.objects.get(id=laundryitem_id)
         laundryshop = LaundryShop.objects.get(id=shop_id)
-        ordervalue=OrderItem.objects.filter(laundry_item=laundryitem).extra({'order' :"SELECT concat(year(created_at), '년', month(created_at), '월', weekofyear(created_at) - week(concat(year(created_at),'-',month(created_at),'-01'),1) +1, '주차' , ' 월요일날짜 :', date_add(date_sub(concat(year(created_at),'-01-01'), interval weekday(concat(year(created_at), '-01-01'))day), interval (week(created_at,1)-1)*7 day)) FROM Order_Order WHERE id= Order_OrderItem.order_id"}).values('order').annotate(weekly_total=Sum('quantity')).order_by('-order')[:15]
+        ordervalue=OrderItem.objects.filter(laundry_item=laundryitem).extra({'order' :"SELECT concat(year(created_at), '년', month(created_at), '월', weekofyear(created_at) - week(concat(year(created_at),'-',month(created_at),'-01'),1) +1, '주차' ) FROM Order_Order WHERE id= Order_OrderItem.order_id"}).values('order').annotate(weekly_total=Sum('quantity')).order_by('-order')[:15]
         print(ordervalue)
         return Response({
             'response': 'success',

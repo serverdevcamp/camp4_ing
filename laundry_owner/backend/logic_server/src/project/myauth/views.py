@@ -128,19 +128,22 @@ class CreateProfileView(APIView):
         except:
             return Response({
                'response': 'success',
-               'message': '사용가능한 아이디 입니다.'
+               'message': '사용가능한 아이디 입니다.',
+                'username':username
            })
 
         if profile.status =="0" or profile.status=="1":
             return Response({
-                'response': 'success',
-                'message': '사용불가능한 아이디 입니다.'
+                'response': 'error',
+                'message': '사용불가능한 아이디 입니다.',
+                'username':username
             })
 
         else:
             return Response({
                 'response': 'success',
-                'message': '사용가능한 아이디 입니다.'
+                'message': '사용가능한 아이디 입니다.',
+                'username': username
             })
 
 

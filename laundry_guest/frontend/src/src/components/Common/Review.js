@@ -5,12 +5,12 @@ import GradeIcon from '../Common/GradeIcon'
 
 const cx = classNames.bind(styles);
 
-const Review = ({ author, grade, content, createdAt }) => {
+const Review = ({ username, grade, content, createdAt }) => {
 
   return (
     <div className={cx('review-container')}>
       <div className={cx('review-wrapper')}>
-        <div className={cx('author')}>{author}</div>
+        <div className={cx('author')}>{username}</div>
         <div className={cx('sub-data')}>
           <div className={cx('grade')}>
             <GradeIcon grade={grade} fontSize={16} />

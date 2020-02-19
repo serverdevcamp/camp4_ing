@@ -6,16 +6,18 @@ import CustomButton from '../Common/CustomButton';
 
 const cx = classNames.bind(styles);
 
-const LoginInput = ({ handleSignUp }) => {
+const LoginInput = ({ handleSignUp, handleLogin, username, password, setUsername, setPassword }) => {
 
   return (
     <div className={cx('inputContent')}>
-      <form action="#">
+      <form action="#" onSubmit={handleLogin}>
         <label className={cx('idwrapper')}>
           <span className={cx('label')}>아이디</span>
           <CustomInput
             className={cx('idInputText')}
             type={'text'}
+            //value={username}
+            onChangeEvent={(e) => setUsername(e.target.value)}
             required={true}
           />
         </label>
@@ -24,7 +26,10 @@ const LoginInput = ({ handleSignUp }) => {
           <CustomInput
             className={cx('passwordInputText')}
             type={'password'}
-            required={true} />
+            value={password}
+            onChangeEvent={(e) => setPassword(e.target.value)}
+            required={true}
+          />
         </label>
         <CustomButton
           className={cx('loginButton')}

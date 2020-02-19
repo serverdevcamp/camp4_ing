@@ -1,6 +1,6 @@
 .laundry-container {
     width: 100%;
-    height: 80px;
+    min-height: 75px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     display: flex;
     justify-content: center;
@@ -13,13 +13,13 @@
         justify-content: space-between;
 
         .laundry-image {
-            width: 15%;
+            width: 25%;
             display: flex;
             align-items: center;
 
             .image {
-                width: 60px;
-                height: 60px;
+                width: 100%;
+                height: 100%;
                 background: gray;
             }
         }
@@ -28,11 +28,27 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            width: 70%;
-            padding-left: 10px;
+            width: 60%;
+            padding-left: 5%;
 
             .name {
                 font-size: 14px;
+                font-weight: bold;
+            }
+
+            .laundry-sub-content {
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+            }
+
+            .grade {
+                margin-right: 10px;
+            }
+
+            .grade,
+            .likeNum {
+                margin-left: 3px;
             }
 
             .content {
@@ -45,6 +61,7 @@
             justify-content: center;
             align-items: center;
             width: 15%;
+            color: #333333;
         }
     }
 }

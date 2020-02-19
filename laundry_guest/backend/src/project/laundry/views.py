@@ -32,7 +32,11 @@ class LaundryShopView(APIView):
                 'message': 'laundry shop 목록을 찾을 수 없습니다.'
             })
         serializer = LaundryShopSerializer(queryset, many=True)
-        return Response(serializer.data)
+        return Response({
+            'response': 'success',
+            'message': '세탁소 조회 요청에 성공하였습니다.',
+            'data': serializer.data
+        })
 
 
 class LaundryShopDetailView(APIView):
@@ -386,3 +390,14 @@ class OrderForReviewDetailView(APIView):
             'response': 'success',
             'message': 'review가 성공적으로 생성되었습니다.'
         })
+
+
+@api_view(['GET', ])
+def laundry_search(request, laundry_name):
+    print(laundry_name)
+    laundry = LaundryShop.objects.get(name=laundry_name)
+    return Response({
+        'response': 'success',
+        'message': 'laundry id 조회요청에 성공하였습니다.',
+        'data': laundry.id
+    })

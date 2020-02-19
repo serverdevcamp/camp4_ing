@@ -16,6 +16,8 @@ urlpatterns = [
          name="order_for_review"),
     path('order_detail/<int:order_id>/', views.OrderForReviewDetailView.as_view(),
          name="order_for_review_detail"),
+    path('laundry_search/<str:laundry_name>/',
+         views.laundry_search, name='laundry_search'),
     # path('review/<str:is_reviewd>/',
     #   views.profile_view, name = "profile_review"),
 ]
