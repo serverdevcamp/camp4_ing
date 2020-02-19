@@ -1,0 +1,115 @@
+.reviewregisterInputContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+
+    form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .formwrapper{
+         padding-top: 15px;
+        margin-top:30px;
+        background:white;
+         width: 90%;
+         display: flex;
+        flex-direction: column;
+        align-items: center;
+
+
+        .reviewregister-rowItem {
+            width: 90%;
+            margin-top: 0px;
+            margin-bottom: 7px;
+            display: flex;
+            flex-direction: row;
+
+
+             .label{
+                font-size: 14px;
+                margin-top: 0px;
+                margin-bottom: 0px;
+                margin-right: 10px;
+             }
+
+             .review-image {
+
+            display: flex;
+            align-items: center;
+            margin-bottom:10px;
+
+            .image {
+                width: 100px;
+                height: 100px;
+                background: gray;
+            }
+
+            input {
+                margin-left:10px;
+                margin-top:70px;
+                padding-bottom:0px;
+
+            }
+            }
+
+            .MuiRating-root {
+                color: #ffb400 !important;
+            }
+
+         }
+
+             .inputText {
+                width: 90%;
+                height: 400px;
+                margin-bottom:30px;
+                border: 0px solid rgba(0, 0, 0, 0.2);
+                word-wrap: break-word;
+                font-size: 16px;
+
+            }
+
+
+        }
+
+
+
+        .RegisterButton {
+            width: 100%;
+            margin-top: 50px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+
+    }
+
+}
+
+
+// .signUpContent form {
+//     width: 100%;
+//     display: flex;
+//     flex-direction: column;
+// }
+
+// .signUpContent form label {
+//     display: flex;
+//     flex-direction: column;
+//     margin-bottom: 60px;
+// }
+
+// .signUpContent form .label {
+//     margin-bottom: 20px;
+// }
+
+// .signUpContent .inputText {
+//     padding-bottom: 10px;
+//     border: 0px solid;
+//     border-bottom: 1px solid black;
+// }
+
+// Modal
+

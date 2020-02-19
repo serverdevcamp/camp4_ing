@@ -1,9 +1,15 @@
 from rest_framework import serializers as sz
 from .models import Order, OrderItem
+from mylaundry.models import LaundryItem
 from django.contrib.auth import get_user_model
 
+class  LaundryItemSerializer(sz.ModelSerializer):
+    class Meta:
+        model = LaundryItem
+        fields =('category', 'material')
 
 class OrderItemSerializer(sz.ModelSerializer):
+    laundry_item = LaundryItemSerializer(read_only=True)
     class Meta:
         model = OrderItem
         fields = ('laundry_item', 'quantity')
@@ -13,7 +19,7 @@ class OrderSerializer(sz.ModelSerializer):
     orderitem =OrderItemSerializer(many=True, read_only=True)
     class Meta:
         model = Order
-        fields = ('orderitem', 'total_price', 'pickup_address', 'delivery_address', 'status', 'created_at', 'updated_at',)
+        fields = ('id','orderitem', 'total_price', 'pickup_address', 'delivery_address', 'status', 'created_at', 'updated_at',)
 
 class ProfileSerializer(sz.ModelSerializer):
     class Meta:

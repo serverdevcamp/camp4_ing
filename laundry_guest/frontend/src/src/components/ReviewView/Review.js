@@ -10,11 +10,15 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import StarIcon from '@material-ui/icons/Star';
 import { Link } from "react-router-dom";
+import Rating from '@material-ui/lab/Rating';
+import Box from '@material-ui/core/Box';
 
 const cx = className.bind(styles);
 
 
 const Review = ({ match, id, className, name, day, money, star, content }) => {
+
+const [value, setValue] = React.useState(star);
 
 if (star==null){
     return(
@@ -65,13 +69,6 @@ if (star==null){
     )
 }
 else{
-let starshape = null;
- if(0<=star && star<1){ starshape =<span className={cx('zerostar')}>0.0</span>;}
- if(1<=star && star<2){ starshape =<div><StarIcon/></div>;}
- if(2<=star && star<3){ starshape =<div><StarIcon/><StarIcon/></div>;}
- if(3<=star && star<4){ starshape =<div><StarIcon/><StarIcon/><StarIcon/></div>;}
- if(4<=star && star<5){ starshape =<div><StarIcon/><StarIcon/><StarIcon/><StarIcon/></div>;}
- if(star==5){ starshape =<div><StarIcon/><StarIcon/><StarIcon/><StarIcon/><StarIcon/></div>;}
 
 
  return(
@@ -89,7 +86,7 @@ let starshape = null;
           </div>
           <div className={cx('Review-rowItem')}>
              <span className={cx('label')}>평점 : </span>
-             <div className={cx('star')}>{starshape}</div>
+             <div className={cx('star')}> <Rating name="read-only" value={value} readOnly /></div>
 
           </div>
 

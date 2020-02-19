@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MainPage, LoginPage, SignUpPage, LaundryListPage, LaundryDetailPage,  ProfilePage, OrderListPage, OrderDetailPage, OrderPage, PaymentPage, ReviewPage } from './pages';
+import { MainPage, LoginPage, SignUpPage, LaundryListPage, LaundryDetailPage,  ProfilePage, OrderListPage, OrderDetailPage, OrderPage, PaymentPage, ReviewPage, ReviewRegisterPage } from './pages';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 function App() {
@@ -15,6 +15,7 @@ function App() {
         <Route path="/orderlist" component={OrderListPage} />
         <Route path="/orderdetail/:id" component={OrderDetailPage} />
         <Route path="/review" component={ReviewPage} />
+        <Route path="/reviewregister/:id" component={ReviewRegisterPage} />
 
         <Route exact path="/laundrylist" component={LaundryListPage} />
         <Route exact path="/laundrylist/:id" component={LaundryDetailPage} />
