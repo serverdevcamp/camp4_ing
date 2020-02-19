@@ -1,4 +1,5 @@
 from django.core.cache import cache
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import render, redirect
@@ -6,7 +7,7 @@ from django.http import Http404
 from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from .serializers import ProfileSerializer
 from .models import Profile
 # jwt
@@ -23,7 +24,34 @@ from django.core.mail import EmailMessage
 class CreateProfileView(APIView):
     permission_classes = [permissions.AllowAny]
 
+    def get(self, request, *args, **kwargs):
+        '''
+        # 기능
+        전체 유저 조회
+
+        '''
+        queryset = get_user_model().objects.all()
+        serializer = ProfileSerializer(queryset, many=True)
+        return Response(serializer.data)
+
     def post(self, request, *args, **kwargs):
+        '''
+        # 기능
+        회원 가입
+        # example
+            {
+                "profile": {
+                    "username": "rkdalstjd1",
+                    "password": "password1",
+                    "email": "rkdalstjd9@naver.com",
+                    "nickname": "사장님2",
+                    "address": "서울특별시 동대문구 전농동",
+                    "detail_address": "주영리빙텔 109호",
+                    "phone": "01000000000",
+                    "business_num": "12345"
+                }
+            }
+        '''
         data = request.data.get('profile')
         if not data:
             return Response({
@@ -59,16 +87,22 @@ class CreateProfileView(APIView):
             'message': 'profile 이 성공적으로 생성되었습니다.'
         })
 
-    def get(self, request, *args, **kwargs):
-        queryset = get_user_model().objects.all()
-        serializer = ProfileSerializer(queryset, many=True)
-        return Response(serializer.data)
-
 
 class UserLoginView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, *args, **kargs):
+        '''
+        # 기능
+        로그인
+        # example
+            {
+                "profile": {
+                    "username": "rkdalstjd1",
+                    "password": "password1"
+                }
+            }
+        '''
         data = request.data.get('profile')
         if not data:
             return Response({
@@ -114,6 +148,10 @@ class UserLoginView(APIView):
 
 @api_view(['GET', ])
 def logout(request):
+    '''
+    # 기능
+    로그아웃
+    '''
     key = request.COOKIES.get('jwt')
     cache.delete(key)
     try:
@@ -130,17 +168,23 @@ def logout(request):
 
 
 class ProfileDetailView(APIView):
-    def get_object(self, request, id):
+    def get_object(self, id):
         try:
             return Profile.objects.get(id=id)
-        except:
+        except ObjectDoesNotExist:
+            return None
+
+    def get(self, request, id):
+        '''
+        # 기능
+        유저 세부 조회
+        '''
+        profile = self.get_object(id)
+        if profile is None:
             return Response({
                 'response': 'error',
                 'message': 'profile/{} 페이지를 찾을 수 없습니다.'.format(id)
             })
-
-    def get(self, request, id):
-        profile = self.get_object(request, id)
         serializer = ProfileSerializer(profile)
         return Response({
             'response': 'success',
@@ -149,9 +193,36 @@ class ProfileDetailView(APIView):
         })
 
     def put(self, request, id):
-        profile = self.get_object(request, id)
+        """
+        # 기능
+        유저 정보 수정
+        # example
+            {
+               "data": {
+                    "nickname": "사장님2"
+                }
+            }
+        """
+        # data = request.data.get('profile')
+        # if not data:
+        #     return Response({
+        #         'response': 'error',
+        #         'message': 'profile 파라미터가 없습니다.'
+        #     })
+        data = request.data.get('data')
+        if data is None:
+            return Response({
+                'response': 'error',
+                'message': 'data 파라미터가 없습니다.'
+            })
+        profile = self.get_object(id)
+        if profile is None:
+            return Response({
+                'response': 'error',
+                'message': 'profile/{} 페이지를 찾을 수 없습니다.'.format(id)
+            })
         serializer = ProfileSerializer(
-            profile, data=request.data, partial=True)
+            profile, data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response({
@@ -166,7 +237,13 @@ class ProfileDetailView(APIView):
             })
 
     def delete(self, request, id):
-        profile = self.get_object(request, id)
+        """
+        # 기능
+        유저 정보 삭제<br>
+        (실제로 삭제하지는 않고 status 를 9로 변경)
+
+        """
+        profile = self.get_object(id)
         profile.status = '9'
         return Response({
             'response': 'success',
@@ -175,7 +252,12 @@ class ProfileDetailView(APIView):
 
 
 @api_view(['GET', ])
+@permission_classes((permissions.AllowAny,))
 def profile_activate(request, uuid):
+    """
+    기능
+    유저 계정 활성화
+    """
     user_id = cache.get(uuid)
     User = get_user_model()
     try:
@@ -195,7 +277,17 @@ def profile_activate(request, uuid):
 
 
 @api_view(['POST', ])
+@permission_classes((permissions.AllowAny,))
 def password_change_email(request):
+    """
+    # 기능
+    비밀번호 변경 메일 전송
+    # example
+        {
+            "username": "rkdalstjd0"
+        }
+
+    """
     username = request.data.get('username')
     if not username:
         return Response({
@@ -238,7 +330,17 @@ def password_change_email(request):
 
 
 @api_view(['GET', 'POST'])
+@permission_classes((permissions.AllowAny,))
 def password_change(request, uuid):
+    """
+    # 기능
+    비밀번호 변경 메일 전송
+    # example
+        {
+            "password": "바뀐 비밀번호",
+            "check_password": "바뀐 비밀번호"
+        }
+    """
     if request.method == 'GET':
         user_id = cache.get(uuid)
         User = get_user_model()
@@ -278,14 +380,6 @@ def password_change(request, uuid):
                 'response': 'error',
                 'message': '비밀번호가 잘못되었습니다.'
             })
-
-
-def main(request):
-    print(request)
-    decode_jwt = jwt.decode(
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozfQ.Or7AvvvBw-x48EiVPZaN7gb6lDCOUkBN8Zj7W6JeB6c', settings.SECRET_KEY, 'HS256')
-    print(decode_jwt)
-    return render(request, 'myauth/main.html')
 
 
 def jwt_create(username):

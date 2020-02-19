@@ -19,6 +19,11 @@ from django.http import JsonResponse
 
 class LaundryShopView(APIView):
     def get(self, request, *args, **kwargs):
+        '''
+        # 기능
+        전체 세탁소 조회
+
+        '''
         try:
             queryset = LaundryShop.objects.all()
         except:
@@ -32,14 +37,14 @@ class LaundryShopView(APIView):
 
 class LaundryShopDetailView(APIView):
 
-    def get_object(self, request, id):
+    def get_object(self, id):
         try:
             return LaundryShop.objects.get(id=id)
         except ObjectDoesNotExist:
             return None
 
     def get(self, request, id, *args, **kwargs):
-        laundry_shop = self.get_object(request, id)
+        laundry_shop = self.get_object(id)
         if laundry_shop is None:
             return Response({
                 'response': 'error',
@@ -55,6 +60,11 @@ class LaundryShopDetailView(APIView):
 
 class ReviewView(APIView):
     def get(self, request, id, *args, **kwargs):
+        '''
+        # 기능
+        {id}세탁소의 전체 리뷰 조회
+
+        '''
         laundry_shop = LaundryShop.objects.get(id=id)
         queryset = Review.objects.filter(laundryshop=laundry_shop)
         serializer = ReviewSerializer(queryset, many=True)
@@ -65,6 +75,20 @@ class ReviewView(APIView):
         })
 
     def post(self, request, id, *args, **kwargs):
+        '''
+        # 기능
+        {id}세탁소에 리뷰 생성
+        # example
+            {
+                "review": {
+                    "content": "{}세탁소 최고!",
+                    "grade": 3,
+                    "image": {
+                        "imageUrls": ["이미지주소1", "   "]
+                    }
+                }
+            }
+        '''
         try:
             data = request.data['review']
         except:
@@ -91,18 +115,23 @@ class ReviewView(APIView):
 
 
 class ReviewDetailView(APIView):
-    def get_object(self, request, review_id):
+    def get_object(self, review_id):
         try:
             return Review.objects.get(id=review_id)
         except ObjectDoesNotExist:
             return None
 
     def get(self, request, id, review_id):
-        review = self.get_object(request, review_id)
+        '''
+        # 기능
+        {id}세탁소의 {review_id}리뷰 상세 조회
+
+        '''
+        review = self.get_object(review_id)
         if review is None:
             return Response({
                 'response': 'error',
-                'message': '{} review를 찾을 수 없습니다.'.format(id)
+                'message': '{} review를 찾을 수 없습니다.'.format(review_id)
             })
         serializer = ReviewSerializer(review)
         return Response({
@@ -112,11 +141,20 @@ class ReviewDetailView(APIView):
         })
 
     def put(self, request, id, review_id):
-        review = self.get_object(request, review_id)
+        '''
+        # 기능
+        {id}세탁소의 {review_id}리뷰 수정
+        # example
+            {
+                "content": "스마일 세탁소 사랑해요!"
+            }
+
+        '''
+        review = self.get_object(review_id)
         if review is None:
             return Response({
                 'response': 'error',
-                'message': '{} review를 찾을 수 없습니다.'.format(id)
+                'message': '{} review를 찾을 수 없습니다.'.format(review_id)
             })
         serializer = ReviewSerializer(review, data=request.data, partial=True)
         if serializer.is_valid():
@@ -133,7 +171,13 @@ class ReviewDetailView(APIView):
             })
 
     def delete(self, request, id, review_id):
-        review = self.get_object(request, review_id)
+        '''
+        # 기능
+        {id}세탁소의 {review_id}리뷰 삭제
+
+        '''
+
+        review = self.get_object(review_id)
         if review is None:
             return Response({
                 'response': 'error',
@@ -155,6 +199,11 @@ class ReviewDetailView(APIView):
 
 class LaundryShopLikeView(APIView):
     def post(self, request, id, *args, **kwargs):
+        '''
+        # 기능
+        {id}세탁소의 좋아요 토글
+
+        '''
         profile = request.user
         try:
             laundryshop = LaundryShop.objects.get(id=id)
@@ -164,32 +213,36 @@ class LaundryShopLikeView(APIView):
                 'message': '{} laundry shop을 찾을 수 없습니다.'.format(id)
             })
 
-        like = Like(
-            profile=profile,
-            laundryshop=laundryshop
-        )
+        is_liked = False
+
         try:
+            like = Like.objects.get(profile=profile, laundryshop=laundryshop)
+        except ObjectDoesNotExist:
+            like = Like(
+                profile=profile,
+                laundryshop=laundryshop
+            )
             like.save()
-        except:
-            return Response({
-                'response': 'error',
-                'message': 'db에서 생성에 실패했습니다.'
-            })
+            is_liked = True
+
+        if not is_liked:
+            like.delete()
+
         try:
-            laundryshop.like_num += 1
+            laundryshop.like_num += -1 if is_liked else 1
             laundryshop.save()
         except:
             return Response({
                 'response': 'error',
-                'message': 'db에서 좋아요 수 증가에 실패했습니다.'
+                'message': 'db에서 좋아요 수 변화에 실패했습니다.'
             })
 
         return Response({
             'response': 'success',
-            'message': 'like가 성공적으로 생성되었습니다.'
+            'message': 'like가 성공적으로 변화되었습니다.'
         })
 
-    def delete(self, request, id, *args, **kwargs):
+    # def delete(self, request, id, *args, **kwargs):
         profile = request.user
         try:
             laundryshop = LaundryShop.objects.get(id=id)
@@ -232,6 +285,16 @@ class LaundryShopLikeView(APIView):
 
 class OrderForReviewView(APIView):
     def get(self, request, is_reviewd, *args, **kwargs):
+        '''
+        # 기능
+        사용자가 한 주문
+        # parameter
+        is_reviewd : True / False
+        * True일 경우 : 리뷰가 있는 order
+        * False일 경우 : 리뷰가 없는 order
+
+        '''
+
         profile = request.user
         orders = ""
         # 사용자가 한 주문 중에 review 를 남긴 주문
@@ -264,13 +327,13 @@ class OrderForReviewDetailView(APIView):
             return Order.objects.get(id=order_id)
         except ObjectDoesNotExist:
             return None
-        except:
-            return Response({
-                'response': 'error',
-                'message': 'DB 문제'
-            })
 
     def get(self, request, order_id, *args, **kwargs):
+        '''
+        # 기능
+        주문에 해당되는 리뷰 상세 조회
+
+        '''
         order = self.get_object(order_id)
         if order is None:
             return Response({
@@ -285,6 +348,21 @@ class OrderForReviewDetailView(APIView):
         })
 
     def post(self, request, order_id, *args, **kwargs):
+        '''
+        # 기능
+        주문에 해당되는 리뷰 생성
+        # example
+            {
+                "review": {
+                    "content": "스마일세탁소가 제일 깨끗해요!!",
+                    "grade": 3,
+                    "image": {
+                        "imageUrls": ["이미지주소1", "   "]
+                    }
+                }
+            }
+
+        '''
         try:
             data = request.data['review']
         except:

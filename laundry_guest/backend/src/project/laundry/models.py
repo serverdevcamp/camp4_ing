@@ -44,6 +44,7 @@ class LaundryItem(models.Model):
     category = models.CharField(max_length=10)
     material = models.CharField(max_length=10)
     price = models.PositiveIntegerField()
+    information = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.category

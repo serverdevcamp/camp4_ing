@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import styles from './LoginInput.scss';
 import CustomInput from '../Common/Input';
@@ -7,6 +7,7 @@ import CustomButton from '../Common/CustomButton';
 const cx = classNames.bind(styles);
 
 const LoginInput = ({ handleSignUp }) => {
+
   return (
     <div className={cx('inputContent')}>
       <form action="#">

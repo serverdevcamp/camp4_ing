@@ -7,6 +7,29 @@ from .serializers import OrderSerializer, OrderItemSerializer
 
 class OrderView(APIView):
     def post(self, request, laundry_id, *args, **kwargs):
+        '''
+        # 기능
+        주문 생성
+        # example
+            {
+                "pickup_address": "서울시립대 전농동 103-45",
+                "pickup_detail_address": "주영리빙텔 109호",
+                "delivery_address": "서울시립대학교",
+                "delivery_detail_address": "미래관 608호 수리계산연구실",
+                "requirement": "기사님 사랑합니다!",
+                "orderItems": [{
+                        "category": "바지",
+                        "quantity": 12,
+                        "requirement": "바지 잘 부탁드려요!"
+                    },
+                    {
+                        "category": "셔츠",
+                        "quantity": 3,
+                        "requirement": "셔츠 구김없이 부탁드려요"
+                    }
+                ]
+            }
+        '''
         laundryshop = LaundryShop.objects.get(id=laundry_id)
         profile = request.user
         order_items = request.data.pop('orderItems')
