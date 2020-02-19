@@ -79,7 +79,7 @@ const Menu = ({ leftLabel, rightLabel, leftComponent, rightComponent }) => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="default" backgroundColor='white' className={cx('menu-bar')}>
+      <AppBar position="static" color="default" className={cx('menu-bar')}>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -87,7 +87,6 @@ const Menu = ({ leftLabel, rightLabel, leftComponent, rightComponent }) => {
           textColor="primary"
           variant="fullWidth"
           aria-label="action tabs example"
-          backgroundColor='white'
         >
           <Tab label={leftLabel} {...a11yProps(0)} />
           <Tab label={rightLabel} {...a11yProps(1)} />

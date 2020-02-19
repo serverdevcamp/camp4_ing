@@ -12,33 +12,10 @@ import Review from '../components/Common/Review';
 import LaundryItemModal from '../components/LaundryDetailView/LaundryItemModal';
 import axios from 'axios';
 import EndPoint from '../config/EndPoint';
-
+import { useDispatch } from 'react-redux';
+import { setBasketItemsRedux } from "../modules/basket";
 
 const cx = className.bind(styles);
-
-const reviewData = [
-  {
-    id: 1,
-    author: "강민성",
-    grade: 4,
-    content: "깨끗하게 잘 빨아줍니다.",
-    created_at: "2020-02-10"
-  },
-  {
-    id: 2,
-    author: "김동근",
-    grade: 3,
-    content: "사장님이 친절하세요.",
-    created_at: "2020-02-09"
-  },
-  {
-    id: 3,
-    author: "이수진",
-    grade: 4,
-    content: "깨끗하게 잘 빨아줍니다.",
-    created_at: "2020-02-10"
-  }
-]
 
 const LaundryDetailView = ({ match, history }) => {
 
@@ -47,16 +24,22 @@ const LaundryDetailView = ({ match, history }) => {
   const [laundryItems, setLaundryItems] = useState([]);
   const [reviews, setReviews] = useState([]);
 
+  const [clickedLaundryItem, setClickedLaundryItem] = useState('');
+  const [orderItems, setOrderItems] = useState([]);
+
   const [id] = useState(match.url.split('/').pop());
   const { name } = laundryDetail;
+
+  const dispatch = useDispatch();
+
+  const setOrderItemsInBasket = () => {
+    dispatch(setBasketItemsRedux(orderItems));
+  }
 
   const getLaundryDetail = () => {
     axios.get(`${EndPoint.laundryServer}/laundry/${id}`)
       .then(response => {
         if (response.data.response === 'success') {
-          console.log(response.data.data);
-          console.log(response.data.data['laundry_item']);
-
           setLaundryItems(response.data.data['laundry_item']);
           setLaundryDetail(response.data.data);
         }
@@ -70,7 +53,6 @@ const LaundryDetailView = ({ match, history }) => {
     axios.get(`${EndPoint.laundryServer}/laundry/${id}/review/`)
       .then(response => {
         if (response.data.response === 'success') {
-          console.log(response.data.data);
           setReviews(response.data.data);
         }
         else {
@@ -79,7 +61,10 @@ const LaundryDetailView = ({ match, history }) => {
       })
   }
 
-  const onToggleModal = () => {
+  const onToggleModal = ({ category }) => {
+    if (!isOpenedModal) {
+      setClickedLaundryItem(category);
+    }
     setIsOpenedModal(!isOpenedModal);
   };
 
@@ -90,18 +75,14 @@ const LaundryDetailView = ({ match, history }) => {
         category={category}
         material={material}
         price={price}
-        onClick={onToggleModal}
+        onClick={() => onToggleModal({ category })}
       />
     )
   })
 
   const rightComponent = reviews.map(({ id, username, grade, content, created_at }) => {
-    console.log(created_at);
-    console.log(typeof created_at);
     const date = new Date(created_at);
-    console.log(`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`);
     const createdAt = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-    console.log(typeof createdAt);
     return (
       <Review
         key={id}
@@ -113,9 +94,7 @@ const LaundryDetailView = ({ match, history }) => {
     )
   })
 
-  const handleLaundryList = () => {
-    window.location.href = '/laundrylist';
-  }
+  console.log(orderItems);
 
   useEffect(() => {
     getLaundryDetail();
@@ -136,19 +115,25 @@ const LaundryDetailView = ({ match, history }) => {
         rightComponent={rightComponent}
       >
       </Menu>
-      <Link to={`${match.url}/order`}>
+      <Link to={{
+        pathname: `${match.url}/order`,
+        state: { orderItems }
+      }}>
         <Fab
           className={'fab-button'}
-          color={'rgba(204, 204, 204, 0.6)'}
         >
           <ShoppingCartSharpIcon />
         </Fab>
       </Link>
       <LaundryItemModal
         isOpen={isOpenedModal}
+        setIsOpenedModal={setIsOpenedModal}
         onClick={onToggleModal}
+        clickedLaundryItem={clickedLaundryItem}
+        orderItems={orderItems}
+        setOrderItems={setOrderItems}
+        setOrderItemsInBasket={setOrderItemsInBasket}
       />
-
     </div>
   )
 
