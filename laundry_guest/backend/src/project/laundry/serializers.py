@@ -9,7 +9,7 @@ class LaundryShopSerializer(sz.ModelSerializer):
         model = LaundryShop
 #        fields = '__all__'
         fields = [
-            'name', 'tel', 'information', 'operating_time', 'min_price', 'grade', 'delivery_dt', 'like_num'
+            'id', 'name', 'tel', 'information', 'operating_time', 'min_price', 'grade', 'delivery_dt', 'like_num'
         ]
 
 
@@ -19,7 +19,7 @@ class LaundryItemSerializer(sz.ModelSerializer):
 
     class Meta:
         model = LaundryItem
-        fields = ('category', 'material', 'price', 'laundry_shop')
+        fields = ('id', 'category', 'material', 'price', 'laundry_shop')
 
 
 class LaundryShopDetailSerializer(sz.ModelSerializer):
@@ -35,6 +35,10 @@ class LaundryShopDetailSerializer(sz.ModelSerializer):
 class ReviewSerializer(sz.ModelSerializer):
     profile_id = sz.CharField(required=False)
     laundryshop_id = sz.CharField(required=False)
+    username = sz.SerializerMethodField(required=False)
+
+    def get_username(self, review):
+        return review.profile.nickname
 
     def create(self, validated_data):
         review = Review(
@@ -53,7 +57,7 @@ class ReviewSerializer(sz.ModelSerializer):
     class Meta:
         model = Review
         fields = (
-            'profile_id', 'laundryshop_id', 'content', 'grade', 'image'
+            'id', 'profile_id', 'username', 'laundryshop_id', 'content', 'grade', 'image', 'created_at'
         )
 
 

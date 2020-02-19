@@ -5,9 +5,9 @@ import GradeIcon from '../Common/GradeIcon'
 
 const cx = classNames.bind(styles);
 
-const SubHeader = ({ data }) => {
+const SubHeader = ({ laundryDetail }) => {
 
-  const { name, information, grade, minPrice, deliveryTime } = data;
+  const { name, information, grade, min_price, delivery_dt } = laundryDetail;
 
   return (
     <div className={cx('subheader-wrapper')}>
@@ -21,11 +21,11 @@ const SubHeader = ({ data }) => {
         <div className={cx('information-wrapper')}>{information}</div>
         <div className={cx('min-price-wrapper')}>
           <div className={cx('key')}>최소주문금액</div>
-          <div className={cx('value')}>{minPrice}</div>
+          <div className={cx('value')}>{min_price}</div>
         </div>
         <div className={cx('delivery-time-wrapper')}>
           <div className={cx('key')}>배달시간</div>
-          <div className={cx('value')}>{deliveryTime} 소요 예상</div>
+          <div className={cx('value')}>{delivery_dt} 소요 예상</div>
         </div>
       </div>
     </div>

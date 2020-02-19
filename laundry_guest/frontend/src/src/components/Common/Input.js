@@ -4,11 +4,13 @@ import styles from './Input.scss';
 
 const cx = className.bind(styles);
 
-const CustomInput = ({ type, onClickEvent, onKeyUpEvent, required, className, placeHolder, readOnly, value, reference }) => {
+const CustomInput = ({ type, onBlurEvent, onChangeEvent, onClickEvent, onKeyUpEvent, required, className, placeHolder, readOnly, value, reference }) => {
   return (
     <input
       className={cx('customDefaultInput', className)}
       type={type}
+      onBlur={onBlurEvent}
+      onChange={onChangeEvent}
       onClick={onClickEvent}
       onKeyUp={onKeyUpEvent}
       placeholder={placeHolder}

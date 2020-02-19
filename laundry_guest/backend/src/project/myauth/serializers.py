@@ -17,10 +17,9 @@ class ProfileSerializer(sz.ModelSerializer):
             address=validated_data['address'],
             detail_address=validated_data['detail_address'],
             phone=validated_data['phone'],
-            business_num=validated_data['business_num']
         )
         user.set_password(validated_data['password'])
-        user.satatus = "0"
+        user.status = "0"
         user.role = "0"
         user.save()
         return user
@@ -28,4 +27,4 @@ class ProfileSerializer(sz.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ['username', 'password', 'email',
-                  'nickname', 'address', 'detail_address', 'phone', 'business_num']
+                  'nickname', 'address', 'detail_address', 'phone']

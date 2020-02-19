@@ -47,8 +47,7 @@ class CreateProfileView(APIView):
                     "nickname": "사장님2",
                     "address": "서울특별시 동대문구 전농동",
                     "detail_address": "주영리빙텔 109호",
-                    "phone": "01000000000",
-                    "business_num": "12345"
+                    "phone": "01000000000"
                 }
             }
         '''
@@ -81,7 +80,6 @@ class CreateProfileView(APIView):
         user_email = profile.email
         email = EmailMessage(mail_subject, message, to=[user_email])
         email_result = email.send()
-
         return Response({
             'response': 'success',
             'message': 'profile 이 성공적으로 생성되었습니다.'
@@ -119,7 +117,7 @@ class UserLoginView(APIView):
         except:
             return Response({
                 'response': 'error',
-                'message': 'username 파라미터가 없습니다.',
+                'message': '해당 아이디가 존재하지 않습니다.',
             })
 
         if user.status == '0':
@@ -380,6 +378,22 @@ def password_change(request, uuid):
                 'response': 'error',
                 'message': '비밀번호가 잘못되었습니다.'
             })
+
+
+@api_view(['GET', ])
+@permission_classes((permissions.AllowAny,))
+def check_duplicate(request, username):
+    try:
+        profile = Profile.objects.get(username=username)
+    except:
+        return Response({
+            'response': 'success',
+            'message': '사용할 수 있는 아이디입니다.'
+        })
+    return Response({
+        'response': 'error',
+        'message': '이미 존재하는 아이디입니다.'
+    })
 
 
 def jwt_create(username):
