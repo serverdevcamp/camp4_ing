@@ -12,14 +12,14 @@ const initialBasket = {
 const basket = (basket = initialBasket, action) => {
   switch (action.type) {
     case SETBASKETITEMS:
-      console.log("basket################");
-      console.log(action.basketItems);
-      console.log(Object.assign({}, basket, {
-        basketItems: [
-          ...basket.basketItems,
-          action.basketItems
-        ]
-      }));
+      // 이미 같은 품목이 장바구니에 있으면 기존에 있던 품목 삭제
+      basket.basketItems.forEach((basketItem, index) => {
+        if (basketItem.clickedLaundryItem === action.basketItems.clickedLaundryItem) {
+          basket.basketItems.slice(index, 1);
+        }
+      })
+      console.log("basket.js");
+      console.log(basket.basketItems);
       return Object.assign({}, basket, {
         basketItems: [
           ...basket.basketItems,

@@ -24,7 +24,7 @@ const LaundryDetailView = ({ match, history }) => {
   const [laundryItems, setLaundryItems] = useState([]);
   const [reviews, setReviews] = useState([]);
 
-  const [clickedLaundryItem, setClickedLaundryItem] = useState('');
+  const [clickedLaundryItem, setClickedLaundryItem] = useState({});
   const [orderItems, setOrderItems] = useState([]);
 
   const [id] = useState(match.url.split('/').pop());
@@ -32,8 +32,8 @@ const LaundryDetailView = ({ match, history }) => {
 
   const dispatch = useDispatch();
 
-  const setOrderItemsInBasket = () => {
-    dispatch(setBasketItemsRedux(orderItems));
+  const setOrderItemsInBasket = (object) => {
+    dispatch(setBasketItemsRedux(object));
   }
 
   const getLaundryDetail = () => {
@@ -61,9 +61,9 @@ const LaundryDetailView = ({ match, history }) => {
       })
   }
 
-  const onToggleModal = ({ category }) => {
+  const onToggleModal = ({ category, material, price }) => {
     if (!isOpenedModal) {
-      setClickedLaundryItem(category);
+      setClickedLaundryItem({ category, material, price });
     }
     setIsOpenedModal(!isOpenedModal);
   };
@@ -75,7 +75,7 @@ const LaundryDetailView = ({ match, history }) => {
         category={category}
         material={material}
         price={price}
-        onClick={() => onToggleModal({ category })}
+        onClick={() => onToggleModal({ category, material, price })}
       />
     )
   })
@@ -93,8 +93,6 @@ const LaundryDetailView = ({ match, history }) => {
       />
     )
   })
-
-  console.log(orderItems);
 
   useEffect(() => {
     getLaundryDetail();

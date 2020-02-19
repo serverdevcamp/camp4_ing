@@ -14,25 +14,21 @@ const cx = classNames.bind(styles);
 const LaundryItemModal = ({ isOpen, setIsOpenedModal, onClick, clickedLaundryItem, orderItems, setOrderItems, setOrderItemsInBasket }) => {
   const [count, setCount] = useState(1);
   const [requirement, setRequirement] = useState('');
-
+  const { category, material, price } = clickedLaundryItem;
   const validatedSetCount = () => {
     if (count > 0)
       setCount(count => count - 1);
   }
 
   const addShoppingBasket = () => {
-    // orderItems 를 state 로 관리하는 부분
-    orderItems.forEach((orderItem, index) => {
-      if (orderItem.clickedLaundryItem === clickedLaundryItem)
-        orderItems.splice(index, 1);
+    console.log(clickedLaundryItem);
+    setOrderItemsInBasket({
+      category,
+      material,
+      price,
+      count,
+      requirement
     });
-    orderItems.push({
-      clickedLaundryItem,
-      requirement,
-      count
-    });
-
-    setOrderItemsInBasket();
     setIsOpenedModal(false);
     setCount(1);
   }
@@ -67,7 +63,7 @@ const LaundryItemModal = ({ isOpen, setIsOpenedModal, onClick, clickedLaundryIte
             className={'item-input'}
             type={'text'}
             readOnly={true}
-            value={clickedLaundryItem}
+            value={category}
           />
         </div>
         <div className={cx('item-wrapper')}>
