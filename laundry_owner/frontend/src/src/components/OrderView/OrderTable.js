@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
+import SearchIcon from '@material-ui/icons/Search';
 
 const tableStyle = makeStyles({
   table: {
@@ -21,115 +22,77 @@ const tableStyle = makeStyles({
 
 });
 
-const data = [
-  {
-    no: 1,
-    deliveryAddress: "경기 성남시 분당구 판교로 344",
-    pickupAddress: "경기 성남시 분당구 판교로 344",
-    content: "와이셔츠2, 청바지3",
-    price: 20000,
-    status: "세탁 대기중",
-  },
-  {
-    no: 2,
-    deliveryAddress: "경기 성남시 분당구 판교로 344",
-    pickupAddress: "경기 성남시 분당구 판교로 344",
-    content: "와이셔츠4, 청바지3",
-    price: 110000,
-    status: "세탁 완료",
-  },
-  {
-    no: 3,
-    deliveryAddress: "경기 성남시 분당구 판교로 344",
-    pickupAddress: "경기 성남시 분당구 판교로 344",
-    content: "와이셔츠2, 청바지3",
-    price: 20000,
-    status: "세탁 대기중",
-  },
-  {
-    no: 4,
-    deliveryAddress: "경기 성남시 분당구 판교로 344",
-    pickupAddress: "경기 성남시 분당구 판교로 344",
-    content: "와이셔츠4, 청바지3",
-    price: 110000,
-    status: "세탁 완료",
-  },
-
-  {
-    no: 5,
-    deliveryAddress: "경기 성남시 분당구 판교로 344",
-    pickupAddress: "경기 성남시 분당구 판교로 344",
-    content: "와이셔츠2, 청바지3",
-    price: 20000,
-    status: "세탁 대기중",
-  },
-  {
-    no: 6,
-    deliveryAddress: "경기 성남시 분당구 판교로 344",
-    pickupAddress: "경기 성남시 분당구 판교로 344",
-    content: "와이셔츠4, 청바지3",
-    price: 110000,
-    status: "세탁 완료",
-  },
-  {
-    no: 7,
-    deliveryAddress: "경기 성남시 분당구 판교로 344",
-    pickupAddress: "경기 성남시 분당구 판교로 344",
-    content: "와이셔츠2, 청바지3",
-    price: 20000,
-    status: "세탁 대기중",
-  },
-  {
-    no: 8,
-    deliveryAddress: "경기 성남시 분당구 판교로 344",
-    pickupAddress: "경기 성남시 분당구 판교로 344",
-    content: "와이셔츠4, 청바지3",
-    price: 110000,
-    status: "세탁 완료",
-  },
-  {
-    no: 9,
-    deliveryAddress: "경기 성남시 분당구 판교로 344",
-    pickupAddress: "경기 성남시 분당구 판교로 344",
-    content: "와이셔츠2, 청바지3",
-    price: 20000,
-    status: "세탁 대기중",
-  },
-  {
-    no: 19,
-    deliveryAddress: "경기 성남시 분당구 판교로 344",
-    pickupAddress: "경기 성남시 분당구 판교로 344",
-    content: "와이셔츠4, 청바지3",
-    price: 110000,
-    status: "세탁 완료",
-  },
-];
-
-const OrderTable = () => {
+const OrderTable = ({
+                      orders,
+                      setModalOpen, setModalInfo
+                    }) => {
   const style = tableStyle();
+
+  let index = 1;
+
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const statusToString = (status) => {
+    switch (status) {
+      case 'ready':
+        return '미결제';
+      case 'paid':
+        return '결제완료';
+      case 'cancelled':
+        return '결제취소';
+      case 'failed':
+        return '결제실패';
+      case 'waiting':
+        return '세탁대기';
+      case 'process':
+        return '세탁처리';
+      case 'finished':
+        return '세탁완료';
+      default:
+        return 'error';
+    }
+  };
+
+  useEffect(()=>{
+    console.log(orders.slice(currentPage*8,(currentPage+1)*8));
+  });
+
   return (
     <TableContainer component={Paper}>
       <Table className={style.table}>
         <TableHead>
           <TableRow>
             <TableCell>no</TableCell>
-            <TableCell className={style.headerCell}>배달주소</TableCell>
-            <TableCell className={style.headerCell}>수거주소</TableCell>
-            <TableCell align={"right"} className={style.headerCell}>내용</TableCell>
-            <TableCell align={"right"} className={style.headerCell}>가격</TableCell>
-            <TableCell align={"right"} className={style.headerCell}>상태</TableCell>
-            <TableCell align={"right"} className={style.headerCell}>수정</TableCell>
+            <TableCell align={"center"}>배달주소</TableCell>
+            <TableCell align={"center"}>수거주소</TableCell>
+            <TableCell align={"center"}>내용</TableCell>
+            <TableCell align={"center"}>가격</TableCell>
+            <TableCell align={"center"}>상태</TableCell>
+            <TableCell align={"center"}>정보</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map(item => (
-            <TableRow key={item.no} className={style.row}>
-              <TableCell>{item.no}</TableCell>
-              <TableCell><span className={style.cell}>{item.deliveryAddress}</span></TableCell>
-              <TableCell><span className={style.cell}>{item.deliveryAddress}</span></TableCell>
-              <TableCell>{item.content}</TableCell>
-              <TableCell>{item.price}</TableCell>
-              <TableCell>{item.status}</TableCell>
+          {orders.slice(currentPage*8,(currentPage+1)*8).map(item => (
+            <TableRow key={index} className={style.row}>
+              <TableCell>{currentPage*8 + index++}</TableCell>
+              <TableCell align={"center"}><span className={style.cell}>{item.delivery_address}</span></TableCell>
+              <TableCell align={"center"}><span className={style.cell}>{item.pickup_address}</span></TableCell>
+              <TableCell align={"center"}>
+                {item.orderitem.map(orderItem => (
+                  (`${orderItem.laundry_item} ${orderItem.quantity}`)
+                ))}
+              </TableCell>
+              <TableCell align={"center"}>{item.total_price}</TableCell>
+              <TableCell align={"center"}>{statusToString(item.status)}</TableCell>
+              <TableCell>
+                <SearchIcon
+                  style={{cursor: "pointer", color: "#35AD3A"}}
+                  onClick={() => {
+                    setModalOpen(true);
+                    setModalInfo(statusToString(item.status), item.total_price, item.pickup_address,
+                      item.delivery_address, item.created_at, item.orderitem);
+                  }}
+                /></TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -140,7 +103,7 @@ const OrderTable = () => {
             marginLeft: "auto",
             marginRight: 'auto'
           }}
-          count={0} onChangePage={0} page={0} rowsPerPage={0}/>
+          count={orders.length} onChangePage={(e,newPage)=>setCurrentPage(newPage)} page={currentPage} rowsPerPage={8}/>
       </div>
 
     </TableContainer>

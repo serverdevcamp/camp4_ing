@@ -133,6 +133,7 @@ const SignUpView = () => {
       profile: profile
     })
       .then(response => {
+        console.log(response);
         if (response.data == null) {
           console.error("서버와의 통신이 원활하지 않습니다.");
           return;
@@ -144,7 +145,7 @@ const SignUpView = () => {
         }
 
         alert('회원가입이 완료 됐습니다.');
-        window.location.href = '/';
+        //window.location.href = '/';
       })
       .catch(err => {
         console.log(err);

@@ -110,7 +110,7 @@ const ReviewItem = ({item, replyReview, modifyReview}) => {
                 <CustomButton
                   className={cx('review-modifyBtn')}
                   value={"수정하기"}
-                  onClick={() => modifyReview(id, replyMessage)}
+                  onClick={() => modifyReview(comment.id, replyMessage)}
                 />
               )
           }
