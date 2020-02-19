@@ -39,9 +39,15 @@ class LaundryShop(models.Model):
 
 
 class LaundryItem(models.Model):
+    STATUS_CHOICES = (
+        ('0', '판매'),
+        ('1', '삭제'),
+    )
     laundry_shop = models.ForeignKey(
         LaundryShop, on_delete=models.CASCADE, related_name='laundry_item')
     category = models.CharField(max_length=10)
+    status = models.CharField(
+        max_length=1, choices=STATUS_CHOICES, default='0')
     material = models.CharField(max_length=10)
     price = models.PositiveIntegerField()
     information = models.CharField(max_length=100, blank=True)
