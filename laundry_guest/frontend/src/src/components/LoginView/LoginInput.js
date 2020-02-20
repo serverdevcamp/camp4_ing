@@ -8,9 +8,14 @@ const cx = classNames.bind(styles);
 
 const LoginInput = ({ handleSignUp, handleLogin, username, password, setUsername, setPassword }) => {
 
+  const handleLoginWithPreventDefault = (e) => {
+    e.preventDefault();
+    handleLogin();
+  }
+
   return (
     <div className={cx('inputContent')}>
-      <form action="#" onSubmit={handleLogin}>
+      <form action="#" onSubmit={handleLoginWithPreventDefault}>
         <label className={cx('idwrapper')}>
           <span className={cx('label')}>아이디</span>
           <CustomInput
