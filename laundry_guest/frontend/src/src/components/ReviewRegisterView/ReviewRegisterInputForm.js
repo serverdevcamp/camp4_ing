@@ -16,14 +16,14 @@ import { withStyles } from '@material-ui/core/styles';
 
 
 
+
 const cx = className.bind(styles);
 
    const styledRating = withStyles({
 
    })(Rating);
 
-const ReviewRegisterInputForm = ({}) => {
-  // 닉네임, 이메일, 비번, 휴대폰 번호, 주소
+const ReviewRegisterInputForm = ({shopname, day, star, content, image}) => {
 
 
   const [isOpenedModal,setOpenedModal] = useState(false);
@@ -49,12 +49,14 @@ const ReviewRegisterInputForm = ({}) => {
     this.detailedAddress.current.focus();
   };
 
-   const [value, setValue] = React.useState(0);
+   const [value, setValue] = React.useState(star);
    const [imgBase64, setImgBase64] = useState(""); // 파일 base64
    const [imgFile, setImgFile] = useState(null);	//파일
 
+
     const handleChangeFile = (event) => {
     let reader = new FileReader();
+    console.log(reader)
 
     reader.onloadend = () => {
 
@@ -74,16 +76,18 @@ const ReviewRegisterInputForm = ({}) => {
     setImgFile(null);
   };
 
+
+
     return (
       <div className={cx('reviewregisterInputContent')}>
         <form className={cx('reviewregisterinfo')}>
          <div className={cx('formwrapper')}>
           <span className={cx('reviewregister-rowItem')}>
-            <span className={cx('label')}>세탁집</span>
+            <span className={cx('label')}>{shopname}</span>
           </span>
           <span className={cx('reviewregister-rowItem')}>
             <span className={cx('label')}>주문일자</span>
-            <span className={cx('label')}>2020.01.15</span>
+            <span className={cx('label')}>{day}</span>
           </span>
           <span className={cx('reviewregister-rowItem')}>
             <span className={cx('label')}>별점</span>
@@ -117,8 +121,9 @@ const ReviewRegisterInputForm = ({}) => {
                 <textarea className={cx('inputText')}
                 type={'text'}
                 required={true}
-                placeholder={'내용을 입력하세요'}
-                 />
+                placeholder={'내용을 입력하세요'}>
+                {content}
+                </textarea>
 
 
             </div>

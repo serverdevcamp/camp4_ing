@@ -6,6 +6,14 @@ import ReviewRegisterInputForm from '../components/ReviewRegisterView/ReviewRegi
 
 const cx = className.bind(styles);
 
+const reviewData ={
+    shopname:'세탁맛집',
+    day:'2020.01.15',
+    star:0,
+    content:'',
+    image:''
+}
+
 
 class ReviewRegisterView extends React.Component {
   render() {
@@ -18,7 +26,13 @@ class ReviewRegisterView extends React.Component {
     return (
       <div className={cx('ReivewRegisterPage')} id={'ReivewRegisterPage'}>
         <Header name={"리뷰등록"} handle={handleMain} />
-          <ReviewRegisterInputForm/>
+          <ReviewRegisterInputForm
+           shopname = {reviewData.shopname}
+           day = {reviewData.day}
+           star = {reviewData.star}
+           content = {reviewData.content}
+           image = {reviewData.image}
+          />
       </div>
     )
   }

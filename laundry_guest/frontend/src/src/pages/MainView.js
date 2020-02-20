@@ -17,8 +17,9 @@ const MainView = ({ }) => {
 
   const [laundrys, setLaundrys] = useState([]);
   const [searchedLaundry, setSearchedLaundry] = useState('');
-  const { username } = useSelector(state => state.profile, []);
+  const {username} = useSelector(state => state.profile, []);
   const getLaudrys = () => {
+
     axios.get(`${EndPoint.laundryServer}/laundry/`)
       .then(response => {
         if (response.data.response === 'success') {

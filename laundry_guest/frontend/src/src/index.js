@@ -7,9 +7,6 @@ import rootReducer from './modules';
 import './index.css';
 import Root from './Root';
 
-
-ReactDOM.render(<Root />, document.getElementById('root'));
-
 const store = createStore(rootReducer, composeWithDevTools());
 
 ReactDOM.render(
