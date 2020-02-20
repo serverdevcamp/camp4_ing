@@ -7,9 +7,9 @@ export const setShopId = (shopId) => ({type: SETSHOPID, shopId : shopId});
 export const setUserId = (userId) => ({type: SETUSERID , userId : userId});
 
 const initialProfile = {
-  userName : 'a12',
-  userId: '5',
-  shopId : '5',
+  userName : '',
+  userId: '',
+  shopId : '',
 };
 
 const profile = (profile = initialProfile, action) =>{

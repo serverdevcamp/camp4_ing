@@ -1,13 +1,24 @@
-import React from "react";
+import React, {useEffect} from "react";
 import ReviewItem from "./ReviewItem";
+import {Pagination} from '@material-ui/lab';
 import DefaultMainBody from "../Common/DefaultMainBody";
 
-const ReviewList = ({reviews,replyReview,modifyReview}) => {
+const ReviewList = ({
+                      reviews, reviewCount,
+                      replyReview, modifyReview, getReviews
+                    }) => {
 
   let index = 0;
 
-  return(
-    <div>
+  useEffect(() => {
+    console.log(reviewCount);
+  }, []);
+
+  return (
+    <div style={{
+      display: "flex",
+      flexDirection: 'column',
+    }}>
       {reviews.map(item => (
         <ReviewItem
           key={index++}
@@ -16,6 +27,11 @@ const ReviewList = ({reviews,replyReview,modifyReview}) => {
           modifyReview={modifyReview}
         />
       ))}
+      <Pagination
+        count={reviewCount}
+        style={{marginLeft: "auto", marginRight: "auto"}}
+        onChange={(event, page) => getReviews(page)}
+      />
     </div>
   );
 };

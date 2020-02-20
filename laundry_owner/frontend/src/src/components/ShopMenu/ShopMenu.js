@@ -2,13 +2,16 @@ import React from "react";
 import className from 'classnames';
 import style from './ShopMenu.scss';
 import {List, ListItem} from "@material-ui/core";
+import {useHistory} from 'react-router';
 
 const cx = className.bind(style);
 
 const ShopMenu = ({menuIndex}) => {
 
+  const history = useHistory();
+
   const navigatePage = (page) => {
-    window.location.href = "/" + page;
+    history.push(`/${page}`);
   };
 
 
