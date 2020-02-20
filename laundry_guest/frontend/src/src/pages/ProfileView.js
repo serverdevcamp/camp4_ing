@@ -6,6 +6,21 @@ import SignUpInputForm from '../components/ProfileView/ProfileInputForm';
 
 const cx = className.bind(styles);
 class ProfileView extends React.Component {
+
+
+  const getProfile = () => {
+
+    axios.get(`${EndPoint.authServer}/laundry/`)
+      .then(response => {
+        if (response.data.response === 'success') {
+          setLaundrys(response.data.data);
+        }
+        else {
+          console.log(response);
+        }
+      })
+  }
+
   render() {
 
      const handleMain = () => {
