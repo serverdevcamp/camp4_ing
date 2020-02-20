@@ -29,6 +29,7 @@ class OrderView(APIView):
                     }
                 ]
             }
+
         '''
         laundryshop = LaundryShop.objects.get(id=laundry_id)
         profile = request.user
@@ -50,14 +51,17 @@ class OrderView(APIView):
         total_price = 0
         for order_item in order_items:
             category = order_item['category']
-            quantity = order_item['quantity']
-
+            quantity = order_item['count']
+            requirement = order_item['requirement']
             laundry_item = LaundryItem.objects.get(
                 laundry_shop=laundryshop, category=category)
+            data = dict()
+            data['quantity'] = quantity
+            data['requirement'] = requirement
             FK = dict()
             FK['order'] = order
             FK['laundry_item'] = laundry_item
-            serializer = OrderItemSerializer(data={'quantity': quantity})
+            serializer = OrderItemSerializer(data=data)
             if serializer.is_valid():
                 order_item = serializer.save(FK=FK)
             else:
