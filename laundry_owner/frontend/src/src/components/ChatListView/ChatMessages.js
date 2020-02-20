@@ -1,6 +1,7 @@
 import React from "react";
 import {Paper, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
+import {useSelector} from "react-redux";
 
 const style = makeStyles({
   messageContent: {
@@ -36,8 +37,10 @@ const style = makeStyles({
 
 const ChatMessages = ({chatMessages,messagesRef}) => {
 
+  const profile = useSelector(state=>state.profile);
+
   const chatStyle = style();
-  const currentId = 'owner1';
+  const currentId = profile.userId;
 
   return (
     <div
