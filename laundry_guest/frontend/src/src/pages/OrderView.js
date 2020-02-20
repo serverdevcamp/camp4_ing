@@ -10,7 +10,7 @@ import { setTotalPriceRedux } from "../modules/basket";
 const cx = className.bind(styles);
 
 const OrderView = ({ history, match, location }) => {
-  const { name: laundryName } = location;
+  const { name: laundryName } = location.state;
   const [totalPrice, setTotalPrice] = useState(0);
   const { basketItems } = useSelector(state => state.basket, []);
 
