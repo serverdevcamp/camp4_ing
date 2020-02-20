@@ -5,7 +5,8 @@ import LoginInput from '../components/LoginView/LoginInput';
 import axios from 'axios';
 import EndPoint from "../config/EndPoint";
 import {useDispatch, useSelector} from "react-redux";
-import {setShopId, setUserName} from "../modules/profile";
+import {setShopId, setUserId, setUserName} from "../modules/profile";
+import {useHistory} from 'react-router'
 
 const cx = className.bind(styles);
 
@@ -15,6 +16,8 @@ const LoginView = ({}) => {
   const [password, setPasswordState] = useState('');
   const profile = useSelector(state => state.profile, []);
   const dispatch = useDispatch();
+  const history = useHistory();
+
 
   const onChangeUserName = (userName) => {
     setUserNameState(userName);
@@ -37,14 +40,21 @@ const LoginView = ({}) => {
       },
       {withCredentials: true})
       .then(response => {
-        setReduxUserName(userName);
-        console.log(response.data);
+        if(response.data.response !== `success`) {
+          alert('아이디 또는 비밀번호가 올바르지 않습니다.');
+          return;
+        }
+        console.log(response.data.user_id, response.data.shop_id);
+        dispatch(setUserId(response.data.user_id));
+        dispatch(setShopId(response.data.shop_id));
+        history.push('/orderManagement');
+
       });
   };
 
 
   const handleSignUp = () => {
-    window.location.href = "/signup";
+    history.push('/signup');
   };
 
 

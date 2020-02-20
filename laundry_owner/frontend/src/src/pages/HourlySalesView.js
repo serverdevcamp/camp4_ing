@@ -22,8 +22,9 @@ const HourlySalesView = () => {
 
   const profile = useSelector(state => state.profile);
 
-  const [chartData,setChartData] = useState([]);
-  const [chartMode,setChartMode] = useState(CHARTMODE.DAILY);
+  const [chartData, setChartData] = useState([]);
+  const [chartMode, setChartMode] = useState(CHARTMODE.DAILY);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const getChartData = (mode = CHARTMODE.DAILY) => {
     let url = '';
@@ -40,19 +41,20 @@ const HourlySalesView = () => {
         break;
     }
     axios.get(url)
-      .then(response=>{
-        if(response.data.response!=='success'){
+      .then(response => {
+        if (response.data.response !== 'success') {
           alert('매출 정보를 받아오는데 오류가 발생했습니다.');
           return;
         }
         setChartMode(mode);
         setChartData(response.data.data.reverse());
+        setCurrentPage(0);
       });
   };
 
   useEffect(() => {
     getChartData()
-  },[]);
+  }, []);
 
   return (
     <div className={cx('defaultBackground')}>
@@ -67,6 +69,8 @@ const HourlySalesView = () => {
         <AnalysisTable
           chartData={chartData}
           chartMode={chartMode}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
         />
       </DefaultMainBody>
     </div>

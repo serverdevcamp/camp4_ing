@@ -45,6 +45,7 @@ const HourlySalesChart = ({
           className={chartStyle.toggleBtn}
           style={{marginLeft: 'auto', marginRight: '5px'}}
           onClick={() => getChartData(CHARTMODE.DAILY)}
+          value={0}
         >
           일간
         </ToggleButton>
@@ -52,6 +53,7 @@ const HourlySalesChart = ({
           className={chartStyle.toggleBtn}
           style={{marginRight: '5px'}}
           onClick={() => getChartData(CHARTMODE.WEEKLY)}
+          value={0}
         >
           주간
         </ToggleButton>
@@ -59,6 +61,7 @@ const HourlySalesChart = ({
           className={chartStyle.toggleBtn}
           style={{marginRight: '10px'}}
           onClick={() => getChartData(CHARTMODE.MONTHLY)}
+          value={0}
         >
           월간
         </ToggleButton>

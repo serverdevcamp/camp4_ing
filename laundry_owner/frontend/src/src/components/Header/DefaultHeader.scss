@@ -26,3 +26,9 @@
 .defaultHeaderSubTitle{
   font-size: 36px;
 }
+
+.defaultHeader-rowItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

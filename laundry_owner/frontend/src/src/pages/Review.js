@@ -5,7 +5,6 @@ import style from '../components/Common/Background.scss';
 import DefaultHeader from "../components/Header/DefaultHeader";
 import DefaultMainBody from "../components/Common/DefaultMainBody";
 import {Typography} from "@material-ui/core";
-import ReviewItem from "../components/Review/ReviewItem";
 import {useSelector} from "react-redux";
 import EndPoint from "../config/EndPoint";
 import ReviewList from "../components/Review/ReviewList";
@@ -17,10 +16,13 @@ const Review = ({}) => {
   const profile = useSelector(state => state.profile, []);
 
   const [reviews, setReviews] = useState([]);
+  const [reviewCount, setReviewCount] = useState(1);
 
-  const getReviews = () => {
-    const url = `${EndPoint.logicServer}/mylaundry/review/${profile.shopId}`;
-    axios.get(url)
+  const reviewPerPage = 5;
+
+  const getReviews = (pageNum = 1) => {
+    let processedUrl = `${EndPoint.logicServer}/mylaundry/review/${profile.shopId}?page=${pageNum}`;
+    axios.get(processedUrl)
       .then(response => {
 
         //@TODO 이부분 나중에 수정 필요!!
@@ -34,6 +36,7 @@ const Review = ({}) => {
           return;
         }
         setReviews(response.data.data.results);
+        setReviewCount(Math.ceil(response.data.data.count/reviewPerPage));
       });
   };
 
@@ -95,6 +98,8 @@ const Review = ({}) => {
           reviews={reviews}
           replyReview={replyReview}
           modifyReview={modifyReview}
+          reviewCount={reviewCount}
+          getReviews={getReviews}
         />
 
       </DefaultMainBody>
