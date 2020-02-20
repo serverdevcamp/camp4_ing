@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useRef, useState} from "react";
 import className from "classnames";
 import axios from 'axios';
 import style from '../components/Common/Background.scss';
@@ -9,147 +9,146 @@ import ChatListTable from "../components/ChatListView/ChatListTable";
 import ChatRoomModal from "../components/ChatListView/ChatRoomModal";
 import EndPoint from "../config/EndPoint";
 import socketio from "socket.io-client";
+import {useSelector} from "react-redux";
 
 const cx = className.bind(style);
 
 const socket = socketio.connect(EndPoint.chatServer);
 
-class ChatListView extends React.Component {
+const ChatListView = () => {
 
-  state = {
-    chatServerUrl: EndPoint.chatServer,
-    chatMessages: [],
-    chatRoomList: [],
-    chatContent: '',
-    isModalOpen: false,
-    currentRoom: '',
-    currentGuest: '',
+  const profile = useSelector(state => state.profile);
+
+  const [chatServerUrl, setChatServerUrl] = useState(EndPoint.chatServer);
+  const [chatMessages, setChatMessages] = useState([]);
+  const [chatRoomList, setChatRoomList] = useState([]);
+  const [chatContent, setChatContent] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentRoom, setCurrentRoom] = useState('');
+  const [currentGuest, setCurrentGuest] = useState('');
+  const messagesRef = useRef(() => React.createRef());
+
+  useEffect(() => {
+    getChatRoomList(profile.userId);
+  }, []);
+
+  useEffect(() => {
+    socket.off('receiveMessage');
+    socket.on('receiveMessage', (text, userId) => {
+        addChatMessages(text, userId)
+      }
+    );
+  }, [chatMessages]);
+
+  const joinRoom = (roomId) => {
+    socket.emit('joinRoom', roomId);
   };
 
-  constructor(props) {
-    super(props);
-    this.messagesRef = React.createRef();
-  }
-
-  componentDidMount() {
-    this.getChatRoomList("owner1");
-
-    socket.on('receiveMessage', (text, userId) => {
-      this.setState({
-        chatMessages: [
-          ...this.state.chatMessages,
-          {
-            _id: uuid(),
-            content: text,
-            userId: userId
-          }
-        ]
-      });
-
-      //스크롤 아래로
-      this.messagesRef.current.scrollTop = this.messagesRef.current.scrollHeight;
-    })
-  }
-
-  joinRoom(roomId) {
-    socket.emit('joinRoom', roomId);
-  }
-
-  leaveRoom(roomId) {
+  const leaveRoom = (roomId) => {
     socket.emit('leaveRoom', roomId);
   };
 
-  getChattingList(roomId) {
-    axios(this.state.chatServerUrl + 'chat/getChatHistory/' + roomId)
+  const addChatMessages = (message, userId) => {
+    setChatMessages([
+      ...chatMessages,
+      {
+        _id: uuid(),
+        content: message,
+        userId: userId
+      }
+    ]);
+    messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+  };
+
+  const getChattingList = (roomId) => {
+    axios(chatServerUrl + 'chat/getChatHistory/' + roomId)
       .then(response => {
         const _chatMessages = response.data.data;
-        this.setState({
-          chatMessages: _chatMessages
-        });
-        this.messagesRef.current.scrollTop = this.messagesRef.current.scrollHeight;
+        setChatMessages(_chatMessages);
+        socket.on('receiveMessage', (text, userId) => {
+            setChatMessages([
+              ...chatMessages,
+              {
+                _id: uuid(),
+                content: text,
+                userId: userId
+              }
+            ]);
+            messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+          }
+        );
+        messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
       })
       .catch(err => {
         console.log(err);
       });
   };
 
-  getChatRoomList(userId) {
-    axios(`${this.state.chatServerUrl}chat/getChatRoomListByOwnerId/${userId}`)
+  const getChatRoomList = (userId) => {
+    axios(`${chatServerUrl}chat/getChatRoomListByOwnerId/${userId}`)
       .then(response => {
         const _roomList = response.data.data;
-        console.log(_roomList);
-        this.setState({
-          chatRoomList: _roomList
-        });
+        setChatRoomList(_roomList);
       })
       .catch(err => {
         console.error(err)
       })
-  }
+  };
 
-  setModalOpen = (status,roomId,guestId) => {
-    this.setState({
-      isModalOpen: status,
-      currentRoom : roomId,
-      currentGuest : guestId
-    });
+  const setModalOpen = (status, roomId, guestId) => {
+    setIsModalOpen(status);
+    setCurrentRoom(roomId);
+    setCurrentGuest(guestId);
+
     if (status === true) {
-      this.joinRoom(roomId);
-      this.getChattingList(roomId);
+      joinRoom(roomId);
+      getChattingList(roomId);
     } else {
-      this.leaveRoom(roomId);
+      leaveRoom(roomId);
     }
   };
 
-  onChangeText = (content) => {
-    this.setState({
-      chatContent: content.target.value
-    })
+  const onChangeText = (content) => {
+    setChatContent(content.target.value);
   };
 
-  handleEnter = (e) => {
+  const handleEnter = (e) => {
     var code = e.keyCode || e.which;
     if (code !== 13) { //Enter keycode
       return;
     }
 
-    const text = this.state.chatContent;
+    const text = chatContent;
     if (text === '') return;
-    this.setState({
-      chatContent: ''
-    });
+    setChatContent('');
 
-    socket.emit('chatMessage', this.state.currentRoom, text, 'owner1');
+    socket.emit('chatMessage', currentRoom, text, profile.userId);
   };
 
 
-  render() {
-    const {chatMessages, isModalOpen, chatContent, chatRoomList,currentRoom,currentGuest} = this.state;
+  return (
+    <div className={cx('defaultBackground')}>
+      <DefaultHeader title={'채팅방 목록'}/>
+      <DefaultMainBody menuIndex={4}>
+        <ChatListTable
+          chatRoomList={chatRoomList}
+          setModalOpen={setModalOpen}
+        />
+        <ChatRoomModal
+          chatMessages={chatMessages}
+          chatContent={chatContent}
+          isModalOpen={isModalOpen}
+          messagesRef={messagesRef}
+          onChangeText={onChangeText}
+          onEnterEvent={handleEnter}
+          setModalOpen={setModalOpen}
+          currentRoom={currentRoom}
+          currentGuest={currentGuest}
+        />
+      </DefaultMainBody>
+    </div>
+  )
 
-    return (
-      <div className={cx('defaultBackground')}>
-        <DefaultHeader title={'채팅방 목록'}/>
-        <DefaultMainBody menuIndex={4}>
-          <ChatListTable
-            chatRoomList={chatRoomList}
-            setModalOpen={this.setModalOpen}
-          />
-          <ChatRoomModal
-            chatMessages={chatMessages}
-            chatContent={chatContent}
-            isModalOpen={isModalOpen}
-            messagesRef={this.messagesRef}
-            onChangeText={this.onChangeText}
-            onEnterEvent={this.handleEnter}
-            setModalOpen={this.setModalOpen}
-            currentRoom={currentRoom}
-            currentGuest={currentGuest}
-          />
-        </DefaultMainBody>
-      </div>
-    )
-  }
-
-}
+};
 
 export default ChatListView;

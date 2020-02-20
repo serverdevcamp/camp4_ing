@@ -4,10 +4,13 @@ import styles from '../components/SignUpView/SignUpView.scss';
 import SignUpInputForm from "../components/SignUpView/SignUpInputForm";
 import axios from 'axios';
 import EndPoint from "../config/EndPoint";
+import {useHistory} from 'react-router';
 
 const cx = className.bind(styles);
 
 const SignUpView = () => {
+
+  const history = useHistory();
 
   const [businessNum, setBusinessNum] = useState('');
   const [shopName, setShopName] = useState('');
@@ -89,7 +92,7 @@ const SignUpView = () => {
       .then(response => {
         console.log(response.data);
         if(response.data.response !== 'success'){
-          console.log(response);
+          alert(response.data.message);
           return;
         }
         alert('사용가능한 id입니다.');
@@ -145,7 +148,7 @@ const SignUpView = () => {
         }
 
         alert('회원가입이 완료 됐습니다.');
-        //window.location.href = '/';
+        history.push('/');
       })
       .catch(err => {
         console.log(err);
