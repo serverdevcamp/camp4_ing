@@ -19,7 +19,10 @@ const RegisterItemForm = ({
     <form
       className={cx('registerItemForm-form')}
       action={"#"}
-      onSubmit={() => registerItem(mode, id,name, material, price, information)}
+      onSubmit={(e) => {
+        e.preventDefault();
+        registerItem(mode, id,name, material, price, information);
+      }}
     >
       <div className={cx('registerItemForm-leftPage')}>
         <div className={cx('registerItemForm-registerRow')}>

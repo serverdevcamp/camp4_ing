@@ -13,10 +13,11 @@ const cx = className.bind(style);
 
 const OrderView = ({}) => {
 
-  const profile = useSelector(state => state.profile);
+  const {userId,shopId} = useSelector(state => state.profile);
 
   const [orders, setOrders] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [orderId,setOrderId] = useState(0);
   const [price, setPrice] = useState(0);
   const [status, setStatus] = useState(0);
   const [pickUpAddress, setPickUpAddress] = useState('');
@@ -25,7 +26,8 @@ const OrderView = ({}) => {
   const [orderItems, setOrderItems] = useState([]);
 
   const getOrders = () => {
-    const url = `${EndPoint.logicServer}/order/${profile.shopId}`;
+    console.log(shopId,'haha');
+    const url = `${EndPoint.logicServer}/order/${shopId}`;
     axios.get(url)
       .then(response => {
         if (response.data.response !== 'success') {
@@ -33,6 +35,7 @@ const OrderView = ({}) => {
           return;
         }
         setOrders(response.data.data);
+        setModalOpen(false);
       })
       .catch(err => {
         alert('서버와 올바른 통신을 할 수 없습니다.');
@@ -40,7 +43,8 @@ const OrderView = ({}) => {
       })
   };
 
-  const setModalInfo = (status, price, pickUpAddress, deliveryAddress, createAt, orderItems) => {
+  const setModalInfo = (orderId,status, price, pickUpAddress, deliveryAddress, createAt, orderItems) => {
+    setOrderId(orderId);
     setPrice(price);
     setStatus(status);
     setPickUpAddress(pickUpAddress);
@@ -49,12 +53,24 @@ const OrderView = ({}) => {
     setOrderItems(orderItems);
   };
 
-  const modifyOrderStatus = () => {
-
+  const modifyOrderStatus = (orderId, status) => {
+    const url = `${EndPoint.logicServer}/order/${shopId}/${orderId}/`;
+    axios.put(url, {
+      status
+    }).then(response => {
+      if (response.data.response !== 'success') {
+        alert('주문 상태 수정 중 오류가 발생했습니다.');
+        return;
+      }
+      alert('주문 상태 변경이 성공적으로 이루어졌습니다.');
+      getOrders();
+    }).catch(err => {
+      alert('서버와의 네트워크 연결이 올바르지 않습니다.');
+    })
   };
 
   useEffect(() => {
-    getOrders();
+    setTimeout(getOrders,500);
   }, []);
 
   return (
@@ -70,12 +86,14 @@ const OrderView = ({}) => {
       <DetailOrderModal
         isModalOpen={isModalOpen}
         setModalOpen={setModalOpen}
-        status = {status}
-        price = {price}
-        pickUpAddress = {pickUpAddress}
-        deliveryAddress = {deliveryAddress}
-        createAt = {createAt}
-        orderItems = {orderItems}
+        orderId={orderId}
+        status={status}
+        price={price}
+        pickUpAddress={pickUpAddress}
+        deliveryAddress={deliveryAddress}
+        createAt={createAt}
+        orderItems={orderItems}
+        modifyOrderStatus={modifyOrderStatus}
       />
     </div>
   )

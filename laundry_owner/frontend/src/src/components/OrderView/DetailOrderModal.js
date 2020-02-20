@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Box, Modal, Paper, Typography, withStyles,Menu} from "@material-ui/core";
+import {Box, Modal, Paper, Typography, withStyles, Menu} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import ClearIcon from '@material-ui/icons/Clear';
 import {Button} from "@material-ui/core";
@@ -83,19 +83,20 @@ const StyledMenu = withStyles({
 ));
 
 const DetailOrderModal = ({
-                            isModalOpen, status, price, pickUpAddress, deliveryAddress, createAt, orderItems,
-                            setModalOpen
+                            isModalOpen, orderId, status, price, pickUpAddress, deliveryAddress, createAt, orderItems,
+                            setModalOpen, modifyOrderStatus
                           }) => {
 
+  let index = 0;
   const style = modalStyle();
 
-  const [menuAnchor,setMenuAnchor] = useState(null);
+  const [menuAnchor, setMenuAnchor] = useState(null);
 
   const clickMenu = (e) => {
     setMenuAnchor(e.target);
   };
 
-  const closeMenu = () =>{
+  const closeMenu = () => {
     setMenuAnchor(null);
   };
 
@@ -120,7 +121,7 @@ const DetailOrderModal = ({
           className={style.content}
         >
           <Box
-            className={[style.rowItem, style.spaceBetween]}
+            className={`${style.rowItem} ${style.spaceBetween}`}
           >
             <Typography
               variant={"h6"}
@@ -129,52 +130,86 @@ const DetailOrderModal = ({
             </Typography>
             <Typography>
               {status}
-                <Button
-                  style={{
-                    marginLeft : '10px',
-                    backgroundColor : "#ffffff",
-                    border : '1px solid #35AD3A',
-                  }}
-                  size={"small"}
-                  onClick={(e) => clickMenu(e)}
-                >
-                  변경하기
-                </Button>
+              <Button
+                style={{
+                  marginLeft: '10px',
+                  backgroundColor: "#ffffff",
+                  border: '1px solid #35AD3A',
+                }}
+                size={"small"}
+                onClick={(e) => clickMenu(e)}
+              >
+                변경하기
+              </Button>
               <StyledMenu
                 anchorEl={menuAnchor}
                 keepMounted
                 open={Boolean(menuAnchor)}
                 onClose={closeMenu}
               >
-                <MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    modifyOrderStatus(orderId,'ready');
+                    closeMenu();
+                  }}
+                >
                   미결제
                 </MenuItem>
-                <MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    modifyOrderStatus(orderId,'paid');
+                    closeMenu();
+                  }}
+                >
                   결제완료
                 </MenuItem>
-                <MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    modifyOrderStatus(orderId,'cancelled');
+                    closeMenu();
+                  }}
+                >
                   결제취소
                 </MenuItem>
-                <MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    modifyOrderStatus(orderId,'failed');
+                    closeMenu();
+                  }}
+                >
                   결제실패
                 </MenuItem>
-                <MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    modifyOrderStatus(orderId,'waiting');
+                    closeMenu();
+                  }}
+                >
                   세탁대기
                 </MenuItem>
-                <MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    modifyOrderStatus(orderId,'process');
+                    closeMenu();
+                  }}
+                >
                   세탁처리
                 </MenuItem>
-                <MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    modifyOrderStatus(orderId,'finished');
+                    closeMenu();
+                  }}
+                >
                   세탁완료
                 </MenuItem>
               </StyledMenu>
 
 
-
             </Typography>
           </Box>
           <Box
-            className={[style.rowItem, style.spaceBetween]}
+            className={`${style.rowItem} ${style.spaceBetween}`}
           >
             <Typography
               variant={"h6"}
@@ -239,9 +274,9 @@ const DetailOrderModal = ({
             >
               상품 정보
             </Typography>
-            {orderItems.map(item=>(
-              <Typography>
-                상품명 : {item.laundry_item}, 수량 : {item.quantity} 개
+            {orderItems.map(item => (
+              <Typography key={index++}>
+                상품명 : {item.laundry_item.category} 소재 : {item.laundry_item.material} 수량 : {item.quantity} 개
               </Typography>
             ))}
 

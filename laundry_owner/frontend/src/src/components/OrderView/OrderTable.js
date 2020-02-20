@@ -53,10 +53,6 @@ const OrderTable = ({
     }
   };
 
-  useEffect(()=>{
-    console.log(orders.slice(currentPage*8,(currentPage+1)*8));
-  });
-
   return (
     <TableContainer component={Paper}>
       <Table className={style.table}>
@@ -79,7 +75,7 @@ const OrderTable = ({
               <TableCell align={"center"}><span className={style.cell}>{item.pickup_address}</span></TableCell>
               <TableCell align={"center"}>
                 {item.orderitem.map(orderItem => (
-                  (`${orderItem.laundry_item} ${orderItem.quantity}`)
+                  (`${orderItem.laundry_item.category} ${orderItem.quantity}`)
                 ))}
               </TableCell>
               <TableCell align={"center"}>{item.total_price}</TableCell>
@@ -89,7 +85,7 @@ const OrderTable = ({
                   style={{cursor: "pointer", color: "#35AD3A"}}
                   onClick={() => {
                     setModalOpen(true);
-                    setModalInfo(statusToString(item.status), item.total_price, item.pickup_address,
+                    setModalInfo(item.id,statusToString(item.status), item.total_price, item.pickup_address,
                       item.delivery_address, item.created_at, item.orderitem);
                   }}
                 /></TableCell>

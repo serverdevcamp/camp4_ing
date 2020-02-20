@@ -98,6 +98,7 @@ const ProductRegistrationView = ({}) => {
 
   const deleteItem = (itemId) => {
     const url = `${EndPoint.logicServer}/mylaundry/item_info/${profile.shopId}/${itemId}`;
+    console.log(url);
     axios.delete(url)
       .then(response => {
         console.log(response);

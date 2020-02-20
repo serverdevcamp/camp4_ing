@@ -33,31 +33,6 @@ const SignUpInputForm = ({
   const [openTime, setOpenTime] = useState(new Date('2020-02-20T06:30:00'));
   const [closeTime, setCloseTime] = useState(new Date('2020-02-20T22:00:00'));
 
-  //
-  // operationList: [{
-  //   id: 1,
-  //   days: ['월', '화'],
-  //   openTime: "10:30",
-  //   closeTime: "22:30"
-  // },
-  //   {
-  //     id: 2,
-  //     days: ['목', '토'],
-  //     openTime: "10:30",
-  //     closeTime: "22:30"
-  //   },
-  //   {
-  //     id: 3,
-  //     days: ['금', '목'],
-  //     openTime: "10:30",
-  //     closeTime: "22:30"
-  //   }, {
-  //     id: 4,
-  //     days: ['월', '화'],
-  //     openTime: "10:30",
-  //     closeTime: "22:30"
-  //   }]
-
   const onToggleModal = () => {
     setOpenModal(!isOpenedModal);
   };
