@@ -15,8 +15,11 @@ html {
 }
 
 body {
-    box-sizing: border-box;
     color: #333333;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 *:focus {

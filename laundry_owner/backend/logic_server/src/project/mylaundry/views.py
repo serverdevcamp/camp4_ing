@@ -177,7 +177,7 @@ class ItemDetailInfoView(APIView):
                 'message': '{} item을 찾을 수 없습니다.'.format(item_id)
             })
         try:
-            item.delete()
+            item.status = '1'
         except:
             return Response({
                 'response': 'error',
