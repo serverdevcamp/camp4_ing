@@ -13,7 +13,7 @@ import RegisteredItemList from "../components/ProductRegistrationView/Registered
 const cx = className.bind(style);
 
 export const MODE = {
-  REGISTRATION : 0x01,
+  REGISTRATION: 0x01,
   MODIFY: 0x02,
 };
 
@@ -25,11 +25,11 @@ const ProductRegistrationView = ({}) => {
   const [showForm, setShowForm] = useState(false);
 
   const [mode, setMode] = useState(MODE.REGISTRATION);
+  const [id, setId] = useState(-1);
   const [name, setName] = useState('와이셔츠');
   const [material, setMaterial] = useState('와이셔츠');
   const [price, setPrice] = useState('');
   const [information, setInformation] = useState('');
-
 
   const initInput = () => {
     setMode(MODE.REGISTRATION);
@@ -40,9 +40,10 @@ const ProductRegistrationView = ({}) => {
     setShowForm(false);
   };
 
-  const registerItem = (mode, name, material, price, information) => {
+  const registerItem = (mode, id, name, material, price, information) => {
     const parsedPrice = parseInt(price, 10);
     const item = {
+      id,
       category: name,
       material,
       price: parsedPrice,
@@ -52,7 +53,7 @@ const ProductRegistrationView = ({}) => {
 
     if (mode === MODE.REGISTRATION) {
       requestRegisterItem(item);
-    }else{
+    } else {
       requestModifyItem(item);
     }
   };
@@ -69,6 +70,7 @@ const ProductRegistrationView = ({}) => {
         }
         alert('상품이 올바르게 등록됐습니다.');
         initInput();
+        getItems();
       })
       .catch(err => {
         console.log(err);
@@ -76,12 +78,48 @@ const ProductRegistrationView = ({}) => {
   };
 
   const requestModifyItem = (item) => {
-
+    axios.put(`${EndPoint.logicServer}/mylaundry/item_info/${profile.shopId}/${item.id}`, {
+      item
+    })
+      .then(response => {
+        if (response.data.response !== 'success') {
+          alert('상품의 정보를 확인해 주세요.');
+          console.log(response.data);
+          return;
+        }
+        alert('상품이 올바르게 수정됐습니다.');
+        initInput();
+        getItems();
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
-  const openRegistrationForm = (mode) => {
+  const deleteItem = (itemId) => {
+    const url = `${EndPoint.logicServer}/mylaundry/item_info/${profile.shopId}/${itemId}`;
+    console.log(url);
+    axios.delete(url)
+      .then(response => {
+        console.log(response);
+        getItems();
+      })
+      .catch(err => {
+          console.log(err)
+        }
+      )
+  };
+
+  const openRegistrationForm = (mode, id, name, material, price, information) => {
     setShowForm(true);
     setMode(mode);
+    if (mode === MODE.MODIFY && name !== null) {
+      setId(id);
+      setName(name);
+      setMaterial(material);
+      setPrice(price);
+      setInformation(information);
+    }
   };
 
   const getItems = () => {
@@ -98,12 +136,12 @@ const ProductRegistrationView = ({}) => {
       })
       .catch(err => {
         alert('서버와의 통신중 오류가 발생했습니다.');
-
       })
   };
 
+
   useEffect(() => {
-    setTimeout(getItems,100);
+    setTimeout(getItems, 100);
   }, []);
 
 
@@ -127,6 +165,7 @@ const ProductRegistrationView = ({}) => {
         </div>
         <RegisteredItemList
           items={items}
+          deleteItem={deleteItem}
           openRegistrationForm={openRegistrationForm}
         />
 
@@ -142,10 +181,12 @@ const ProductRegistrationView = ({}) => {
             </Typography>
             < RegisterItemForm
               mode={mode}
+              id={id}
               price={price}
               material={material}
               name={name}
               information={information}
+              setId={setId}
               setPrice={setPrice}
               setMaterial={setMaterial}
               setName={setName}

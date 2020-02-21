@@ -9,8 +9,8 @@ import CustomButton from "../Common/CustomButton";
 const cx = className.bind(style);
 
 const RegisterItemForm = ({
-                            price, material, name, information, mode,
-                            setPrice, setMaterial, setName, setInformation,
+                            id, price, material, name, information, mode,
+                            setId, setPrice, setMaterial, setName, setInformation,
                             registerItem, openRegistrationForm
                           }) => {
 
@@ -19,7 +19,10 @@ const RegisterItemForm = ({
     <form
       className={cx('registerItemForm-form')}
       action={"#"}
-      onSubmit={() => registerItem(mode, name, material, price, information)}
+      onSubmit={(e) => {
+        e.preventDefault();
+        registerItem(mode, id,name, material, price, information);
+      }}
     >
       <div className={cx('registerItemForm-leftPage')}>
         <div className={cx('registerItemForm-registerRow')}>

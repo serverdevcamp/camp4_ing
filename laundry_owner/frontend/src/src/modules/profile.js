@@ -1,12 +1,15 @@
 const SETUSERNAME = 'Profile/SETUSERNAME';
+const SETUSERID = 'Profile/SETUSERID';
 const SETSHOPID = 'Profile/SETSHOPID';
 
 export const setUserName = (userName) => ({type: SETUSERNAME, userName : userName});
 export const setShopId = (shopId) => ({type: SETSHOPID, shopId : shopId});
+export const setUserId = (userId) => ({type: SETUSERID , userId : userId});
 
 const initialProfile = {
-  userName : 'a12',
-  shopId : '5',
+  userName : '',
+  userId: '',
+  shopId : '',
 };
 
 const profile = (profile = initialProfile, action) =>{
@@ -18,6 +21,10 @@ const profile = (profile = initialProfile, action) =>{
     case SETSHOPID:
       return Object.assign({},profile,{
         shopId : action.shopId
+      });
+    case SETUSERID:
+      return Object.assign({},profile,{
+        userId : action.userId
       });
     default:
       return initialProfile;

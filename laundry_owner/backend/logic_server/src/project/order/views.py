@@ -16,7 +16,7 @@ class OrderView(APIView):
         return Response({
             'response': 'success',
             'message': '{} 세탁소의 주문 조회 요청이 성공하였습니다.'.format(shop_id),
-            'status': laundry_shop.status,
+            'laundryshop_status': laundry_shop.status,
             'data': serializer.data
         })
 

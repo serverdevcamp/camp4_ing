@@ -20,7 +20,7 @@ class ProfileSerializer(sz.ModelSerializer):
             business_num=validated_data['business_num']
         )
         user.set_password(validated_data['password'])
-        user.satatus = "0"
+        user.status = "0"
         user.role = "5"
         user.save()
         return user

@@ -6,6 +6,7 @@ from .models import LaundryShop, LaundryItem, Review
 from order.models import Order, OrderItem
 from .pagination import PostPageNumberPagination
 from django.db.models import Sum, Q
+import json
 
 
 
@@ -158,7 +159,7 @@ class ItemDetailInfoView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response({
-                'response': 'sucess',
+                'response': 'success',
                 'message': 'item이 성공적으로 수정되었습니다.',
                 'data': serializer.data
             })
@@ -176,7 +177,7 @@ class ItemDetailInfoView(APIView):
                 'message': '{} item을 찾을 수 없습니다.'.format(item_id)
             })
         try:
-            item.delete()
+            item.status = '1'
         except:
             return Response({
                 'response': 'error',
@@ -184,7 +185,7 @@ class ItemDetailInfoView(APIView):
             })
 
         return Response({
-            'response': 'error',
+            'response': 'success',
             'message': 'review가 성공적으로 삭제되었습니다.'
         })
 
@@ -196,7 +197,18 @@ class ReviewView(APIView):
         paginator = pagination_class()
         page = paginator.paginate_queryset(queryset, request)
         serializer = ParentReviewSerializer(page, many=True)
-        return  paginator.get_paginated_response(serializer.data)
+        return Response({
+            'response': 'success',
+            'data':{
+            'links': {
+                'next':paginator.get_next_link(),
+                'previous': paginator.get_previous_link()
+            },
+            'count': paginator.page.paginator.count,
+            'results': serializer.data
+            }
+        })
+
 
 
 class UncommentReviewView(APIView):
@@ -207,7 +219,17 @@ class UncommentReviewView(APIView):
         paginator = pagination_class()
         page = paginator.paginate_queryset(queryset, request)
         serializer = ParentReviewSerializer(page, many=True)
-        return paginator.get_paginated_response(serializer.data)
+        return Response({
+            'response': 'success',
+            'data':{
+            'links': {
+                'next':paginator.get_next_link(),
+                'previous': paginator.get_previous_link()
+            },
+            'count': paginator.page.paginator.count,
+            'results': serializer.data
+            }
+        })
 
 class CommentReviewView(APIView):
     def get(self, request, shop_id, *args, **kwargs):
@@ -218,7 +240,17 @@ class CommentReviewView(APIView):
         paginator = pagination_class()
         page = paginator.paginate_queryset(queryset, request)
         serializer = ParentReviewSerializer(page, many=True)
-        return paginator.get_paginated_response(serializer.data)
+        return Response({
+            'response': 'success',
+            'data':{
+            'links': {
+                'next':paginator.get_next_link(),
+                'previous': paginator.get_previous_link()
+            },
+            'count': paginator.page.paginator.count,
+            'results': serializer.data
+            }
+        })
 
 class CommentView(APIView):
     def post(self, request, shop_id, review_id, *args, **kwargs):
@@ -282,7 +314,7 @@ class CommentView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response({
-                'response': 'sucess',
+                'response': 'success',
                 'message': 'review가 성공적으로 수정되었습니다.',
                 'data': serializer.data
             })
@@ -329,7 +361,7 @@ class StatisticTime_weeklyMoneyView(APIView):
 
     def get(self, request, shop_id, *args, **kwargs):
         laundryshop = LaundryShop.objects.get(id=shop_id)
-        order=Order.objects.filter(laundry_shop=laundryshop).exclude(Q(status='cancelled')&Q(status='failed')&Q(status='ready')).extra({'order' :"concat(year(created_at), '년', month(created_at), '월', weekofyear(created_at) - week(concat(year(created_at),'-',month(created_at),'-01'),1) +1, '주차' , ' 월요일날짜 :', date_add(date_sub(concat(year(created_at),'-01-01'), interval weekday(concat(year(created_at), '-01-01'))day), interval (week(created_at,1)-1)*7 day))"}).values('order').annotate(weekly_total=Sum('total_price')).order_by('-order')[:15]
+        order=Order.objects.filter(laundry_shop=laundryshop).exclude(Q(status='cancelled')&Q(status='failed')&Q(status='ready')).extra({'order' :"concat(year(created_at), '년', month(created_at), '월', weekofyear(created_at) - week(concat(year(created_at),'-',month(created_at),'-01'),1) +1, '주차' )"}).values('order').annotate(weekly_total=Sum('total_price')).order_by('-order')[:15]
         print(order)
         return Response({
             'response': 'success',
@@ -369,7 +401,7 @@ class StatisticTime_weeklyOrdervalueView(APIView):
     def get(self, request, shop_id, laundryitem_id, *args, **kwargs):
         laundryitem = LaundryItem.objects.get(id=laundryitem_id)
         laundryshop = LaundryShop.objects.get(id=shop_id)
-        ordervalue=OrderItem.objects.filter(laundry_item=laundryitem).extra({'order' :"SELECT concat(year(created_at), '년', month(created_at), '월', weekofyear(created_at) - week(concat(year(created_at),'-',month(created_at),'-01'),1) +1, '주차' , ' 월요일날짜 :', date_add(date_sub(concat(year(created_at),'-01-01'), interval weekday(concat(year(created_at), '-01-01'))day), interval (week(created_at,1)-1)*7 day)) FROM Order_Order WHERE id= Order_OrderItem.order_id"}).values('order').annotate(weekly_total=Sum('quantity')).order_by('-order')[:15]
+        ordervalue=OrderItem.objects.filter(laundry_item=laundryitem).extra({'order' :"SELECT concat(year(created_at), '년', month(created_at), '월', weekofyear(created_at) - week(concat(year(created_at),'-',month(created_at),'-01'),1) +1, '주차' ) FROM Order_Order WHERE id= Order_OrderItem.order_id"}).values('order').annotate(weekly_total=Sum('quantity')).order_by('-order')[:15]
         print(ordervalue)
         return Response({
             'response': 'success',

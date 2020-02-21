@@ -1,64 +1,63 @@
 import React from 'react';
-import styles from '../components/ReviewView/OrderListView.scss';
+import styles from '../components/ReviewView/ReviewListView.scss';
 import className from 'classnames/bind';
 import Header from '../components/Common/Header';
 import Menu from '../components/Common/Menu';
-import Laundry from '../components/ReviewView/Order';
+import Laundry from '../components/ReviewView/Review';
 import { Link } from "react-router-dom";
 
 
 const cx = className.bind(styles);
 
-const unfinishedData = [
+const unreivewData = [
   {
     id: 1,
     name: '크린토피아 전농점',
     day: '2020.01.06(월)',
-    money: '270000원',
-    status: 'waiting'
+    money: '270000원'
   },
   {
     id: 2,
     name: '크린토피아 전농점',
     day: '2020.01.06(월)',
-    money: '270000원',
-    status: 'processing'
+    money: '270000원'
   },
   {
     id: 3,
     name: '크린토피아 전농점',
     day: '2020.01.06(월)',
-    money: '270000원',
-    status: 'delivering'
+    money: '270000원'
   },
   {
     id: 4,
     name: '크린토피아 전농점',
     day: '2020.01.06(월)',
-    money: '270000원',
-    status: 'finished'
+    money: '270000원'
   },
 
 ];
 
-const finishedData = [
+const reviewData = [
  {
     id: 1,
     name: '크린토피아 전농점',
-    day: '2020.01.06(월)',
-    money: '270000원',
+    day: '2020.01.06',
+    star: 5,
+    content: '너무너무 매너가 좋으세요 세탁 다시 시키고 싶은 집^^!세탁물이 너무너무 깔끔하고 섬유유연제 좋은거 쓰는지 냄새도 좋네요 스멜스 굿!'
   },
    {
     id: 2,
     name: '크린토피아 전농점',
-    day: '2020.01.06(월)',
-    money: '270000원',
+    day: '2020.01.06',
+    star: 4,
+    content: '너무너무 매너가 좋으세요 세탁 다시 시키고 싶은 집^^!세탁물이 너무너무 깔끔하고 섬유유연제 좋은거 쓰는지 냄새도 좋네요 스멜스 굿!'
   },
    {
     id: 3,
     name: '크린토피아 전농점',
-    day: '2020.01.06(월)',
-    money: '270000원',
+    day: '2020.01.06',
+    star: 0,
+    content: '너무너무 매너가 좋으세요 세탁 다시 시키고 싶은 집^^!세탁물이 너무너무 깔끔하고 섬유유연제 좋은거 쓰는지 냄새도 좋네요 스멜스 굿!'
   },
 ];
 
@@ -68,31 +67,31 @@ class ReviewView extends React.Component {
   render() {
     const { match } = this.props;
 
-    const leftComponent = unfinishedData.map(({ id, name, day, money,status }) => {
+    const leftComponent = unreivewData.map(({ id, name, day, money}) => {
       return (
         <Laundry
-          className={cx('order-item')}
+          className={cx('review-item')}
           key={id}
           id={id}
           name={name}
           day={day}
           money={money}
-          status={status}
           match={match}
         />
       )
     })
 
 
-    const rightComponent = finishedData.map(({ id, name, day, money}) => {
+    const rightComponent = reviewData.map(({ id, name, day, star, content}) => {
       return (
         <Laundry
-          className={cx('order-item')}
+          className={cx('review-item')}
           key={id}
           id={id}
           name={name}
           day={day}
-          money={money}
+          star={star}
+          content={content}
           match={match}
         />
       )
@@ -105,12 +104,12 @@ class ReviewView extends React.Component {
 
     return (
       <div className={cx('order-list-page')} >
-        <Header name={"주문 내역"} handle={handleMain} />
+        <Header name={"리뷰조회"} handle={handleMain} />
         <Menu
-          leftLabel={'완료된 세탁'}
-          rightLabel={'진행중인 세탁'}
-          leftComponent={rightComponent}
-          rightComponent={leftComponent}
+          leftLabel={'리뷰 안한 주문'}
+          rightLabel={'리뷰 남긴 주문'}
+          leftComponent={leftComponent}
+          rightComponent={rightComponent}
         >
         </Menu>
       </div>
