@@ -201,7 +201,6 @@ class UserLoginView(APIView):
                 'message': '로그인 요청이 성공하였습니다.',
                 'user_id': user.id,
                 'shop_id': shop.id
-
             })
             request.session[key] = token
             response.set_cookie('jwt', key)
@@ -217,6 +216,11 @@ class UserLoginView(APIView):
 def logout(request):
     key = request.COOKIES.get('jwt')
     cache.delete(key)
+    response = Response({
+        'response': 'success',
+        'message': '로그아웃 요청이 성공하였습니다.',
+    })
+    response.delete_cookie('jwt')
     try:
         del request.session[key]
     except:
@@ -224,10 +228,7 @@ def logout(request):
             'response': 'error',
             'message': '로그인 되어있지 않습니다.'
         })
-    return Response({
-        'response': 'success',
-        'message': '로그아웃 요청이 성공하였습니다.'
-    })
+    return response
 
 
 
