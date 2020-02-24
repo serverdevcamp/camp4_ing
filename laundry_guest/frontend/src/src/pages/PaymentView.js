@@ -8,11 +8,13 @@ import CustomButton from '../components/Common/CustomButton';
 import axios from 'axios';
 import EndPoint from "../config/EndPoint";
 import { useSelector } from "react-redux";
+import queryString from 'query-string';
+import { withUserAgent } from 'react-useragent';
 
 const cx = className.bind(styles);
 
-const PaymentView = ({ match, history }) => {
-
+const PaymentView = ({ match, history, ua }) => {
+  console.log(ua);
   const [pickupAddress, setPickupAddress] = useState('');
   const [pickupDetailAddress, setpickupDetailAddress] = useState('');
   const [deliveryAddress, setdeliveryAddress] = useState('');
@@ -32,21 +34,72 @@ const PaymentView = ({ match, history }) => {
   }
 
   const handlePayment = () => {
-    axios.post(`${EndPoint.paymentServer}/payment/${laundryId}/order/`,
-      orderData,
-      { withCredentials: true }
-    )
-      .then(response => {
-        if (response.data.response === 'success') {
-          // TODO: 결제 성공 시 로직
-          console.log("주문 성공");
-        }
-        else {
-          console.log(response.data.message);
-          alert('주문 실패');
-        }
-      })
+    onClickPayment();
+
+    // Order 및 OrderItem 생성 로직
+    // axios.post(`${EndPoint.paymentServer}/payment/${laundryId}/order/`,
+    //   orderData,
+    //   { withCredentials: true }
+    // )
+    //   .then(response => {
+    //     if (response.data.response === 'success') {
+    //       // TODO: 결제 성공 시 로직
+    //       console.log("주문 성공");
+    //     }
+    //     else {
+    //       console.log(response.data.message);
+    //       alert('주문 실패');
+    //     }
+    //   })
   }
+
+  // iamport 
+
+  const onClickPayment = () => {
+    const { IMP } = window;
+    IMP.init('iamport');
+
+    const data = {
+      pg: 'html5_inicis',                           // PG사
+      pay_method: 'card',                           // 결제수단
+      merchant_uid: `mid_${new Date().getTime()}`,  // 주문번호
+      amount: 1000,                                 // 결제금액
+      name: '아임포트 결제 데이터 분석',                  // 주문명
+      buyer_name: '홍길동',                           // 구매자 이름
+      buyer_tel: '01012341234',                     // 구매자 전화번호
+      buyer_email: 'example@example',               // 구매자 이메일
+      buyer_addr: '신사동 661-16',                    // 구매자 주소
+      buyer_postcode: '06018',                      // 구매자 우편번호
+    };
+
+    IMP.request_pay(data, callback);
+  }
+
+
+  const callback = (response) => {
+    console.log(response);
+    const query = queryString.stringify(response);
+    console.log(query);
+
+    history.push(`/payment/result?${query}`);
+    // const {
+    //   success,
+    //   merchant_uid,
+    //   error_msg
+    // } = response;
+
+    // if (success) {
+    //   alert('결제 성공');
+    // } else {
+    //   alert(`결제 실패: ${error_msg}`);
+    // }
+  }
+
+  const isReactNative = () => {
+    if (ua.mobile) return true;
+    return false;
+  }
+
 
   useEffect(() => { }, []);
 
@@ -96,4 +149,4 @@ const PaymentView = ({ match, history }) => {
   )
 }
 
-export default PaymentView;
+export default withUserAgent(PaymentView);
