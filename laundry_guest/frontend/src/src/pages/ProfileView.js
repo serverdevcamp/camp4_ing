@@ -41,6 +41,7 @@ const ProfileView = ({ match }) => {
       })
   }
 
+
    const modifyProfile = () => {
 
     const data = {
@@ -74,7 +75,7 @@ const ProfileView = ({ match }) => {
     getProfile();
   }, []);
 
-   const handleMain = () => {
+    const handleMain = () => {
       window.location.href = '/';
    }
 
@@ -97,6 +98,7 @@ const ProfileView = ({ match }) => {
           detailAddressRef={detailAddressRef}
           modifyProfile={modifyProfile}
           />
+        <SignUpInputForm />
       </div>
     );
 

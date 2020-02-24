@@ -11,13 +11,10 @@ const cx = className.bind(styles);
 
 
 
-const AddressInput = ({ name, }) => {
+const AddressInput = ({ name, address, setAddress, detailAddress, setDetailAddress }) => {
 
-    let detailedAddress = React.createRef();
-    console.log(detailedAddress);
-
+    //let detailedAddress = React.createRef();
     const [isOpenedModal, setisOpenedModal] = useState(false);
-    const [address, setAddress] = useState('');
 
     const onToggleModal = () => {
         setisOpenedModal(!isOpenedModal)
@@ -26,7 +23,7 @@ const AddressInput = ({ name, }) => {
     const onClickAddress = (objAddress) => {
         setAddress(objAddress.address);
         onToggleModal();
-        console.log(detailedAddress.current);
+        //console.log(detailedAddress.current);
         // TODO: ref 는 함수 컴포넌트에서 가상돔에 접근을 못한다. 
         // forwardRef 를 사용하던지 클래스형 컴프넌트로하자
         //detailedAddress.current.focus();
@@ -54,9 +51,10 @@ const AddressInput = ({ name, }) => {
                 <CustomInput
                     className={cx('inputText')}
                     type={'text'}
-                    reference={detailedAddress}
+                    //reference={detailedAddress}
                     placeHolder={'상세주소를 입력해주세요.'}
                     required={true}
+                    onChangeEvent={e => setDetailAddress(e.target.value)}
                 />
             </div>
 

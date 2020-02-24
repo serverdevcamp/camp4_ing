@@ -115,7 +115,7 @@ const LaundryDetailView = ({ match, history }) => {
       </Menu>
       <Link to={{
         pathname: `${match.url}/order`,
-        state: { orderItems }
+        state: { name, orderItems }
       }}>
         <Fab
           className={'fab-button'}
