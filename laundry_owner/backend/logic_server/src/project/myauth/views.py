@@ -21,6 +21,8 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 
 
+
+
 class CreateProfileView(APIView):
     permission_classes = [permissions.AllowAny]
 
@@ -455,7 +457,9 @@ def jwt_create(username):
 
     payload = {
         "userid": userid,
+        "username": username,
         "shopid": shopid,
+        "shopstatus":shop.status,
         "now_time": now_time
     }
 
@@ -463,3 +467,24 @@ def jwt_create(username):
     return token
 
 
+class Checktoken(APIView):
+    '''
+        토큰 디코딩
+
+               ---
+
+                   {
+                       "token": "1wefsdgfxcbcvbchbncmjvmcfgnfnbvcndhfg"
+                   }
+
+               '''
+
+    def post(self, request, *args, **kargs):
+        token = request.data.get('token')
+        key = settings.SECRET_KEY
+        decrypted_token = jwt.decode(token.encode('utf-8'), key, algorithm='HS256')
+        return Response({
+            'response': 'success',
+            'message': 'token 복호화 성공',
+            'data': decrypted_token
+        })

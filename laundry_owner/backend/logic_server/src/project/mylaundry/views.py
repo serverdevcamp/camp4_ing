@@ -181,12 +181,14 @@ class ItemDetailInfoView(APIView):
         except:
             return Response({
                 'response': 'error',
-                'message': 'db에서 삭제에 실패했습니다.'
+                'message': 'db에서 삭제에 실패했습니다.',
+                'data': item.status
             })
 
         return Response({
             'response': 'success',
-            'message': 'review가 성공적으로 삭제되었습니다.'
+            'message': 'review가 성공적으로 삭제되었습니다.',
+            'data': item.status
         })
 
 class ReviewView(APIView):

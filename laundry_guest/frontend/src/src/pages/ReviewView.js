@@ -1,10 +1,12 @@
-import React from 'react';
+import React , { useState, useEffect } from 'react';
 import styles from '../components/ReviewView/ReviewListView.scss';
 import className from 'classnames/bind';
 import Header from '../components/Common/Header';
 import Menu from '../components/Common/Menu';
 import Laundry from '../components/ReviewView/Review';
 import { Link } from "react-router-dom";
+import axios from 'axios';
+import EndPoint from '../config/EndPoint';
 
 
 const cx = className.bind(styles);
@@ -61,11 +63,25 @@ const reviewData = [
   },
 ];
 
-class ReviewView extends React.Component {
+const ReviewView  = ({ match, history }) => {
+
+const [reviews, setReviews] = useState([]);
+
+const getReviews = () => {
+    axios.get(`${EndPoint.laundryServer}/laundry/order/True`)
+      .then(response => {
+        if (response.data.response === 'success') {
+          console.log(response.data.data);
+          setReviews(response.data.data);
+        }
+        else {
+          console.error(response);
+        }
+      })
+  }
 
 
-  render() {
-    const { match } = this.props;
+
 
     const leftComponent = unreivewData.map(({ id, name, day, money}) => {
       return (
@@ -102,6 +118,10 @@ class ReviewView extends React.Component {
       window.location.href = '/';
     }
 
+    useEffect(() => {
+    getReviews();
+  }, []);
+
     return (
       <div className={cx('order-list-page')} >
         <Header name={"리뷰조회"} handle={handleMain} />
@@ -114,7 +134,6 @@ class ReviewView extends React.Component {
         </Menu>
       </div>
     )
-  }
 }
 
 export default ReviewView;
