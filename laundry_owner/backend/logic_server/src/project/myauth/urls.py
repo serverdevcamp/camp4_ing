@@ -5,6 +5,7 @@ app_name = 'myauth'
 
 urlpatterns = [
     path('', views.main, name="main"),
+    path('checktoken/', views.Checktoken.as_view(), name="checktoken"),
     path('sign_up/', views.CreateProfileView.as_view(), name="sign_up"),
     path('login/', views.UserLoginView.as_view(), name="login"),
     path('logout/', views.logout, name="logout"),

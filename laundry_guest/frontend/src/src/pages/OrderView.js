@@ -4,45 +4,22 @@ import className from 'classnames/bind';
 import Header from '../components/Common/Header';
 import OrderItem from '../components/OrderView/OrderItem';
 import CustomButton from '../components/Common/CustomButton';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setTotalPriceRedux } from "../modules/basket";
 
 const cx = className.bind(styles);
 
-// const orderItemData = [
-//   {
-//     id: 1,
-//     category: "바지",
-//     material: "면",
-//     count: 5,
-//     price: 2000,
-//     requirement: "바지도 조심히 빨아주세요."
-//   },
-//   {
-//     id: 2,
-//     category: "셔츠",
-//     material: "린넨",
-//     count: 4,
-//     price: 3000,
-//     requirement: "린넨은 구김 펴주세요."
-//   },
-//   {
-//     id: 3,
-//     category: "바지",
-//     material: "청",
-//     count: 1,
-//     price: 4000,
-//     requirement: "청물 안빠지게 해주세요."
-//   },
-// ]
-
 const OrderView = ({ history, match, location }) => {
-  //const [orderItemComponent, setOrderItemComponent] = useState([]);
+  const { name: laundryName } = location.state;
   const [totalPrice, setTotalPrice] = useState(0);
-  //let totalPrice = 0;
   const { basketItems } = useSelector(state => state.basket, []);
-  console.log(basketItems);
 
-  const laundryName = "스마일 세탁소";
+
+  const dispatch = useDispatch();
+
+  const setTotalPriceInBasket = (totalPrice) => {
+    dispatch(setTotalPriceRedux(totalPrice));
+  }
 
   const handlePaymentView = () => {
     const urlItems = match.url.split('/');
@@ -53,8 +30,6 @@ const OrderView = ({ history, match, location }) => {
   }
 
   const orderItemComponent = basketItems.map(({ count, price, ...rest }) => {
-    console.log("orderItemComponent");
-    //totalPrice += count * price;
     return (
       <OrderItem
         //key={id}
@@ -65,11 +40,13 @@ const OrderView = ({ history, match, location }) => {
     )
   })
 
+  const ClickOrderButton = (totalPrice) => {
+    setTotalPriceInBasket(totalPrice);
+    handlePaymentView();
+  }
+
   useEffect(() => {
-    console.log(basketItems);
     basketItems.map(({ price, count }) => {
-      console.log(price);
-      console.log(totalPrice, price * count);
       setTotalPrice(prev => prev + price * count);
     })
   }, [basketItems]);
@@ -93,7 +70,7 @@ const OrderView = ({ history, match, location }) => {
         </div>
       <CustomButton
         type={'button'}
-        onClick={handlePaymentView}
+        onClick={() => ClickOrderButton(totalPrice)}
         className={'order-button'}
         value={'주문하기'}
         isInActive={true}

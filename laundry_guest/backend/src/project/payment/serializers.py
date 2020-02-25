@@ -30,11 +30,12 @@ class OrderItemSerializer(sz.ModelSerializer):
         order_item = OrderItem(
             order=validated_data['FK']['order'],
             laundry_item=validated_data['FK']['laundry_item'],
-            quantity=validated_data['quantity']
+            quantity=validated_data['quantity'],
+            requirement=validated_data['requirement']
         )
         order_item.save()
         return order_item
 
     class Meta:
         model = OrderItem
-        fields = ['quantity']
+        fields = ['quantity', 'requirement']

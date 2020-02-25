@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from '../components/LoginView/LoginView.scss';
 import className from 'classnames/bind';
 import axios from 'axios';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import EndPoint from '../config/EndPoint';
 import LoginInput from '../components/LoginView/LoginInput';
 import { setUsernameRedux } from "../modules/profile";

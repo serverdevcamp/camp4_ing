@@ -1,16 +1,27 @@
 const SETBASKETITEMS = 'basket/SETBASKETITEMS';
+const SETTOTALPRICE = 'basket/SETTOTALPRICE';
 
 export const setBasketItemsRedux = (basketItems) => ({
   type: SETBASKETITEMS,
   basketItems: basketItems
 });
 
+export const setTotalPriceRedux = (totalPrice) => ({
+  type: SETTOTALPRICE,
+  totalPrice: totalPrice
+});
+
 const initialBasket = {
+  totalPrice: 0,
   basketItems: []
 };
 
 const basket = (basket = initialBasket, action) => {
   switch (action.type) {
+    case SETTOTALPRICE:
+      return Object.assign({}, basket, {
+        totalPrice: action.totalPrice
+      })
     case SETBASKETITEMS:
       // 이미 같은 품목이 장바구니에 있으면 기존에 있던 품목 삭제
       basket.basketItems.forEach((basketItem, index) => {
@@ -18,8 +29,7 @@ const basket = (basket = initialBasket, action) => {
           basket.basketItems.slice(index, 1);
         }
       })
-      console.log("basket.js");
-      console.log(basket.basketItems);
+
       return Object.assign({}, basket, {
         basketItems: [
           ...basket.basketItems,

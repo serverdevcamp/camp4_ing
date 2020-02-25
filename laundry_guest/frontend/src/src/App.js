@@ -11,8 +11,8 @@ function App() {
         <Route path="/login" component={LoginPage} />
         <Route path="/signup" component={SignUpPage} />
 
-        <Route path="/profile" component={ProfilePage} />
-        <Route path="/orderlist" component={OrderListPage} />
+        <Route path="/profile/:id" component={ProfilePage} />
+        <Route path="/orderlist/:id" component={OrderListPage} />
         <Route path="/orderdetail/:id" component={OrderDetailPage} />
         <Route path="/review" component={ReviewPage} />
         <Route path="/reviewregister/:id" component={ReviewRegisterPage} />

@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import className from 'classnames';
 import Header from '../components/Common/Header';
 import styles from '../components/ReviewRegisterView/ReviewRegisterView.scss';
 import ReviewRegisterInputForm from '../components/ReviewRegisterView/ReviewRegisterInputForm';
+import axios from 'axios';
+import EndPoint from '../config/EndPoint';
+
 
 const cx = className.bind(styles);
 
@@ -15,8 +18,22 @@ const reviewData ={
 }
 
 
-class ReviewRegisterView extends React.Component {
-  render() {
+const ReviewRegisterView = ({ match}) => {
+
+    const [review, setReview] =useState([]);
+    const getReview = () => {
+    axios.get(`${EndPoint.laundryServer}/laundry/`)
+      .then(response => {
+        if (response.data.response === 'success') {
+          console.log(response.data.data);
+          setReview(response.data.data);
+        }
+        else {
+          console.error(response);
+        }
+      })
+  }
+
 
      const handleMain = () => {
       window.location.href = '/';
@@ -35,7 +52,6 @@ class ReviewRegisterView extends React.Component {
           />
       </div>
     )
-  }
 }
 
 export default ReviewRegisterView;

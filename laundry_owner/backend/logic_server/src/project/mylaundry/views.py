@@ -71,6 +71,34 @@ class ItemInfoView(APIView):
         })
 
 
+class ShopstatusView(APIView):
+
+    def get(self, request, shop_id, *args, **kwargs):
+        '''
+              가게 상태 조회 API
+
+              ---
+        '''
+
+        laundryshop = LaundryShop.objects.get(id=shop_id)
+        user = laundryshop.profile
+        if laundryshop.sttus =='0':
+            status =  'close'
+        elif laundryshop.status =='1' :
+            status = 'open'
+        else:
+            status='disabled'
+        return Response({
+            'response': 'success',
+            'message': '상태 조회가 성공했습니다.',
+            'userid':user.id,
+            'shopid':laundryshop.id,
+            'username':user.username,
+            'shopname':laundryshop.name,
+            'shopstatus':status
+        })
+
+
 class OnoffView(APIView):
 
     def put(self, request, shop_id, *args, **kwargs):
@@ -181,12 +209,14 @@ class ItemDetailInfoView(APIView):
         except:
             return Response({
                 'response': 'error',
-                'message': 'db에서 삭제에 실패했습니다.'
+                'message': 'db에서 삭제에 실패했습니다.',
+                'data': item.status
             })
 
         return Response({
             'response': 'success',
-            'message': 'review가 성공적으로 삭제되었습니다.'
+            'message': 'review가 성공적으로 삭제되었습니다.',
+            'data': item.status
         })
 
 class ReviewView(APIView):
