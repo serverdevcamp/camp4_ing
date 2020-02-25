@@ -1,0 +1,34 @@
+.payment-result-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 812px;
+
+    .payment-result {
+        width: 80%;
+        height: 60%;
+        padding-left: 8%;
+        padding-right: 8%;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        .payment-title {
+            font-size: 25px;
+            margin-bottom: 40px;
+        }
+
+        .payment-sub-title {
+            width: 70%;
+            word-break: keep-all;
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .payment-result-button {
+            width: 80%;
+        }
+    }
+}

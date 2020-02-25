@@ -37,7 +37,7 @@ const basket = (basket = initialBasket, action) => {
         ]
       });
     default:
-      return initialBasket;
+      return basket;
   }
 }
 

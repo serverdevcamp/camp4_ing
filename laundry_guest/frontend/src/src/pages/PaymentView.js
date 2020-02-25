@@ -14,23 +14,50 @@ import { withUserAgent } from 'react-useragent';
 const cx = className.bind(styles);
 
 const PaymentView = ({ match, history, ua }) => {
-  console.log(ua);
   const [pickupAddress, setPickupAddress] = useState('');
   const [pickupDetailAddress, setpickupDetailAddress] = useState('');
   const [deliveryAddress, setdeliveryAddress] = useState('');
   const [deliveryDetailAddress, setdeliveryDetailAddress] = useState('');
   const [requirement, setRequirement] = useState('');
+  const [profileId, setProfileId] = useState(-1);
+  const [profileData, setProfileData] = useState({});
   const [laundryId] = useState(match.url.split('/')[match.url.split('/').length - 2]);
   const [deliveryTip] = useState(3000);
   const basket = useSelector(state => state.basket, []);
   const profile = useSelector(state => state.profile, []);
 
   const getUserId = () => {
-    axios.get(`${EndPoint.authServer}/myauth/get_user_id/${profile.username}}/`)
+    axios.get(`${EndPoint.authServer}/myauth/get_user_id/${profile.username}`)
       .then(response => {
-        console.log(response);
+        if (response.data.response === 'success') {
+          setProfileId(response.data.data);
+        } else {
+          console.error(response.data.message);
+        }
       })
+      .then(
+        axios.get(`${EndPoint.authServer}/myauth/profile/${profileId}`)
+          .then(response => {
+            if (response.data.response === 'success') {
+              console.log(response.data.data);
+              setProfileData(response.data.data);
+            } else {
+              console.error(response.data.message);
+            }
+          })
+      )
   }
+
+  // const getUserData = () => {
+  //   axios.get(`${EndPoint.authServer}/myauth/profile/${profileId}`)
+  //     .then(response => {
+  //       if (response.data.response === 'success') {
+  //         setProfileData(response.data.data);
+  //       } else {
+  //         console.error(response.data.message);
+  //       }
+  //     })
+  // }
 
 
   const orderData = {
@@ -68,17 +95,26 @@ const PaymentView = ({ match, history, ua }) => {
 
     const userCode = 'iamport';
 
+    const {
+      username,
+      email,
+      nickname,
+      address,
+      detail_address,
+      phone
+    } = profileData;
+
     const data = {
       pg: 'html5_inicis',                           // PG사
       pay_method: 'card',                           // 결제수단
       merchant_uid: `mid_${new Date().getTime()}`,  // 주문번호
       amount: basket.totalPrice + deliveryTip,      // 결제금액
-      name: '아임포트 결제 데이터 분석',                  // 주문명
-      buyer_name: '홍길동',                           // 구매자 이름
-      buyer_tel: '01012341234',                     // 구매자 전화번호
-      buyer_email: 'example@example',               // 구매자 이메일
-      buyer_addr: '신사동 661-16',                    // 구매자 주소
-      buyer_postcode: '06018',                      // 구매자 우편번호
+      name: `${username}의 주문`,                     // 주문명
+      buyer_name: nickname,                         // 구매자 이름
+      buyer_tel: phone,                             // 구매자 전화번호
+      buyer_email: email,                           // 구매자 이메일
+      buyer_addr: address,                          // 구매자 주소
+      buyer_postcode: detail_address,               // 구매자 우편번호
     };
 
     if (isReactNative()) {
@@ -96,24 +132,23 @@ const PaymentView = ({ match, history, ua }) => {
     }
   }
 
-
   const callback = (response) => {
     console.log(response);
+
     const query = queryString.stringify(response);
     console.log(query);
+    const {
+      success,
+      merchant_uid,
+      error_msg
+    } = response;
 
-    history.push(`/payment/result?${query}`);
-    // const {
-    //   success,
-    //   merchant_uid,
-    //   error_msg
-    // } = response;
-
-    // if (success) {
-    //   alert('결제 성공');
-    // } else {
-    //   alert(`결제 실패: ${error_msg}`);
-    // }
+    if (success) {
+      alert('결제 성공');
+      history.push(`/laundrylist/${laundryId}/payment/result`);
+    } else {
+      alert(`결제 실패: ${error_msg}`);
+    }
   }
 
   const isReactNative = () => {
@@ -123,9 +158,10 @@ const PaymentView = ({ match, history, ua }) => {
 
 
   useEffect(() => {
+
     getUserId();
-    console.log(profile);
-  }, [profile]);
+    //getUserData();
+  }, [profile, profileId]);
 
   return (
     <div className={cx('payment-page')}>

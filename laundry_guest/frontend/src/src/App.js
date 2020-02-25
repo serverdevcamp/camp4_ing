@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MainPage, LoginPage, SignUpPage, LaundryListPage, LaundryDetailPage,  ProfilePage, OrderListPage, OrderDetailPage, OrderPage, PaymentPage, ReviewPage, ReviewRegisterPage } from './pages';
+import { MainPage, LoginPage, SignUpPage, LaundryListPage, LaundryDetailPage, ProfilePage, OrderListPage, OrderDetailPage, OrderPage, PaymentPage, PaymentResultPage, ReviewPage, ReviewRegisterPage } from './pages';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 function App() {
@@ -20,7 +20,8 @@ function App() {
         <Route exact path="/laundrylist" component={LaundryListPage} />
         <Route exact path="/laundrylist/:id" component={LaundryDetailPage} />
         <Route path="/laundrylist/:id/order" component={OrderPage} />
-        <Route path="/laundrylist/:id/payment" component={PaymentPage} />
+        <Route exact path="/laundrylist/:id/payment" component={PaymentPage} />
+        <Route path="/laundrylist/:id/payment/result" component={PaymentResultPage} />
       </Router>
     </div>
   );
