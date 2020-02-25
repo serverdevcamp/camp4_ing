@@ -23,6 +23,15 @@ const PaymentView = ({ match, history, ua }) => {
   const [laundryId] = useState(match.url.split('/')[match.url.split('/').length - 2]);
   const [deliveryTip] = useState(3000);
   const basket = useSelector(state => state.basket, []);
+  const profile = useSelector(state => state.profile, []);
+
+  const getUserId = () => {
+    axios.get(`${EndPoint.authServer}/myauth/get_user_id/${profile.username}}/`)
+      .then(response => {
+        console.log(response);
+      })
+  }
+
 
   const orderData = {
     pickup_address: pickupAddress,
@@ -56,14 +65,14 @@ const PaymentView = ({ match, history, ua }) => {
   // iamport 
 
   const onClickPayment = () => {
-    const { IMP } = window;
-    IMP.init('iamport');
+
+    const userCode = 'iamport';
 
     const data = {
       pg: 'html5_inicis',                           // PG사
       pay_method: 'card',                           // 결제수단
       merchant_uid: `mid_${new Date().getTime()}`,  // 주문번호
-      amount: 1000,                                 // 결제금액
+      amount: basket.totalPrice + deliveryTip,      // 결제금액
       name: '아임포트 결제 데이터 분석',                  // 주문명
       buyer_name: '홍길동',                           // 구매자 이름
       buyer_tel: '01012341234',                     // 구매자 전화번호
@@ -72,7 +81,19 @@ const PaymentView = ({ match, history, ua }) => {
       buyer_postcode: '06018',                      // 구매자 우편번호
     };
 
-    IMP.request_pay(data, callback);
+    if (isReactNative()) {
+      const params = {
+        userCode,
+        data,
+        type: 'payment',
+      };
+      const paramsToString = JSON.stringify(params);
+      window.ReactNativeWebView.postMessage(paramsToString);
+    } else {
+      const { IMP } = window;
+      IMP.init(userCode);
+      IMP.request_pay(data, callback);
+    }
   }
 
 
@@ -101,7 +122,10 @@ const PaymentView = ({ match, history, ua }) => {
   }
 
 
-  useEffect(() => { }, []);
+  useEffect(() => {
+    getUserId();
+    console.log(profile);
+  }, [profile]);
 
   return (
     <div className={cx('payment-page')}>

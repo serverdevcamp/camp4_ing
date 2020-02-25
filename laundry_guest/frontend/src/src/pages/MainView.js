@@ -8,6 +8,7 @@ import className from "classnames/bind";
 import styles from "../components/MainView/MainView.scss";
 import MenuItem from '../components/MainView/MenuItem'
 import EndPoint from '../config/EndPoint';
+import { Link } from "react-router-dom";
 
 
 
@@ -17,7 +18,7 @@ const MainView = ({ }) => {
 
   const [laundrys, setLaundrys] = useState([]);
   const [searchedLaundry, setSearchedLaundry] = useState('');
-  const {username} = useSelector(state => state.profile, []);
+  const { username } = useSelector(state => state.profile, []);
   const getLaudrys = () => {
 
     axios.get(`${EndPoint.laundryServer}/laundry/`)
@@ -105,7 +106,7 @@ const MainView = ({ }) => {
         <MenuItem name={"채팅"} />
         <MenuItem name={"찜한 세탁소"} />
       </div>
-    </div>
+    </div >
   );
 
 }
