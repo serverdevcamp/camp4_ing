@@ -4,12 +4,14 @@ from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import render, redirect
 from django.http import Http404
+from django.contrib import auth
 from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from .serializers import ProfileSerializer
 from .models import Profile
+from config.permissions import IsOwnerOnly
 # jwt
 import jwt
 from datetime import datetime
@@ -145,11 +147,13 @@ class UserLoginView(APIView):
 
 
 @api_view(['GET', ])
+@permission_classes((permissions.IsAuthenticated,))
 def logout(request):
     '''
     # 기능
     로그아웃
     '''
+    auth.logout(request)
     key = request.COOKIES.get('jwt')
     cache.delete(key)
     try:
@@ -166,9 +170,13 @@ def logout(request):
 
 
 class ProfileDetailView(APIView):
+    permission_classes = [IsOwnerOnly]
+
     def get_object(self, id):
         try:
-            return Profile.objects.get(id=id)
+            profile = Profile.objects.get(id=id)
+            self.check_object_permissions(self.request, profile)
+            return profile
         except ObjectDoesNotExist:
             return None
 
@@ -393,6 +401,28 @@ def check_duplicate(request, username):
     return Response({
         'response': 'error',
         'message': '이미 존재하는 아이디입니다.'
+    })
+
+
+@api_view(['GET', ])
+@permission_classes((IsOwnerOnly))
+def get_user_id(request, username):
+    """
+    # 기능
+    유저 이름으로 id 조회
+
+    """
+    try:
+        profile = Profile.objects.get(username=username)
+    except:
+        return Response({
+            'response': 'error',
+            'message': '{}을 찾을 수 없습니다.'.format(username)
+        })
+    return Response({
+        'response': 'success',
+        'message': '{}에 해당하는 id를 찾았습니다.'.format(username),
+        'data': profile.id
     })
 
 
