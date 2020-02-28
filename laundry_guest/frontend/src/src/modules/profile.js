@@ -15,7 +15,7 @@ const profile = (profile = initialProfile, action) => {
         username: action.username
       });
     default:
-      return initialProfile;
+      return profile;
   }
 };
 

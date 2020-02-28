@@ -8,13 +8,14 @@ import { Link } from "react-router-dom";
 
 const cx = className.bind(styles);
 
-const Laundry = ({ match, id, className, name, content, grade, likeNum }) => {
+const Laundry = ({ match, id, className, name, content, grade, likeNum, laundryShopImg }) => {
 
   return (
     <div className={cx('laundry-container', className)}>
       <div className={cx('laundry-wrapper')}>
         <div className={cx('laundry-image')}>
-          <div className={cx('image')}></div>
+          {/* <div className={cx('image')}></div> */}
+          <img className={cx('image')} src={laundryShopImg} />
         </div>
         <div className={cx('laundry-content')}>
           <div className={cx('name')}>{name}</div>

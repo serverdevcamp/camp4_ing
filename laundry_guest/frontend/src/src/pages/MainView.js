@@ -8,6 +8,7 @@ import className from "classnames/bind";
 import styles from "../components/MainView/MainView.scss";
 import MenuItem from '../components/MainView/MenuItem'
 import EndPoint from '../config/EndPoint';
+import { Link } from "react-router-dom";
 
 
 
@@ -17,10 +18,10 @@ const MainView = ({ }) => {
 
   const [laundrys, setLaundrys] = useState([]);
   const [searchedLaundry, setSearchedLaundry] = useState('');
-  const {username} = useSelector(state => state.profile, []);
+  const { username } = useSelector(state => state.profile, []);
   const getLaudrys = () => {
 
-    axios.get(`${EndPoint.laundryServer}/laundry/`)
+    axios.get(`/laundry/`)
       .then(response => {
         if (response.data.response === 'success') {
           setLaundrys(response.data.data);
@@ -36,7 +37,7 @@ const MainView = ({ }) => {
   }
 
   const handleLogout = () => {
-    axios.get(`${EndPoint.authServer}/myauth/logout/`,
+    axios.get(`/myauth/logout/`,
       { withCredentials: true })
       .then(response => {
         if (response.data.response) {
@@ -47,7 +48,7 @@ const MainView = ({ }) => {
   }
 
   const searchLaundry = () => {
-    axios.get(`${EndPoint.laundryServer}/laundry/laundry_search/${searchedLaundry}`)
+    axios.get(`/laundry/laundry_search/${searchedLaundry}`)
       .then(response => {
         if (response.data.response === 'success') {
           window.location.href = `/laundrylist/${response.data.data}`
@@ -105,7 +106,7 @@ const MainView = ({ }) => {
         <MenuItem name={"채팅"} />
         <MenuItem name={"찜한 세탁소"} />
       </div>
-    </div>
+    </div >
   );
 
 }

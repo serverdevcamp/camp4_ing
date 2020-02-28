@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.cache import cache
+from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.renderers import JSONRenderer
 import json
 from .serializers import LaundryShopSerializer, LaundryShopDetailSerializer, ReviewSerializer, OrderForReviewSerializer, OrderForReviewDetailSerializer, ReviewInOrderSerializer
@@ -15,9 +16,12 @@ from payment.serializers import OrderSerializer
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models.query import QuerySet
 from django.http import JsonResponse
+from config.permissions import IsOwnerOnly, IsOwnerOrReadOnly
 
 
 class LaundryShopView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request, *args, **kwargs):
         '''
         # 기능
@@ -40,6 +44,7 @@ class LaundryShopView(APIView):
 
 
 class LaundryShopDetailView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self, id):
         try:
@@ -63,6 +68,8 @@ class LaundryShopDetailView(APIView):
 
 
 class ReviewView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request, id, *args, **kwargs):
         '''
         # 기능
@@ -119,9 +126,13 @@ class ReviewView(APIView):
 
 
 class ReviewDetailView(APIView):
+    permission_classes = [IsOwnerOrReadOnly]
+
     def get_object(self, review_id):
         try:
-            return Review.objects.get(id=review_id)
+            review = Review.objects.get(id=review_id)
+            self.check_object_permissions(self.request, review)
+            return review
         except ObjectDoesNotExist:
             return None
 
@@ -202,6 +213,8 @@ class ReviewDetailView(APIView):
 
 
 class LaundryShopLikeView(APIView):
+    permission_classes = [IsOwnerOnly]
+
     def post(self, request, id, *args, **kwargs):
         '''
         # 기능
@@ -245,49 +258,51 @@ class LaundryShopLikeView(APIView):
             'response': 'success',
             'message': 'like가 성공적으로 변화되었습니다.'
         })
-
+    # post 요청시 좋아요 수 토글로 변경함에 따라 delete 사용 X
     # def delete(self, request, id, *args, **kwargs):
-        profile = request.user
-        try:
-            laundryshop = LaundryShop.objects.get(id=id)
-        except ObjectDoesNotExist:
-            return Response({
-                'response': 'error',
-                'message': '{} laundry shop을 찾을 수 없습니다.'.format(id)
-            })
-        try:
-            like = Like.objects.get(
-                profile=profile,
-                laundryshop=laundryshop
-            )
-        except ObjectDoesNotExist:
-            return Response({
-                'response': 'error',
-                'message': '{} profile의 {}laundry shop에 대한 like를 찾을 수 없습니다.'.format(profile.id, id)
-            })
-        try:
-            like.delete()
-        except:
-            return Response({
-                'response': 'error',
-                'message': 'db에서 삭제에 실패했습니다.'
-            })
-        try:
-            laundryshop.like_num -= 1
-            laundryshop.save()
-        except:
-            return Response({
-                'response': 'error',
-                'message': 'db에서 좋아요 수 감소에 실패했습니다.'
-            })
+        # profile = request.user
+        # try:
+        #     laundryshop = LaundryShop.objects.get(id=id)
+        # except ObjectDoesNotExist:
+        #     return Response({
+        #         'response': 'error',
+        #         'message': '{} laundry shop을 찾을 수 없습니다.'.format(id)
+        #     })
+        # try:
+        #     like = Like.objects.get(
+        #         profile=profile,
+        #         laundryshop=laundryshop
+        #     )
+        # except ObjectDoesNotExist:
+        #     return Response({
+        #         'response': 'error',
+        #         'message': '{} profile의 {}laundry shop에 대한 like를 찾을 수 없습니다.'.format(profile.id, id)
+        #     })
+        # try:
+        #     like.delete()
+        # except:
+        #     return Response({
+        #         'response': 'error',
+        #         'message': 'db에서 삭제에 실패했습니다.'
+        #     })
+        # try:
+        #     laundryshop.like_num -= 1
+        #     laundryshop.save()
+        # except:
+        #     return Response({
+        #         'response': 'error',
+        #         'message': 'db에서 좋아요 수 감소에 실패했습니다.'
+        #     })
 
-        return Response({
-            'response': 'success',
-            'message': 'like가 성공적으로 삭제되었습니다.'
-        })
+        # return Response({
+        #     'response': 'success',
+        #     'message': 'like가 성공적으로 삭제되었습니다.'
+        # })
 
 
 class OrderForReviewView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request, is_reviewd, *args, **kwargs):
         '''
         # 기능
@@ -326,9 +341,13 @@ class OrderForReviewView(APIView):
 
 
 class OrderForReviewDetailView(APIView):
+    permission_classes = [IsOwnerOnly]
+
     def get_object(self, order_id):
         try:
-            return Order.objects.get(id=order_id)
+            order = Order.objects.get(id=order_id)
+            self.check_object_permissions(self.request, order)
+            return order
         except ObjectDoesNotExist:
             return None
 
@@ -393,9 +412,15 @@ class OrderForReviewDetailView(APIView):
 
 
 @api_view(['GET', ])
+@permission_classes((permissions.IsAuthenticated))
 def laundry_search(request, laundry_name):
-    print(laundry_name)
-    laundry = LaundryShop.objects.get(name=laundry_name)
+    try:
+        laundry = LaundryShop.objects.get(name=laundry_name)
+    except ObjectDoesNotExist:
+        return Response({
+            'response': 'error',
+            'message': 'laundry id 조회요청에 실패하였습니다.',
+        })
     return Response({
         'response': 'success',
         'message': 'laundry id 조회요청에 성공하였습니다.',

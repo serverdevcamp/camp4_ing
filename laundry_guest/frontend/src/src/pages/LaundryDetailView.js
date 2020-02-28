@@ -37,7 +37,7 @@ const LaundryDetailView = ({ match, history }) => {
   }
 
   const getLaundryDetail = () => {
-    axios.get(`${EndPoint.laundryServer}/laundry/${id}`)
+    axios.get(`/laundry/${id}`)
       .then(response => {
         if (response.data.response === 'success') {
           setLaundryItems(response.data.data['laundry_item']);
@@ -50,7 +50,7 @@ const LaundryDetailView = ({ match, history }) => {
   }
 
   const getLaundryReview = () => {
-    axios.get(`${EndPoint.laundryServer}/laundry/${id}/review/`)
+    axios.get(`/laundry/${id}/review/`)
       .then(response => {
         if (response.data.response === 'success') {
           setReviews(response.data.data);

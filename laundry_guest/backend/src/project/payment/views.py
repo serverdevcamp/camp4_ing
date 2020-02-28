@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework import permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from laundry.models import LaundryShop, LaundryItem
@@ -6,6 +7,8 @@ from .serializers import OrderSerializer, OrderItemSerializer
 
 
 class OrderView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     def post(self, request, laundry_id, *args, **kwargs):
         '''
         # 기능
