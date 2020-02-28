@@ -27,7 +27,7 @@ const PaymentView = ({ match, history, ua }) => {
   const profile = useSelector(state => state.profile, []);
 
   const getUserId = () => {
-    axios.get(`${EndPoint.authServer}/myauth/get_user_id/${profile.username}`)
+    axios.get(`/myauth/get_user_id/${profile.username}`)
       .then(response => {
         if (response.data.response === 'success') {
           setProfileId(response.data.data);
@@ -36,7 +36,7 @@ const PaymentView = ({ match, history, ua }) => {
         }
       })
       .then(
-        axios.get(`${EndPoint.authServer}/myauth/profile/${profileId}`)
+        axios.get(`/myauth/profile/${profileId}`)
           .then(response => {
             if (response.data.response === 'success') {
               console.log(response.data.data);

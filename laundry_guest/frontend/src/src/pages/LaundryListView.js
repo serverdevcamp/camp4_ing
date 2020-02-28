@@ -15,7 +15,7 @@ const LaundryListView = ({ match, history }) => {
   const [laundrys, setLaundrys] = useState([]);
 
   const getLaudrys = () => {
-    axios.get(`${EndPoint.laundryServer}/laundry/`)
+    axios.get(`/laundry/`)
       .then(response => {
         if (response.data.response === 'success') {
           console.log(response.data.data);

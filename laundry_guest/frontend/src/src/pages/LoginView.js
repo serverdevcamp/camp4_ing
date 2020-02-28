@@ -25,7 +25,7 @@ const LoginView = ({ }) => {
   }
 
   const handleLogin = () => {
-    axios.post(`${EndPoint.authServer}/myauth/login/`, {
+    axios.post(`/myauth/login/`, {
       profile: {
         username: username,
         password: password

@@ -21,7 +21,7 @@ const MainView = ({ }) => {
   const { username } = useSelector(state => state.profile, []);
   const getLaudrys = () => {
 
-    axios.get(`${EndPoint.laundryServer}/laundry/`)
+    axios.get(`/laundry/`)
       .then(response => {
         if (response.data.response === 'success') {
           setLaundrys(response.data.data);
@@ -37,7 +37,7 @@ const MainView = ({ }) => {
   }
 
   const handleLogout = () => {
-    axios.get(`${EndPoint.authServer}/myauth/logout/`,
+    axios.get(`/myauth/logout/`,
       { withCredentials: true })
       .then(response => {
         if (response.data.response) {
@@ -48,7 +48,7 @@ const MainView = ({ }) => {
   }
 
   const searchLaundry = () => {
-    axios.get(`${EndPoint.laundryServer}/laundry/laundry_search/${searchedLaundry}`)
+    axios.get(`/laundry/laundry_search/${searchedLaundry}`)
       .then(response => {
         if (response.data.response === 'success') {
           window.location.href = `/laundrylist/${response.data.data}`

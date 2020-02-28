@@ -47,7 +47,7 @@ const SignUpView = ({ }) => {
       phone: phone
     };
 
-    axios.post(`${EndPoint.authServer}/myauth/sign_up/`, {
+    axios.post(`/myauth/sign_up/`, {
       profile: profile
     })
       .then(response => {
@@ -81,7 +81,7 @@ const SignUpView = ({ }) => {
   // }
 
   const checkDuplicate = (username) => {
-    axios.get(`${EndPoint.authServer}/myauth/check_duplicate/${username}/`)
+    axios.get(`/myauth/check_duplicate/${username}/`)
       .then(response => {
         if (response.data.response === 'success') {
           alert('사용가능한 아이디입니다.');
