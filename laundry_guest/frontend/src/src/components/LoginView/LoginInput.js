@@ -40,7 +40,7 @@ const LoginInput = ({ handleSignUp, handleLogin, username, password, setUsername
           className={cx('loginButton')}
           type={'submit'}
           value={"로그인"}
-          isInActive={true}
+        // isInActive={true}
         />
         <CustomButton
           className={cx('signUpButton')}

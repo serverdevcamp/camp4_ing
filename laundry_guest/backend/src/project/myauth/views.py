@@ -136,8 +136,8 @@ class UserLoginView(APIView):
                 'message': '로그인 요청이 성공하였습니다.',
             })
             request.session[key] = token
-            # print(request.COOKIES['sessionid'])
             response.set_cookie('jwt', key)
+            # print(response.get_cookie['jwt'])
             return response
         else:
             return Response({
