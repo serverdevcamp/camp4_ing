@@ -21,6 +21,8 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 
 
+
+
 class CreateProfileView(APIView):
     permission_classes = [permissions.AllowAny]
 
@@ -199,7 +201,6 @@ class UserLoginView(APIView):
                 'message': '로그인 요청이 성공하였습니다.',
                 'user_id': user.id,
                 'shop_id': shop.id
-
             })
             request.session[key] = token
             response.set_cookie('jwt', key)
@@ -215,6 +216,11 @@ class UserLoginView(APIView):
 def logout(request):
     key = request.COOKIES.get('jwt')
     cache.delete(key)
+    response = Response({
+        'response': 'success',
+        'message': '로그아웃 요청이 성공하였습니다.',
+    })
+    response.delete_cookie('jwt')
     try:
         del request.session[key]
     except:
@@ -222,10 +228,7 @@ def logout(request):
             'response': 'error',
             'message': '로그인 되어있지 않습니다.'
         })
-    return Response({
-        'response': 'success',
-        'message': '로그아웃 요청이 성공하였습니다.'
-    })
+    return response
 
 
 
@@ -455,7 +458,9 @@ def jwt_create(username):
 
     payload = {
         "userid": userid,
+        "username": username,
         "shopid": shopid,
+        "shopstatus":shop.status,
         "now_time": now_time
     }
 
@@ -463,3 +468,24 @@ def jwt_create(username):
     return token
 
 
+class Checktoken(APIView):
+    '''
+        토큰 디코딩
+
+               ---
+
+                   {
+                       "token": "1wefsdgfxcbcvbchbncmjvmcfgnfnbvcndhfg"
+                   }
+
+               '''
+
+    def post(self, request, *args, **kargs):
+        token = request.data.get('token')
+        key = settings.SECRET_KEY
+        decrypted_token = jwt.decode(token.encode('utf-8'), key, algorithm='HS256')
+        return Response({
+            'response': 'success',
+            'message': 'token 복호화 성공',
+            'data': decrypted_token
+        })

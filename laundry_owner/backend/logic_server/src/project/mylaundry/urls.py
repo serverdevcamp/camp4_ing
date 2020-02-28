@@ -8,6 +8,8 @@ urlpatterns = [
     path('item_info/<int:shop_id>', views.ItemInfoView.as_view(), name="item_info"),
     #onoff 처리
     path('toggle/<int:shop_id>', views.OnoffView.as_view(), name="toggle"),
+    #가게 상태 조회
+    path('shopstatus/<int:shop_id>', views.ShopstatusView.as_view(), name="shopstatus"),
     #상품 수정
     path('item_info/<int:shop_id>/<int:item_id>', views.ItemDetailInfoView.as_view(), name="item_info_change"),
     #리뷰관련

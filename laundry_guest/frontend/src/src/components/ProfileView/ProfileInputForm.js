@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import Modal from 'react-modal';
 import className from 'classnames';
@@ -11,49 +11,21 @@ import {Link} from 'react-router-dom';
 
 const cx = className.bind(styles);
 
-class ProfileInputForm extends React.Component {
+const ProfileInputForm = ({ nickname, email, password, phone, address, detailAddress, setEmail, setNickname, setPassword, setPhone, setAddress, setDetailAddress, detailAddressRef, modifyProfile }) => {
 
-  detailedAddress = React.createRef();
-
-  state = {
-    isOpenedModal: false,
-    address: '',
-    checked: false,
-    setChecked: false
-  };
-
-  componentDidMount() {
-    if (!document.getElementById('material-ui-font')) {
-      const materialUi = document.createElement('script');
-      materialUi.id = 'material-ui-font';
-      materialUi.src = 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap';
-      document.body.appendChild(materialUi);
-    }
-
-    if (!document.getElementById('material-ui-icon')) {
-      const materialUi = document.createElement('script');
-      materialUi.id = 'material-ui-icon';
-      materialUi.src = 'https://fonts.googleapis.com/icon?family=Material+Icons';
-      document.body.appendChild(materialUi);
-    }
-  }
-
-  // 닉네임, 이메일, 비번, 휴대폰 번호, 주소
-  render() {
+   const [isOpenedModal, setIsOpenedModal] = useState(false);
 
     const onToggleModal = () => {
-      this.setState({
-        isOpenedModal: !this.state.isOpenedModal
-      });
-    };
+    setIsOpenedModal(!isOpenedModal);
+  };
 
-    const onClickAddress = (objAddress) => {
-      this.setState({
-        address: objAddress.address
-      });
-      onToggleModal();
-      this.detailedAddress.current.focus();
-    };
+  const onClickAddress = (objAddress) => {
+    setAddress(objAddress.address);
+    onToggleModal();
+    console.log(detailAddressRef);
+    detailAddressRef.current.focus();
+  };
+
 
     return (
       <div className={cx('profileInputContent')}>
@@ -62,7 +34,7 @@ class ProfileInputForm extends React.Component {
             <label>
                 <span className={cx('label')}>고마운 분</span>
                 <div className={cx('nickname-inputWrapper')}>
-                    <CustomInput className={cx('niminputText')} type={'text'} required={true} />
+                    <CustomInput className={cx('niminputText')} type={'text'} required={true} value={nickname}  onChangeEvent={e => setNickname(e.target.value)}/>
                     <span className={cx('nimlabel')}>님</span>
                 </div>
              </label>
@@ -70,7 +42,7 @@ class ProfileInputForm extends React.Component {
           <div className={cx('profile-except-nickname')}>
           <span className={cx('ProfileModification-rowItem')}>
             <span className={cx('label')}>이메일</span>
-            <span className={cx('inputText')}>sujin0970@naver.com</span>
+            <span className={cx('inputText')}>{email}</span>
           </span>
           <span className={cx('ProfileModification-rowItem')}>
             <span className={cx('label')}>비밀번호</span>
@@ -79,6 +51,7 @@ class ProfileInputForm extends React.Component {
                 type={'password'}
                 required={true}
                 placeHolder={'10~20자 이내'}
+                value={password}
                  />
                 <CustomButton
                     className={cx('subButton')}
@@ -89,7 +62,7 @@ class ProfileInputForm extends React.Component {
           </span>
           <span className={cx('ProfileModification-rowItem')}>
             <span className={cx('label')}>휴대폰번호</span>
-            <span className={cx('inputText')}>010-@@@-@@@@</span>
+            <span className={cx('inputText')}>{phone}</span>
           </span>
           <label>
             <span className={cx('label')}>주소</span>
@@ -97,8 +70,8 @@ class ProfileInputForm extends React.Component {
               <CustomInput
                 className={cx('inputText', 'inputWithButton')}
                 type={'text'}
-                placeHolder={this.state.address}
-                value={this.state.address}
+                placeHolder={address}
+                value={address}
                 required={true}
                 readOnly={true} />
               <CustomButton
@@ -110,10 +83,12 @@ class ProfileInputForm extends React.Component {
             </div>
             <CustomInput
               className={cx('inputText', 'detailAddressInput')}
-              type={'text'}
+              type='text'
               required={true}
-              reference={this.detailedAddress}
+              reference={detailAddressRef}
               placeHolder={'상세주소를 입력해주세요.'}
+              value = {detailAddress}
+              onChangeEvent={e => setDetailAddress(e.target.value)}
             />
           </label>
           </div>
@@ -123,13 +98,13 @@ class ProfileInputForm extends React.Component {
           <CustomButton
             className={cx('ProfileButton')}
             type={'button'}
-            onClick={onToggleModal}
+            onClick={modifyProfile}
             value={'저장'}
           />
         </form>
 
         <Modal
-          isOpen={this.state.isOpenedModal}
+          isOpen={isOpenedModal}
           className={cx('profileAddressModal')}
         >
           <span className={cx('closeBtn')} onClick={onToggleModal}>닫기</span>
@@ -137,9 +112,8 @@ class ProfileInputForm extends React.Component {
         </Modal>
       </div>
     )
-  }
-
 }
+
 
 Modal.setAppElement('#root');
 
