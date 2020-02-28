@@ -16,7 +16,9 @@ class MyTokenAuthenticationMiddleware(object):
         session_jwt = request.session.get(key)
         redis_jwt = cache.get(key)
         if session_jwt != None and session_jwt == redis_jwt:
+            print("decode 전")
             payload = jwt.decode(session_jwt, settings.SECRET_KEY, 'HS256')
+            print(payload)
             username = payload['username']
             profile = Profile.objects.get(username=username)
             request.user = profile
