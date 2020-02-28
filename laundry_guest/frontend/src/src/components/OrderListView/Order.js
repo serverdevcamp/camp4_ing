@@ -34,25 +34,33 @@ const Order = ({ match, id, className, name, day, money, status }) => {
           <div className={cx('button-group')}>
 
           <ButtonGroup variant="contained"  aria-label="contained primary button group">
+            <Link to="/reviewregister/1">
             <CustomButton
                     className={cx('subButton')}
                     type={'button'}
                     value={'리뷰쓰기'}
+                    //onClick ={() => {history.push('/reviewregister/1')}}
                 />
+                </Link>
 
+                <Link to="/laundrylist/1">
                 <CustomButton
                     className={cx('subButton')}
                     type={'button'}
                     value={'가게상세'}
                 />
+                </Link>
 
+                <Link to="/orderdetail/1">
                 <CustomButton
                     className={cx('subButton')}
                     type={'button'}
                     value={'주문상세'}
                 />
+                </Link>
 
           </ButtonGroup>
+
 
           </div>
         </div>

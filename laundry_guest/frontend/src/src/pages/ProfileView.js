@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const cx = className.bind(styles);
 
-const ProfileView = ({ match }) => {
+const ProfileView = ({ match, history }) => {
 
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
@@ -81,7 +81,7 @@ const ProfileView = ({ match }) => {
 
     return (
       <div className={cx('ProfilePage')} id={'ProfilePage'}>
-        <Header name={"회원정보"} handle={handleMain} />
+        <Header name={"회원정보"} handle={handleMain} history={history}/>
           <SignUpInputForm
           nickname = {nickname}
           email ={email}
@@ -97,8 +97,9 @@ const ProfileView = ({ match }) => {
           setDetailAddress={setDetailAddress}
           detailAddressRef={detailAddressRef}
           modifyProfile={modifyProfile}
+          history = {history}
           />
-        <SignUpInputForm />
+
       </div>
     );
 

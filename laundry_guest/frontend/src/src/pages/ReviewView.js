@@ -124,7 +124,7 @@ const getReviews = () => {
 
     return (
       <div className={cx('order-list-page')} >
-        <Header name={"리뷰조회"} handle={handleMain} />
+        <Header name={"리뷰조회"} handle={handleMain} history={history}/>
         <Menu
           leftLabel={'리뷰 안한 주문'}
           rightLabel={'리뷰 남긴 주문'}

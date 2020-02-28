@@ -62,11 +62,10 @@ const finishedData = [
   },
 ];
 
-class OrderListView extends React.Component {
+const OrderListView = ({ match, history }) => {
 
 
-  render() {
-    const { match } = this.props;
+
 
     const leftComponent = unfinishedData.map(({ id, name, day, money,status }) => {
       return (
@@ -105,7 +104,7 @@ class OrderListView extends React.Component {
 
     return (
       <div className={cx('order-list-page')} >
-        <Header name={"주문 내역"} handle={handleMain} />
+        <Header name={"주문 내역"} handle={handleMain} history={history}/>
         <Menu
           leftLabel={'진행중인 세탁'}
           rightLabel={'완료된 세탁'}
@@ -115,7 +114,7 @@ class OrderListView extends React.Component {
         </Menu>
       </div>
     )
-  }
 }
+
 
 export default OrderListView;

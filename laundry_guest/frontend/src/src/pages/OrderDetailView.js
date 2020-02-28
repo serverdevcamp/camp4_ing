@@ -63,7 +63,7 @@ price:'3,4000'
 }
 ]
 
-const OrderDetailView  = ({ match }) => {
+const OrderDetailView  = ({ match, history }) => {
 
   const[order, setOrder]=  useState({});
   const [order_id] = useState(match.url.split('/').pop());
@@ -119,7 +119,7 @@ const OrderDetailView  = ({ match }) => {
 
     return (
       <div className={cx('order-list-page')} >
-        <Header name={"주문 상세"} handle={handleMain} />
+        <Header name={"주문 상세"} handle={handleMain} history={history} />
         <Orderinfo
         id= {orderinfoComponent.id}
         name= {orderinfoComponent.name}

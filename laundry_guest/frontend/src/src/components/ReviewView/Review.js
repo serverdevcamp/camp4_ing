@@ -12,11 +12,12 @@ import StarIcon from '@material-ui/icons/Star';
 import { Link } from "react-router-dom";
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
+import reviewimage from '../imagefile/unnamed.jpg'
 
 const cx = className.bind(styles);
 
 
-const Review = ({ match, id, className, name, day, money, star, content }) => {
+const Review = ({ match, history, id, className, name, day, money, star, content }) => {
 
 const [value, setValue] = React.useState(star);
 
@@ -37,23 +38,30 @@ if (star==null){
           <div className={cx('button-group')}>
 
           <ButtonGroup variant="contained"  aria-label="contained primary button group">
+            <Link to="/reviewregister/1">
             <CustomButton
                     className={cx('subButton')}
                     type={'button'}
                     value={'리뷰쓰기'}
+                    //onClick ={() => {history.push('/reviewregister/1')}}
                 />
+                </Link>
 
+                <Link to="/laundrylist/1">
                 <CustomButton
                     className={cx('subButton')}
                     type={'button'}
                     value={'가게상세'}
                 />
+                </Link>
 
+                <Link to="/orderdetail/1">
                 <CustomButton
                     className={cx('subButton')}
                     type={'button'}
                     value={'주문상세'}
                 />
+                </Link>
 
           </ButtonGroup>
 
@@ -78,7 +86,7 @@ else{
         <div className={cx('review-content')}>
           <div className={cx('review_name')}>{name}</div>
            <div className={cx('review-image')}>
-                <div className={cx('image')}></div>
+                <div className={cx('image')}><img src = {reviewimage}></img></div>
            </div>
           <div className={cx('Review-rowItem')}>
             <span className={cx('label')}>맡긴 날짜 : </span>
@@ -95,9 +103,9 @@ else{
 
 
         </div>
-        <Link to={`${match.url}/${id}`}>
+        <Link to='/reviewmodify/1'>
           <div className={cx('update')}>
-            <ArrowForwardIcon  style={{ fontSize: 30 }}  />
+            <ArrowForwardIcon  style={{ fontSize: 30 }} />
           </div>
         </Link>
       </div>

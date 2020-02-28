@@ -10,4 +10,5 @@ export { default as OrderPage } from './OrderView';
 export { default as PaymentPage } from './PaymentView';
 export { default as ReviewPage } from './ReviewView';
 export { default as ReviewRegisterPage } from './ReviewRegisterView';
+export { default as ReviewModifyPage } from './ReviewModifyView';
 

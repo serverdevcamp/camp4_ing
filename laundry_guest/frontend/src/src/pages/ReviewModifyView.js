@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import className from 'classnames';
 import Header from '../components/Common/Header';
-import styles from '../components/ReviewRegisterView/ReviewRegisterView.scss';
-import ReviewRegisterInputForm from '../components/ReviewRegisterView/ReviewRegisterInputForm';
+import styles from '../components/ReviewModifyView/ReviewRegisterView.scss';
+import ReviewRegisterInputForm from '../components/ReviewModifyView/ReviewRegisterInputForm';
 import axios from 'axios';
 import EndPoint from '../config/EndPoint';
 
@@ -12,8 +12,8 @@ const cx = className.bind(styles);
 const reviewData ={
     shopname:'세탁맛집',
     day:'2020.01.15',
-    star:0,
-    content:'',
+    star:5,
+    content:'너무너무 매너가 좋으세요 세탁 다시 시키고 싶은 집^^!세탁물이 너무너무 깔끔하고 섬유유연제 좋은거 쓰는지 냄새도 좋네요 스멜스 굿!',
     image:''
 }
 

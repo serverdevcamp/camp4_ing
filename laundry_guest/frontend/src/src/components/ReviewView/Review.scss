@@ -12,6 +12,17 @@
         justify-content: space-between;
 
 
+          .chat{
+            color: #000066;
+
+        }
+
+         .update{
+            color: #000066;
+
+        }
+
+
 
         .review-content {
             display: flex;
@@ -71,6 +82,12 @@
                 width: 60px;
                 height: 60px;
                 background: gray;
+                img {
+                width: 60px;
+                height: 60px;
+
+            }
+
             }
             }
 
